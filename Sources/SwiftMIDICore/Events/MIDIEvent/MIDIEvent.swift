@@ -1,7 +1,7 @@
 //
 //  MIDIEvent.swift
-//  MIDIKit • https://github.com/orchetect/MIDIKit
-//  © 2021-2025 Steffan Andrews • Licensed under MIT License
+//  swift-midi • https://github.com/orchetect/swift-midi
+//  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 // NOTE: When editing the inline docs block for these, it should be copied to:
@@ -21,7 +21,7 @@
 /// - System-Real-Time
 /// - Utility (Applicable to MIDI 2.0 only)
 ///
-/// MIDIKit provides type-safe abstractions for all possible events and values. For this reason, it
+/// SwiftMIDI provides type-safe abstractions for all possible events and values. For this reason, it
 /// is not necessary (and is discouraged) to use raw bytes when constructing or parsing events.
 public enum MIDIEvent {
     // -------------------

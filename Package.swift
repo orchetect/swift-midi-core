@@ -43,7 +43,7 @@ let package = Package(
         .testTarget(
             name: "SwiftMIDIInternalsTests",
             dependencies: [
-                .target(name: "SwiftMIDIInternals")
+                "SwiftMIDIInternals"
             ]
         )
     ]

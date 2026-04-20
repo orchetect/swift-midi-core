@@ -1,7 +1,7 @@
 //
 //  MIDIParameterNumber.swift
-//  MIDIKit • https://github.com/orchetect/MIDIKit
-//  © 2021-2025 Steffan Andrews • Licensed under MIT License
+//  swift-midi • https://github.com/orchetect/swift-midi
+//  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -71,7 +71,7 @@ extension MIDIParameterNumber {
     /// Returns the complete raw MIDI 1.0 message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
-    ///   of MIDIKit, but is provided publicly for introspection and debugging purposes.
+    ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
     public func midi1RawBytes(
         channel: UInt4,
         group: UInt4 = 0
@@ -100,7 +100,7 @@ extension MIDIParameterNumber {
     /// Each inner array contains words for one packet.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
-    ///   of MIDIKit, but is provided publicly for introspection and debugging purposes.
+    ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
     public func umpRawWords(
         protocol midiProtocol: MIDIProtocolVersion,
         change: MIDI2ParameterNumberChange,

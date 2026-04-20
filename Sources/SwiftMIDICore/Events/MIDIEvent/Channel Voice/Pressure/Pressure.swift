@@ -1,7 +1,7 @@
 //
 //  Pressure.swift
-//  MIDIKit • https://github.com/orchetect/MIDIKit
-//  © 2021-2025 Steffan Andrews • Licensed under MIT License
+//  swift-midi • https://github.com/orchetect/swift-midi
+//  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 extension MIDIEvent {
@@ -71,7 +71,7 @@ extension MIDIEvent.Pressure {
     /// Returns the raw MIDI 1.0 status byte for the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
-    ///   of MIDIKit, but is provided publicly for introspection and debugging purposes.
+    ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
     public func midi1RawStatusByte() -> UInt8 {
         0xD0 + channel.uInt8Value
     }
@@ -84,7 +84,7 @@ extension MIDIEvent.Pressure {
     /// Returns the complete raw MIDI 1.0 message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
-    ///   of MIDIKit, but is provided publicly for introspection and debugging purposes.
+    ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
     public func midi1RawBytes() -> [UInt8] {
         [midi1RawStatusByte(), midi1RawDataBytes()]
     }
@@ -104,7 +104,7 @@ extension MIDIEvent.Pressure {
     /// Returns the raw MIDI 2.0 UMP (Universal MIDI Packet) message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
-    ///   of MIDIKit, but is provided publicly for introspection and debugging purposes.
+    ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
     public func umpRawWords(
         protocol midiProtocol: MIDIProtocolVersion
     ) -> [UMPWord] {

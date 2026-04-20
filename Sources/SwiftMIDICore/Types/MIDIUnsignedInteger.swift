@@ -1,7 +1,7 @@
 //
 //  MIDIUnsignedInteger.swift
-//  MIDIKit • https://github.com/orchetect/MIDIKit
-//  © 2021-2025 Steffan Andrews • Licensed under MIT License
+//  swift-midi • https://github.com/orchetect/swift-midi
+//  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -20,7 +20,7 @@ import SwiftMIDIInternals
 //      -> Strideable
 //         -> Comparable
 
-/// Protocol adopted by specialized unsigned integer types in `MIDIKit` representing novel bit
+/// Protocol adopted by specialized unsigned integer types in SwiftMIDI representing novel bit
 /// widths.
 public protocol MIDIUnsignedInteger: UnsignedInteger, Codable, Sendable
     where Magnitude == Storage.Magnitude,

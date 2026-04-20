@@ -1,13 +1,13 @@
 //
 //  UInt14.swift
-//  MIDIKit • https://github.com/orchetect/MIDIKit
-//  © 2021-2025 Steffan Andrews • Licensed under MIT License
+//  swift-midi • https://github.com/orchetect/swift-midi
+//  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
 import SwiftMIDIInternals
 
-/// A 14-bit unsigned integer value type used in `MIDIKit`.
+/// A 14-bit unsigned integer value type used in SwiftMIDI.
 ///
 /// Formed as from two bytes (MSB, LSB) as `(MSB << 7) + LSB` where MSB and LSB are 7-bit values.
 public struct UInt14: MIDIUnsignedInteger, _MIDIUnsignedInteger {
@@ -243,7 +243,7 @@ extension UInt14 {
 
 // MARK: - FixedWidthInteger
 
-// doesn't fully conform to FixedWidthInteger, as it's a bit overkill for our needs in MIDIKit
+// doesn't fully conform to FixedWidthInteger, as it's a bit overkill for our needs in SwiftMIDI
 extension UInt14 /* : FixedWidthInteger */ {
     public static var min: Self { Self(Self.min(as: Storage.self)) }
     

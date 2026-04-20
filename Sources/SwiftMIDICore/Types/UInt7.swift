@@ -1,13 +1,13 @@
 //
 //  UInt7.swift
-//  MIDIKit • https://github.com/orchetect/MIDIKit
-//  © 2021-2025 Steffan Andrews • Licensed under MIT License
+//  swift-midi • https://github.com/orchetect/swift-midi
+//  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
 import SwiftMIDIInternals
 
-/// A 7-bit unsigned integer value type used in `MIDIKit`.
+/// A 7-bit unsigned integer value type used in SwiftMIDI.
 public struct UInt7: MIDIUnsignedInteger, _MIDIUnsignedInteger {
     public typealias Storage = UInt8
     @usableFromInline var storage: Storage
@@ -171,7 +171,7 @@ extension UInt7 {
 
 // MARK: - FixedWidthInteger
 
-// doesn't fully conform to FixedWidthInteger, as it's a bit overkill for our needs in MIDIKit
+// doesn't fully conform to FixedWidthInteger, as it's a bit overkill for our needs in SwiftMIDI
 extension UInt7 /* : FixedWidthInteger */ {
     public static var min: Self { Self(Self.min(as: Storage.self)) }
     

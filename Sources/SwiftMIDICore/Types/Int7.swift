@@ -1,13 +1,13 @@
 //
 //  Int7.swift
-//  MIDIKit • https://github.com/orchetect/MIDIKit
-//  © 2021-2025 Steffan Andrews • Licensed under MIT License
+//  swift-midi • https://github.com/orchetect/swift-midi
+//  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
 import SwiftMIDIInternals
 
-/// A 7-bit signed integer value type used in `MIDIKit`. (`-64 ... 63`)
+/// A 7-bit signed integer value type used in SwiftMIDI. (`-64 ... 63`)
 public struct Int7 {
     @usableFromInline static let integerName = "Int7"
     

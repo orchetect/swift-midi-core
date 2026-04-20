@@ -1,7 +1,7 @@
 //
 //  UInt9 Tests.swift
-//  MIDIKit • https://github.com/orchetect/MIDIKit
-//  © 2021-2025 Steffan Andrews • Licensed under MIT License
+//  swift-midi • https://github.com/orchetect/swift-midi
+//  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -34,7 +34,7 @@ import Testing
         
         // TODO: need to find a pure Swift way to test exceptions
         // removed Obj-C helper calls that enabled catching exceptions
-        // so that MIDIKit could be pure Swift
+        // so that SwiftMIDI could be pure Swift
         
         // _XCTAssertThrows { [self] in
         //     _ = UInt9(_min - 1)
@@ -90,7 +90,7 @@ import Testing
         
         // TODO: need to find a pure Swift way to test exceptions
         // removed Obj-C helper calls that enabled catching exceptions
-        // so that MIDIKit could be pure Swift
+        // so that SwiftMIDI could be pure Swift
         
         // _XCTAssertThrows {
         //    _ = UInt9(Double(0 - 1))

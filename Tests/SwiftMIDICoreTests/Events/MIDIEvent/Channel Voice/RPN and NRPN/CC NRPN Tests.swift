@@ -1,7 +1,7 @@
 //
 //  CC NRPN Tests.swift
-//  MIDIKit • https://github.com/orchetect/MIDIKit
-//  © 2021-2025 Steffan Andrews • Licensed under MIT License
+//  swift-midi • https://github.com/orchetect/swift-midi
+//  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 import SwiftMIDICore
@@ -85,7 +85,7 @@ import Testing
     }
     
     // MARK: - Raw MIDI 1.0 Bytes -> MIDIEvent.nrpn()
-    // See MIDIKitIO - MIDI1Parser Tests.swift
+    // See SwiftMIDIIO - MIDI1Parser Tests.swift
     
     // MARK: - MIDIEvent.nrpn() -> Raw MIDI 2.0 RPN UMP Words
     
@@ -143,5 +143,5 @@ import Testing
     }
     
     // MARK: - Raw MIDI 2.0 RPN UMP Words -> MIDIEvent.nrpn()
-    // See MIDIKitIO - MIDI2Parser Tests.swift
+    // See SwiftMIDIIO - MIDI2Parser Tests.swift
 }

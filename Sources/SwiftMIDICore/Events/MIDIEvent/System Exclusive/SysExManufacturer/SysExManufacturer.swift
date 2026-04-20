@@ -1,7 +1,7 @@
 //
 //  SysExManufacturer.swift
-//  MIDIKit • https://github.com/orchetect/MIDIKit
-//  © 2021-2025 Steffan Andrews • Licensed under MIT License
+//  swift-midi • https://github.com/orchetect/swift-midi
+//  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -21,7 +21,7 @@ extension MIDIEvent {
     /// >
     /// > - Special IDs `0x7E` and `0x7F` are the Universal System Exclusive IDs.
     ///
-    /// For these special IDs, use MIDIKit's ``UniversalSysEx7`` type instead of ``SysEx7``.
+    /// For these special IDs, use SwiftMIDI's ``UniversalSysEx7`` type instead of ``SysEx7``.
     public enum SysExManufacturer {
         /// Valid range: `0x01 ... 0x7D`
         ///
