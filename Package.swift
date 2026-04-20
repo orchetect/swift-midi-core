@@ -24,6 +24,9 @@ let package = Package(
     targets: [
         .target(
             name: "SwiftMIDICore",
+            dependencies: [
+                "SwiftMIDIInternals"
+            ],
             swiftSettings: [.define("DEBUG", .when(configuration: .debug))]
         ),
         .target(
@@ -33,8 +36,8 @@ let package = Package(
         .testTarget(
             name: "SwiftMIDICoreTests",
             dependencies: [
-                .target(name: "SwiftMIDICore"),
-                .target(name: "SwiftMIDIInternals")
+                "SwiftMIDICore",
+                "SwiftMIDIInternals"
             ]
         ),
         .testTarget(

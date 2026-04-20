@@ -5,7 +5,7 @@
 //
 
 import Foundation
-internal import SwiftMIDIInternals
+import SwiftMIDIInternals
 
 // Protocol inheritance tree (not exhaustive):
 //

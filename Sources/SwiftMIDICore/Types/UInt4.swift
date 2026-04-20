@@ -5,7 +5,7 @@
 //
 
 import Foundation
-internal import SwiftMIDIInternals
+import SwiftMIDIInternals
 
 /// A 4-bit unsigned integer value type used in `MIDIKit`.
 public struct UInt4: MIDIUnsignedInteger, _MIDIUnsignedInteger {

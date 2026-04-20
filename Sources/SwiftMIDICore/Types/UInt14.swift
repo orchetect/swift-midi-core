@@ -5,7 +5,7 @@
 //
 
 import Foundation
-internal import SwiftMIDIInternals
+import SwiftMIDIInternals
 
 /// A 14-bit unsigned integer value type used in `MIDIKit`.
 ///

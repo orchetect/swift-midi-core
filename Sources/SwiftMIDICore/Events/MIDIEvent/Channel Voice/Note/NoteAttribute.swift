@@ -4,6 +4,8 @@
 //  © 2021-2025 Steffan Andrews • Licensed under MIT License
 //
 
+import SwiftMIDIInternals
+
 extension MIDIEvent {
     /// Note Attribute
     /// (MIDI 2.0)

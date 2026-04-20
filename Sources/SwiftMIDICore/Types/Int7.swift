@@ -5,7 +5,7 @@
 //
 
 import Foundation
-internal import SwiftMIDIInternals
+import SwiftMIDIInternals
 
 /// A 7-bit signed integer value type used in `MIDIKit`. (`-64 ... 63`)
 public struct Int7 {
@@ -24,7 +24,6 @@ public struct Int7 {
             isNegative = false
         case 64...:
             Exception.overflow.raise(reason: "\(Self.integerName) integer overflowed")
-            raiseException(.decimalNumberOverflowException, reason: "")
             // default value
             sixBitStorage = 0
             isNegative = false
