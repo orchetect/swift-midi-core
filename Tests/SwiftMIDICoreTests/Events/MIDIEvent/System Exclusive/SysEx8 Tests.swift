@@ -26,7 +26,7 @@ import Testing
         #expect(innerEvent.group == 0)
         
         #expect(
-            event.umpRawWords(protocol: .midi2_0) ==
+            event.midi2RawUMPWords(protocol: .midi2_0) ==
                 [
                     [0x5006_0000,
                      0x7D01_34E6,
@@ -58,7 +58,7 @@ import Testing
         #expect(innerEvent.group == 0)
         
         #expect(
-            event.umpRawWords(protocol: .midi2_0) ==
+            event.midi2RawUMPWords(protocol: .midi2_0) ==
                 [
                     [0x501E_0080,
                      0x6601_0203,
@@ -102,7 +102,7 @@ import Testing
         #expect(innerEvent.group == 0)
         
         #expect(
-            event.umpRawWords(protocol: .midi2_0) ==
+            event.midi2RawUMPWords(protocol: .midi2_0) ==
                 [
                     [0x501E_00A1,
                      0x0901_0203,
@@ -143,7 +143,7 @@ import Testing
         #expect(innerEvent.group == 0)
         
         #expect(
-            event.umpRawWords(protocol: .midi2_0) ==
+            event.midi2RawUMPWords(protocol: .midi2_0) ==
                 [
                     [0x500E_0000,
                      0x7F01_0203,
@@ -178,7 +178,7 @@ import Testing
         #expect(innerEvent.group == 0)
         
         #expect(
-            event.umpRawWords(protocol: .midi2_0) ==
+            event.midi2RawUMPWords(protocol: .midi2_0) ==
                 [
                     [0x501E_0000,
                      0x7F01_0203,
@@ -221,7 +221,7 @@ import Testing
         #expect(innerEvent.group == 0)
         
         #expect(
-            event.umpRawWords(protocol: .midi2_0) ==
+            event.midi2RawUMPWords(protocol: .midi2_0) ==
                 [
                     [0x501E_0000,
                      0x7E01_0203,

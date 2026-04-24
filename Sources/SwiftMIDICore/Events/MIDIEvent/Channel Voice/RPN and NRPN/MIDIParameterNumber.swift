@@ -101,7 +101,7 @@ extension MIDIParameterNumber {
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
-    public func umpRawWords(
+    public func midi2RawUMPWords(
         protocol midiProtocol: MIDIProtocolVersion,
         change: MIDI2ParameterNumberChange,
         channel: UInt4,
@@ -116,7 +116,7 @@ extension MIDIParameterNumber {
             // this will produce more than one UMP packet.
             return Array(
                 midi1Events(channel: channel, group: group)
-                    .map { $0.umpRawWords(protocol: midiProtocol) }
+                    .map { $0.midi2RawUMPWords(protocol: midiProtocol) }
                     .joined()
             )
             

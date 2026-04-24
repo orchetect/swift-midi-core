@@ -193,10 +193,10 @@ extension MIDIEvent.SysEx7 {
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
-    public func umpRawWords() -> [[UMPWord]] {
+    public func midi2RawUMPWords() -> [[UMPWord]] {
         let rawData = manufacturer.sysEx7RawBytes() + data
     
-        return Self.umpRawWords(
+        return Self.midi2RawUMPWords(
             fromSysEx7Data: rawData,
             group: group
         )
@@ -206,8 +206,8 @@ extension MIDIEvent.SysEx7 {
 extension MIDIEvent.SysEx7 {
     /// Internal:
     /// Helper method to build the raw UMP packet words. This is not meant to be accessed directly;
-    /// use the public `umpRawWords()` method instead.
-    static func umpRawWords(
+    /// use the public `midi2RawUMPWords()` method instead.
+    static func midi2RawUMPWords(
         fromSysEx7Data data: [UInt8],
         group: UInt4
     ) -> [[UMPWord]] {

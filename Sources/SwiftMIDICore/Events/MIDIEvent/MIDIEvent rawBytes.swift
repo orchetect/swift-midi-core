@@ -367,118 +367,118 @@ extension MIDIEvent {
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
-    public func umpRawWords(protocol midiProtocol: MIDIProtocolVersion) -> [[UMPWord]] {
+    public func midi2RawUMPWords(protocol midiProtocol: MIDIProtocolVersion) -> [[UMPWord]] {
         switch self {
         // -------------------
         // MARK: Channel Voice
         // -------------------
     
         case let .noteOn(event):
-            [event.umpRawWords(protocol: midiProtocol)]
+            [event.midi2RawUMPWords(protocol: midiProtocol)]
     
         case let .noteOff(event):
-            [event.umpRawWords(protocol: midiProtocol)]
+            [event.midi2RawUMPWords(protocol: midiProtocol)]
     
         case let .noteCC(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         case let .notePitchBend(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         case let .notePressure(event):
-            [event.umpRawWords(protocol: midiProtocol)]
+            [event.midi2RawUMPWords(protocol: midiProtocol)]
     
         case let .noteManagement(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         case let .cc(event):
-            [event.umpRawWords(protocol: midiProtocol)]
+            [event.midi2RawUMPWords(protocol: midiProtocol)]
     
         case let .programChange(event):
-            [event.umpRawWords(protocol: midiProtocol)]
+            [event.midi2RawUMPWords(protocol: midiProtocol)]
     
         case let .pressure(event):
-            [event.umpRawWords(protocol: midiProtocol)]
+            [event.midi2RawUMPWords(protocol: midiProtocol)]
     
         case let .pitchBend(event):
-            [event.umpRawWords(protocol: midiProtocol)]
+            [event.midi2RawUMPWords(protocol: midiProtocol)]
     
         // -----------------------------------------------
         // MARK: Channel Voice - Parameter Number Messages
         // -----------------------------------------------
             
         case let .rpn(event):
-            event.umpRawWords(protocol: midiProtocol)
+            event.midi2RawUMPWords(protocol: midiProtocol)
         
         case let .nrpn(event):
-            event.umpRawWords(protocol: midiProtocol)
+            event.midi2RawUMPWords(protocol: midiProtocol)
             
         // ----------------------
         // MARK: System Exclusive
         // ----------------------
     
         case let .sysEx7(event):
-            event.umpRawWords()
+            event.midi2RawUMPWords()
     
         case let .universalSysEx7(event):
-            event.umpRawWords()
+            event.midi2RawUMPWords()
     
         case let .sysEx8(event):
-            event.umpRawWords()
+            event.midi2RawUMPWords()
     
         case let .universalSysEx8(event):
-            event.umpRawWords()
+            event.midi2RawUMPWords()
     
         // -------------------
         // MARK: System Common
         // -------------------
     
         case let .timecodeQuarterFrame(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         case let .songPositionPointer(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         case let .songSelect(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         case let .tuneRequest(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         // ----------------------
         // MARK: System Real-Time
         // ----------------------
     
         case let .timingClock(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         case let .start(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         case let .continue(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         case let .stop(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         case let .activeSensing(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         case let .systemReset(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         // -------------------------------
         // MARK: MIDI 2.0 Utility Messages
         // -------------------------------
     
         case let .noOp(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         case let .jrClock(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
     
         case let .jrTimestamp(event):
-            [event.umpRawWords()]
+            [event.midi2RawUMPWords()]
         }
     }
 }

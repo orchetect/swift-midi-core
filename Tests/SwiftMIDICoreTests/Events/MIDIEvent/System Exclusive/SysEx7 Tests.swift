@@ -22,7 +22,7 @@ import Testing
         
         #expect(event.midi1RawBytes() == sourceRawBytes)
         #expect(
-            event.umpRawWords(protocol: .midi2_0) ==
+            event.midi2RawUMPWords(protocol: .midi2_0) ==
                 [[0x3003_4101, 0x3400_0000]]
         )
     }
@@ -41,7 +41,7 @@ import Testing
         
         #expect(event.midi1RawBytes() == sourceRawBytes)
         #expect(
-            event.umpRawWords(protocol: .midi2_0) ==
+            event.midi2RawUMPWords(protocol: .midi2_0) ==
                 [[0x3001_4100, 0x0000_0000]]
         )
     }
@@ -60,7 +60,7 @@ import Testing
         
         #expect(event.midi1RawBytes() == [0xF0, 0x41, 0xF7])
         #expect(
-            event.umpRawWords(protocol: .midi2_0) ==
+            event.midi2RawUMPWords(protocol: .midi2_0) ==
                 [[0x3001_4100, 0x0000_0000]]
         )
     }

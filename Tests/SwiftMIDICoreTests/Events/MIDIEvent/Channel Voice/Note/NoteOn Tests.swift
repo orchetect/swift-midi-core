@@ -25,7 +25,7 @@ import Testing
             )
             
             #expect(
-                cc.umpRawWords(protocol: .midi1_0) ==
+                cc.midi2RawUMPWords(protocol: .midi1_0) ==
                     [[
                         UMPWord(
                             0x29,
@@ -51,7 +51,7 @@ import Testing
             )
             
             #expect(
-                cc.umpRawWords(protocol: .midi2_0) ==
+                cc.midi2RawUMPWords(protocol: .midi2_0) ==
                     [[
                         UMPWord(
                             0x49,
@@ -86,7 +86,7 @@ import Testing
             )
             
             #expect(
-                cc.umpRawWords(protocol: .midi2_0) ==
+                cc.midi2RawUMPWords(protocol: .midi2_0) ==
                     [[
                         UMPWord(
                             0x49,
@@ -195,7 +195,7 @@ import Testing
     }
     
     @Test
-    func zeroVelocityAsNoteOff_umpRawWords_MIDI1_0() {
+    func zeroVelocityAsNoteOff_midi2RawUMPWords_MIDI1_0() {
         // MIDI 1 Velocity Value
         
         #expect(
@@ -207,7 +207,7 @@ import Testing
                 group: 0,
                 midi1ZeroVelocityAsNoteOff: true
             )
-            .umpRawWords(protocol: .midi1_0) ==
+            .midi2RawUMPWords(protocol: .midi1_0) ==
             [0x2080_3C00] // note off
         )
         
@@ -220,7 +220,7 @@ import Testing
                 group: 0,
                 midi1ZeroVelocityAsNoteOff: false
             )
-            .umpRawWords(protocol: .midi1_0) ==
+            .midi2RawUMPWords(protocol: .midi1_0) ==
             [0x2090_3C00] // note on
         )
         
@@ -235,7 +235,7 @@ import Testing
                 group: 0,
                 midi1ZeroVelocityAsNoteOff: true
             )
-            .umpRawWords(protocol: .midi1_0) ==
+            .midi2RawUMPWords(protocol: .midi1_0) ==
             [0x2090_3C01] // note on, velocity 1 (as per MIDI 2.0 spec)
         )
         
@@ -248,7 +248,7 @@ import Testing
                 group: 0,
                 midi1ZeroVelocityAsNoteOff: false
             )
-            .umpRawWords(protocol: .midi1_0) ==
+            .midi2RawUMPWords(protocol: .midi1_0) ==
             [0x2090_3C01] // note on, velocity 1 (as per MIDI 2.0 spec)
         )
         
@@ -263,7 +263,7 @@ import Testing
                 group: 0,
                 midi1ZeroVelocityAsNoteOff: true
             )
-            .umpRawWords(protocol: .midi1_0) ==
+            .midi2RawUMPWords(protocol: .midi1_0) ==
             [0x2080_3C00] // note off
         )
         
@@ -276,13 +276,13 @@ import Testing
                 group: 0,
                 midi1ZeroVelocityAsNoteOff: false
             )
-            .umpRawWords(protocol: .midi1_0) ==
+            .midi2RawUMPWords(protocol: .midi1_0) ==
             [0x2090_3C00] // note on
         )
     }
     
     @Test
-    func zeroVelocityAsNoteOff_umpRawWords_MIDI2_0() {
+    func zeroVelocityAsNoteOff_midi2RawUMPWords_MIDI2_0() {
         // MIDI 1 Velocity Value
         
         #expect(
@@ -294,7 +294,7 @@ import Testing
                 group: 0,
                 midi1ZeroVelocityAsNoteOff: true
             ) // no effect for MIDI 2.0 note on
-            .umpRawWords(protocol: .midi2_0) ==
+            .midi2RawUMPWords(protocol: .midi2_0) ==
             [
                 0x4090_3C00, // note on
                 0x0000_0000
@@ -310,7 +310,7 @@ import Testing
                 group: 0,
                 midi1ZeroVelocityAsNoteOff: false
             ) // no effect for MIDI 2.0 note on
-            .umpRawWords(protocol: .midi2_0) ==
+            .midi2RawUMPWords(protocol: .midi2_0) ==
             [
                 0x4090_3C00, // note on
                 0x0000_0000
@@ -328,7 +328,7 @@ import Testing
                 group: 0,
                 midi1ZeroVelocityAsNoteOff: true
             ) // no effect for MIDI 2.0 note on
-            .umpRawWords(protocol: .midi2_0) ==
+            .midi2RawUMPWords(protocol: .midi2_0) ==
             [
                 0x4090_3C00, // note on
                 0x0000_0000
@@ -344,7 +344,7 @@ import Testing
                 group: 0,
                 midi1ZeroVelocityAsNoteOff: false
             ) // no effect for MIDI 2.0 note on
-            .umpRawWords(protocol: .midi2_0) ==
+            .midi2RawUMPWords(protocol: .midi2_0) ==
             [
                 0x4090_3C00, // note on
                 0x0000_0000
@@ -362,7 +362,7 @@ import Testing
                 group: 0,
                 midi1ZeroVelocityAsNoteOff: true
             ) // no effect for MIDI 2.0 note on
-            .umpRawWords(protocol: .midi2_0) ==
+            .midi2RawUMPWords(protocol: .midi2_0) ==
             [
                 0x4090_3C00, // note on
                 0x0000_0000
@@ -378,7 +378,7 @@ import Testing
                 group: 0,
                 midi1ZeroVelocityAsNoteOff: false
             ) // no effect for MIDI 2.0 note on
-            .umpRawWords(protocol: .midi2_0) ==
+            .midi2RawUMPWords(protocol: .midi2_0) ==
             [
                 0x4090_3C00, // note on
                 0x0000_0000

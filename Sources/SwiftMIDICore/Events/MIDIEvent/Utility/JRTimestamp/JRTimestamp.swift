@@ -85,7 +85,7 @@ extension MIDIEvent.JRTimestamp {
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
-    public func umpRawWords() -> [UMPWord] {
+    public func midi2RawUMPWords() -> [UMPWord] {
         let umpMessageType: MIDIUMPMessageType = .utility
     
         let mtAndGroup = (umpMessageType.rawValue.uInt8Value << 4) + group.uInt8Value

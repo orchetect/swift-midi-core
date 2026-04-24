@@ -113,7 +113,7 @@ extension MIDIEvent.UniversalSysEx8 {
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
-    public func umpRawWords() -> [[UMPWord]] {
+    public func midi2RawUMPWords() -> [[UMPWord]] {
         let rawData =
             [
                 0x00,
@@ -124,7 +124,7 @@ extension MIDIEvent.UniversalSysEx8 {
             ]
             + data
     
-        return MIDIEvent.SysEx8.umpRawWords(
+        return MIDIEvent.SysEx8.midi2RawUMPWords(
             fromSysEx8Data: rawData,
             streamID: streamID,
             group: group

@@ -44,7 +44,7 @@ import Testing
             )
             
             #expect(
-                cc.umpRawWords(protocol: .midi1_0) ==
+                cc.midi2RawUMPWords(protocol: .midi1_0) ==
                     [[
                         UMPWord(
                             0x29,
@@ -69,7 +69,7 @@ import Testing
             )
             
             #expect(
-                cc.umpRawWords(protocol: .midi2_0) ==
+                cc.midi2RawUMPWords(protocol: .midi2_0) ==
                     [[
                         UMPWord(
                             0x49,
@@ -103,7 +103,7 @@ import Testing
             )
             
             #expect(
-                cc.umpRawWords(protocol: .midi2_0) ==
+                cc.midi2RawUMPWords(protocol: .midi2_0) ==
                     [[
                         UMPWord(
                             0x49,

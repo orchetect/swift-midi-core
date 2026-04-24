@@ -105,7 +105,7 @@ extension MIDIEvent.Pressure {
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
-    public func umpRawWords(
+    public func midi2RawUMPWords(
         protocol midiProtocol: MIDIProtocolVersion
     ) -> [UMPWord] {
         let mtAndGroup = (umpMessageType(protocol: midiProtocol).rawValue.uInt8Value << 4) + group

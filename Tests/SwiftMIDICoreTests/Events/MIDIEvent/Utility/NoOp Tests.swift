@@ -18,7 +18,7 @@ import Testing
             let event: MIDIEvent = .noOp(group: grp)
             
             #expect(
-                event.umpRawWords(protocol: .midi2_0) ==
+                event.midi2RawUMPWords(protocol: .midi2_0) ==
                     [[
                         UMPWord(
                             0x00 + grp.uInt8Value,

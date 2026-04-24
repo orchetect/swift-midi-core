@@ -102,7 +102,7 @@ import Testing
         )
         
         #expect(
-            nrpn.umpRawWords(protocol: .midi2_0) ==
+            nrpn.midi2RawUMPWords(protocol: .midi2_0) ==
                 [[UMPWord(0x40, 0x39, 0x40, 0x01),
                   UMPWord(0x24, 0x00, 0x00, 0x00)]]
         )
@@ -121,7 +121,7 @@ import Testing
         )
         
         #expect(
-            nrpn.umpRawWords(protocol: .midi2_0) ==
+            nrpn.midi2RawUMPWords(protocol: .midi2_0) ==
                 [[UMPWord(0x40, 0x59, 0x40, 0x01),
                   UMPWord(0x24, 0x00, 0x00, 0x00)]]
         )
@@ -136,7 +136,7 @@ import Testing
         )
         
         #expect(
-            nrpn.umpRawWords(protocol: .midi2_0) ==
+            nrpn.midi2RawUMPWords(protocol: .midi2_0) ==
                 [[UMPWord(0x40, 0x39, 0x7F, 0x7F),
                   UMPWord(0x00, 0x00, 0x00, 0x00)]]
         )

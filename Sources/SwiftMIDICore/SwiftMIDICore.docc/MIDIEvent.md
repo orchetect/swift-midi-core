@@ -59,7 +59,7 @@ For an overview of how event value types work (such as note velocity, CC value, 
 ### Raw Data Encoding
 
 - ``midi1RawBytes()``
-- ``umpRawWords(protocol:)``
+- ``midi2RawUMPWords(protocol:)``
 
 ### Errors
 

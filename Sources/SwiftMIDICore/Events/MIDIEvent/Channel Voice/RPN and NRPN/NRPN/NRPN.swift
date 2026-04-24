@@ -381,10 +381,10 @@ extension MIDIEvent.NRPN {
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
-    public func umpRawWords(
+    public func midi2RawUMPWords(
         protocol midiProtocol: MIDIProtocolVersion
     ) -> [[UMPWord]] {
-        parameter.umpRawWords(
+        parameter.midi2RawUMPWords(
             protocol: midiProtocol,
             change: change,
             channel: channel,
