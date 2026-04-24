@@ -21,6 +21,9 @@ let package = Package(
             targets: ["SwiftMIDIInternals"]
         )
     ],
+    dependencies: [
+        .package(url: "https://github.com/orchetect/swift-testing-extensions", from: "0.3.0")
+    ],
     targets: [
         .target(
             name: "SwiftMIDICore",
@@ -37,7 +40,8 @@ let package = Package(
             name: "SwiftMIDICoreTests",
             dependencies: [
                 "SwiftMIDICore",
-                "SwiftMIDIInternals"
+                "SwiftMIDIInternals",
+                .product(name: "TestingExtensions", package: "swift-testing-extensions")
             ]
         ),
         .testTarget(
