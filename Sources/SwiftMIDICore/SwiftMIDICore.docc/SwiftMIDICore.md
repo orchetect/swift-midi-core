@@ -8,9 +8,11 @@ Essential MIDI types used by all modules in SwiftMIDI.
 
 SwiftMIDICore contains the essential data types and MIDI event definitions used in SwiftMIDI.
 
-See the Getting Started guide in **swift-midi** docs for essential information on getting the most from SwiftMIDI.
-
 ## Topics
+
+### Introduction
+
+- <doc:Getting-Started>
 
 ### Events
 
