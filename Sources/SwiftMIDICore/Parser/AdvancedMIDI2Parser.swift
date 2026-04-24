@@ -7,7 +7,7 @@
 import Foundation
 import SwiftMIDIInternals
 
-/// Wrapper for MIDI 2.0 event parser that adds certain heuristics, including RPN/NRPN bundling.
+/// Wrapper for ``MIDI2Parser`` that adds certain heuristics, including RPN/NRPN bundling.
 public final class AdvancedMIDI2Parser<TimeStamp, OutputEndpoint>: @unchecked Sendable
 where TimeStamp: Sendable, OutputEndpoint: Sendable
 { // @unchecked required for @PThreadMutex use

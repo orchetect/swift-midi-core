@@ -15,15 +15,21 @@ See the Getting Started guide in **swift-midi** docs for essential information o
 ### Events
 
 - ``MIDIEvent``
-- <doc:Event-Filters>
-
-### MIDI Note
-
 - <doc:MIDINote>
-
-### Core Value Types
-
+- <doc:Event-Filters>
 - <doc:Value-Types>
+
+### MIDI Packets
+
+- ``AnyMIDIPacketData``
+- ``MIDIPacketData``
+- ``UniversalMIDIPacketData``
+
+### MIDI Parsers
+
+- ``MIDI1Parser``
+- ``MIDI2Parser``
+- ``AdvancedMIDI2Parser``
 
 ### Protocols
 
