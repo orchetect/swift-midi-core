@@ -9,22 +9,22 @@ import SwiftMIDIInternals
 
 /// RPN/NRPN bundling.
 @_documentation(visibility: internal)
-public final class ParameterNumberEventBundler<TimeStamp, OutputEndpoint>: @unchecked Sendable
+final class ParameterNumberEventBundler<TimeStamp, OutputEndpoint>: @unchecked Sendable
 where TimeStamp: Sendable, OutputEndpoint: Sendable
 { // @unchecked required for @PThreadMutex use
     // MARK: - Options
     
     @PThreadMutex
-    public var bundleRPNAndNRPNDataEntryLSB: Bool = false
+    var bundleRPNAndNRPNDataEntryLSB: Bool = false
     
-    public typealias EventsHandler = @Sendable (
+    typealias EventsHandler = @Sendable (
         _ events: [MIDIEvent],
         _ timeStamp: TimeStamp,
         _ source: OutputEndpoint?
     ) -> Void
     
     @PThreadMutex
-    public var handleEvents: EventsHandler?
+    var handleEvents: EventsHandler?
     
     // MARK: - Internal State
     
@@ -34,7 +34,7 @@ where TimeStamp: Sendable, OutputEndpoint: Sendable
     // `nonisolated` is only used because we're forced to use var here to set up handlers in class init
     private nonisolated(unsafe) var nrpnHolder: EventHolder<MIDIEvent.NRPN, TimeStamp, OutputEndpoint>!
     
-    public init(
+    init(
         handleEvents: EventsHandler? = nil
     ) {
         self.handleEvents = handleEvents
@@ -70,7 +70,7 @@ where TimeStamp: Sendable, OutputEndpoint: Sendable
 // MARK: - Public Methods
 
 extension ParameterNumberEventBundler {
-    public func process(
+    func process(
         events: inout [MIDIEvent],
         timeStamp: TimeStamp,
         source: OutputEndpoint?
