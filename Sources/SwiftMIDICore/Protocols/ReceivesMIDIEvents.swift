@@ -7,7 +7,7 @@
 /// Protocol that objects can adopt so SwiftMIDI knows they are capable of receiving MIDI events.
 ///
 /// Conforming a custom class that receives MIDI events to this protocol allows an instance of the
-/// class to be passed into ``MIDIManager`` event receive handlers.
+/// class to be passed into a **swift-midi-io** `MIDIManager` instance event receive handlers.
 ///
 /// For example:
 ///

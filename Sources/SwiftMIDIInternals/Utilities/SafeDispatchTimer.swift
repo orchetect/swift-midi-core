@@ -39,6 +39,7 @@ public final class SafeDispatchTimer /* : Sendable */ {
     /// - Parameters:
     ///   - rate: Frequency timer event intervals, expressed in Hertz
     ///   - leeway: Optionally specify custom leeway; default is 0 nanoseconds
+    ///   - queue: Dispatch queue on which to execute the timer callback.
     ///   - eventHandler: The closure to be called on each timer event
     public init(
         rate: Rate,
@@ -84,7 +85,7 @@ public final class SafeDispatchTimer /* : Sendable */ {
     /// will be restarted and the origin time will be set to "now".
     ///
     /// - Parameters:
-    ///   - immediate: If `true`, restarts timer and fires immediately then again at each interval.
+    ///   - firingNow: If `true`, restarts timer and fires immediately then again at each interval.
     ///     If `false`, restarts timer but first fire does not happen until the first interval is
     ///     reached then again at each subsequent interval.
     public func restart(firingNow: Bool = true) {
