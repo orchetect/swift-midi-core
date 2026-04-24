@@ -17,7 +17,7 @@ public final class MIDI1Parser: @unchecked Sendable { // @unchecked required for
     
     /// Interpret received Note On events with a velocity value of 0 as a Note Off event instead.
     @PThreadMutex
-    var translateNoteOnZeroVelocityToNoteOff: Bool = true
+    public var translateNoteOnZeroVelocityToNoteOff: Bool = true
     
     @PThreadMutex
     var runningStatus: UInt8?
