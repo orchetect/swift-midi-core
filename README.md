@@ -1,10 +1,10 @@
 ![swift-midi-core](Images/swift-midi-core-banner.png)
 
-# swift-midi-core
+# SwiftMIDI Core
 
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2Fswift-midi-core%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/orchetect/swift-midi-core) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Forchetect%2Fswift-midi-core%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/orchetect/swift-midi-core) [![License: MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/swift-midi-core/blob/main/LICENSE)
 
-MIDI events and value types for [swift-midi](https://github.com/orchetect/swift-midi) supporting MIDI 1.0 and MIDI 2.0.
+MIDI events and value types for [SwiftMIDI](https://github.com/orchetect/swift-midi) supporting MIDI 1.0 and MIDI 2.0.
 
 ## Compatibility
 
@@ -42,7 +42,7 @@ To use this extension as standalone dependency (instead of importing the **swift
 
 See the [online documentation](https://swiftpackageindex.com/orchetect/swift-midi-core/main/documentation) for this repository and the dedicated [code examples](https://github.com/orchetect/swift-midi-examples) repository.
 
-For support, feature requests, and bug reports see the main [swift-midi](https://github.com/orchetect/swift-midi) repository.
+For support, feature requests, and bug reports see the main [SwiftMIDI](https://github.com/orchetect/swift-midi) repository.
 
 ## Author
 
