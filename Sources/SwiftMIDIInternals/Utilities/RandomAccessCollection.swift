@@ -1,6 +1,6 @@
 //
 //  RandomAccessCollection.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -14,7 +14,7 @@ extension RandomAccessCollection {
         let outIndex = index(startIndex, offsetBy: range.upperBound)
         return inIndex ... outIndex
     }
-    
+
     /// Utility
     @_disfavoredOverload
     public subscript(atOffsets range: ClosedRange<Int>) -> Self.SubSequence {
@@ -22,7 +22,7 @@ extension RandomAccessCollection {
         let outIndex = index(startIndex, offsetBy: range.upperBound)
         return self[inIndex ... outIndex]
     }
-    
+
     /// Utility
     @_disfavoredOverload
     public subscript(atOffset offset: Int) -> Element {

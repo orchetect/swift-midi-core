@@ -1,6 +1,6 @@
 //
 //  ProgramChange.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -22,7 +22,7 @@ extension MIDIEvent {
     public struct ProgramChange {
         /// Program Number
         public var program: UInt7
-    
+
         /// Bank Select
         /// (MIDI 1.0 / 2.0)
         ///
@@ -50,13 +50,13 @@ extension MIDIEvent {
         /// Bank numbers in MIDI 2.0 are expressed by combining the two MIDI 1.0 7-bit bytes into a
         /// 14-bit number (0...16383). They correlate exactly to MIDI 1.0 bank numbers.
         public var bank: Bank
-    
+
         /// Channel Number (`0x0 ... 0xF`)
         public var channel: UInt4
-    
+
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-    
+
         /// Channel Voice Message: Program Change
         /// (MIDI 1.0 / 2.0)
         ///
@@ -77,7 +77,7 @@ extension MIDIEvent {
             self.group = group
         }
     }
-    
+
     /// Channel Voice Message: Program Change
     /// (MIDI 1.0 / 2.0)
     ///
@@ -117,7 +117,7 @@ extension MIDIEvent.ProgramChange {
     public func midi1RawStatusByte() -> UInt8 {
         0xC0 + channel.uInt8Value
     }
-    
+
     /// Returns the raw MIDI 1.0 data bytes for the event (excluding status byte).
     /// Note that this only returns the data byte for the program change message. If
     /// ``bank-swift.property`` is set, the bank select message data bytes are not returned from
@@ -125,7 +125,7 @@ extension MIDIEvent.ProgramChange {
     public func midi1RawDataBytes() -> UInt8 {
         program.uInt8Value
     }
-    
+
     /// Returns the complete raw MIDI 1.0 message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -135,17 +135,17 @@ extension MIDIEvent.ProgramChange {
             midi1RawStatusByte(),
             midi1RawDataBytes()
         ]
-    
+
         switch bank {
         case .noBankSelect:
             return programChangeMessage
-    
+
         case let .bankSelect(bankNumber):
             // Assemble 3 messages in order:
             // - Bank Select MSB (CC 0)
             // - Bank Select LSB (CC 32)
             // - Program Change
-    
+
             return [
                 0xB0 + channel.uInt8Value,
                 0x00,
@@ -159,19 +159,19 @@ extension MIDIEvent.ProgramChange {
                 + programChangeMessage
         }
     }
-    
+
     private func umpMessageType(
         protocol midiProtocol: MIDIProtocolVersion
     ) -> MIDIUMPMessageType {
         switch midiProtocol {
         case .midi1_0:
             .midi1ChannelVoice
-    
+
         case .midi2_0:
             .midi2ChannelVoice
         }
     }
-    
+
     /// Returns the raw MIDI 2.0 UMP (Universal MIDI Packet) message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -181,7 +181,7 @@ extension MIDIEvent.ProgramChange {
     ) -> [UMPWord] {
         let mtAndGroup = (umpMessageType(protocol: midiProtocol).rawValue.uInt8Value << 4)
             + group.uInt8Value
-    
+
         switch midiProtocol {
         case .midi1_0:
             let word = UMPWord(
@@ -190,41 +190,41 @@ extension MIDIEvent.ProgramChange {
                 midi1RawDataBytes(),
                 0x00
             ) // pad an empty byte to fill 4 bytes
-    
+
             return [word]
-    
+
         case .midi2_0:
             let optionFlags: UInt8
             let bankMSB: UInt8
             let bankLSB: UInt8
-    
+
             switch bank {
             case .noBankSelect:
                 optionFlags = 0b00000000
                 bankMSB = 0x00
                 bankLSB = 0x00
-    
+
             case let .bankSelect(bankUInt14):
                 optionFlags = 0b00000001
                 let bytePair = bankUInt14.bytePair
                 bankMSB = bytePair.msb
                 bankLSB = bytePair.lsb
             }
-    
+
             let word1 = UMPWord(
                 mtAndGroup,
                 midi1RawStatusByte(),
                 0x00, // reserved
                 optionFlags
             )
-    
+
             let word2 = UMPWord(
                 midi1RawDataBytes(),
                 0x00, // reserved
                 bankMSB,
                 bankLSB
             )
-    
+
             return [word1, word2]
         }
     }

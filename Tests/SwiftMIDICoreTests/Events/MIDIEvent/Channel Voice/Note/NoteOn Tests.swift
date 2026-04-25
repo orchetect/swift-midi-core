@@ -1,17 +1,18 @@
 //
 //  NoteOn Tests.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 @testable import SwiftMIDICore
 import Testing
 
-@Suite struct MIDIEvent_NoteOn_Tests {
+@Suite
+struct MIDIEvent_NoteOn_Tests {
     typealias NoteOn = MIDIEvent.NoteOn
-    
+
     // MARK: - Standard Note tests
-    
+
     @Test
     func ump_MIDI1_0() {
         for noteNum: UInt7 in 0 ... 127 {
@@ -23,7 +24,7 @@ import Testing
                 group: 0x9,
                 midi1ZeroVelocityAsNoteOff: false
             )
-            
+
             #expect(
                 cc.midi2RawUMPWords(protocol: .midi1_0) ==
                     [[
@@ -37,7 +38,7 @@ import Testing
             )
         }
     }
-    
+
     @Test
     func ump_MIDI2_0() {
         for noteNum: UInt7 in 0 ... 127 {
@@ -49,7 +50,7 @@ import Testing
                 group: 0x9,
                 midi1ZeroVelocityAsNoteOff: false
             )
-            
+
             #expect(
                 cc.midi2RawUMPWords(protocol: .midi2_0) ==
                     [[
@@ -69,7 +70,7 @@ import Testing
             )
         }
     }
-    
+
     @Test
     func ump_MIDI2_0_WithAttribute() {
         for noteNum: UInt7 in 0 ... 127 {
@@ -84,7 +85,7 @@ import Testing
                 group: 0x9,
                 midi1ZeroVelocityAsNoteOff: false
             )
-            
+
             #expect(
                 cc.midi2RawUMPWords(protocol: .midi2_0) ==
                     [[
@@ -104,13 +105,13 @@ import Testing
             )
         }
     }
-    
+
     // MARK: - Note On specific tests
-    
+
     @Test
     func zeroVelocityAsNoteOff_midi1RawBytes() {
         // MIDI 1 Velocity Value
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -123,7 +124,7 @@ import Testing
             .midi1RawBytes() ==
             [0x80, 0x3C, 0x00] // note off
         )
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -136,9 +137,9 @@ import Testing
             .midi1RawBytes() ==
             [0x90, 0x3C, 0x00] // note on
         )
-        
+
         // MIDI 2 Velocity Value
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -151,7 +152,7 @@ import Testing
             .midi1RawBytes() ==
             [0x90, 0x3C, 0x01] // note on, velocity 1 (as per MIDI 2.0 spec)
         )
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -164,9 +165,9 @@ import Testing
             .midi1RawBytes() ==
             [0x90, 0x3C, 0x01] // note on, velocity 1 (as per MIDI 2.0 spec)
         )
-        
+
         // Unit Interval Velocity Value
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -179,7 +180,7 @@ import Testing
             .midi1RawBytes() ==
             [0x80, 0x3C, 0x00] // note off
         )
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -193,11 +194,11 @@ import Testing
             [0x90, 0x3C, 0x00] // note on
         )
     }
-    
+
     @Test
     func zeroVelocityAsNoteOff_midi2RawUMPWords_MIDI1_0() {
         // MIDI 1 Velocity Value
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -210,7 +211,7 @@ import Testing
             .midi2RawUMPWords(protocol: .midi1_0) ==
             [0x2080_3C00] // note off
         )
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -223,9 +224,9 @@ import Testing
             .midi2RawUMPWords(protocol: .midi1_0) ==
             [0x2090_3C00] // note on
         )
-        
+
         // MIDI 2 Velocity Value
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -238,7 +239,7 @@ import Testing
             .midi2RawUMPWords(protocol: .midi1_0) ==
             [0x2090_3C01] // note on, velocity 1 (as per MIDI 2.0 spec)
         )
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -251,9 +252,9 @@ import Testing
             .midi2RawUMPWords(protocol: .midi1_0) ==
             [0x2090_3C01] // note on, velocity 1 (as per MIDI 2.0 spec)
         )
-        
+
         // Unit Interval Velocity Value
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -266,7 +267,7 @@ import Testing
             .midi2RawUMPWords(protocol: .midi1_0) ==
             [0x2080_3C00] // note off
         )
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -280,11 +281,11 @@ import Testing
             [0x2090_3C00] // note on
         )
     }
-    
+
     @Test
     func zeroVelocityAsNoteOff_midi2RawUMPWords_MIDI2_0() {
         // MIDI 1 Velocity Value
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -300,7 +301,7 @@ import Testing
                 0x0000_0000
             ]
         )
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -316,9 +317,9 @@ import Testing
                 0x0000_0000
             ]
         )
-        
+
         // MIDI 2 Velocity Value
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -334,7 +335,7 @@ import Testing
                 0x0000_0000
             ]
         )
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -350,9 +351,9 @@ import Testing
                 0x0000_0000
             ]
         )
-        
+
         // Unit Interval Velocity Value
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -368,7 +369,7 @@ import Testing
                 0x0000_0000
             ]
         )
-        
+
         #expect(
             NoteOn(
                 note: 60,
@@ -385,11 +386,11 @@ import Testing
             ]
         )
     }
-    
+
     @Test
     func equatable() {
         // ensure midi1ZeroVelocityAsNoteOff is not factored into Equatable
-        
+
         #expect(
             MIDIEvent.noteOn(
                 60,
@@ -404,7 +405,7 @@ import Testing
                     midi1ZeroVelocityAsNoteOff: true
                 )
         )
-        
+
         #expect(
             MIDIEvent.noteOn(
                 60,

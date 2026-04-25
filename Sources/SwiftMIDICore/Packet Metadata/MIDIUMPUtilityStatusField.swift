@@ -1,6 +1,6 @@
 //
 //  MIDIUMPUtilityStatusField.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -8,7 +8,7 @@
 public enum MIDIUMPUtilityStatusField: UInt4 {
     /// NOOP (No Operation)
     case noOp = 0x0
-    
+
     /// JR Clock (Jitter-Reduction Clock)
     ///
     /// > MIDI 2.0 Spec:
@@ -24,7 +24,7 @@ public enum MIDIUMPUtilityStatusField: UInt4 {
     /// > messages for the Receiver, the Sender shall send a JR Clock message at least once every
     /// > 250 milliseconds.
     case jrClock = 0x1
-    
+
     /// JR Timestamp (Jitter-Reduction Timestamp)
     ///
     /// > MIDI 2.0 Spec:
@@ -35,7 +35,7 @@ public enum MIDIUMPUtilityStatusField: UInt4 {
     /// > A 16-bit time value in clock ticks of 1/31250 of one second (32 μsec, clock frequency of 1
     /// > MHz / 32).
     case jrTimestamp = 0x2
-    
+
     // 0x3... are unused/reserved
 }
 

@@ -1,6 +1,6 @@
 //
 //  ThreadSynchronized.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -12,7 +12,7 @@ import Foundation
 public final class ThreadSynchronized<T> {
     private nonisolated let queue: DispatchQueue
     nonisolated(unsafe) private let storage: ValueWrapper
-    
+
     public init(wrappedValue value: T, target: DispatchQueue? = nil) {
         let queue = DispatchQueue(
             label: "ThreadSynchronized-\(type(of: T.self))-access",
@@ -21,7 +21,7 @@ public final class ThreadSynchronized<T> {
         self.queue = queue
         storage = queue.sync { ValueWrapper(value) }
     }
-    
+
     public var wrappedValue: T {
         get {
             queue.sync { storage.value }
@@ -38,8 +38,7 @@ public final class ThreadSynchronized<T> {
 }
 
 extension ThreadSynchronized: Equatable where T: Equatable {
-    public static func == (lhs: ThreadSynchronized<T>,
-                           rhs: ThreadSynchronized<T>) -> Bool {
+    public static func == (lhs: ThreadSynchronized<T>, rhs: ThreadSynchronized<T>) -> Bool {
         lhs.wrappedValue == rhs.wrappedValue
     }
 }
@@ -59,7 +58,7 @@ extension ThreadSynchronized {
     public func withReadLock<Result, E>(_ block: (T) throws(E) -> Result) rethrows -> Result {
         try queue.sync { try block(storage.value) }
     }
-    
+
     @discardableResult @_disfavoredOverload
     public func withWriteLock<Result, E>(_ block: (inout T) throws(E) -> Result) rethrows -> Result {
         try queue.sync { try block(&storage.value) }
@@ -71,7 +70,7 @@ extension ThreadSynchronized {
 extension ThreadSynchronized {
     fileprivate final class ValueWrapper {
         var value: T
-        
+
         init(_ value: T) {
             self.value = value
         }
@@ -79,8 +78,7 @@ extension ThreadSynchronized {
 }
 
 extension ThreadSynchronized.ValueWrapper: Equatable where T: Equatable {
-    static func == (lhs: ThreadSynchronized<T>.ValueWrapper,
-                    rhs: ThreadSynchronized<T>.ValueWrapper) -> Bool {
+    static func == (lhs: ThreadSynchronized<T>.ValueWrapper, rhs: ThreadSynchronized<T>.ValueWrapper) -> Bool {
         lhs.value == rhs.value
     }
 }

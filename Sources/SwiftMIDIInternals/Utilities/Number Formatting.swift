@@ -1,6 +1,6 @@
 //
 //  Number Formatting.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -18,9 +18,9 @@ extension Double {
         if decimalPlaces < 1 {
             return rounded(rule)
         }
-        
+
         let offset = pow(10.0, Self(decimalPlaces))
-        
+
         return (self * offset).rounded(rule) / offset
     }
 }

@@ -1,13 +1,15 @@
 //
 //  NoteCC Registered allCases.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 extension MIDIEvent.NoteCC.PerNoteController.Registered: CaseIterable {
     public typealias AllCases = [Self]
-    
+
     // this looks scary but its heart is in the right place
+
+    // swiftformat:disable consecutiveSpaces
     public static let allCases: [Self] = [
         .modWheel,                      //   1
         .breath,                        //   2
@@ -265,4 +267,5 @@ extension MIDIEvent.NoteCC.PerNoteController.Registered: CaseIterable {
         .undefined(.cc254),             // 254
         .undefined(.cc255)              // 255
     ]
+    // swiftformat:enable consecutiveSpaces
 }

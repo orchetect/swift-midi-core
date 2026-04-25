@@ -1,6 +1,6 @@
 //
 //  UniversalSysEx8.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -13,27 +13,27 @@ extension MIDIEvent {
         /// Universal SysEx type:
         /// realtime or non-realtime
         public var universalType: UniversalSysExType
-        
+
         /// Device ID:
         /// `0x7F` indicates "All Devices"
         public var deviceID: UInt7
-        
+
         /// Sub ID #1
         public var subID1: UInt7
-        
+
         /// Sub ID #2
         public var subID2: UInt7
-        
+
         /// Data bytes (8-bit) (excluding leading 0xF0, trailing 0xF7, universal type and ID bytes)
         public var data: [UInt8]
-        
+
         /// Interleaving of multiple simultaneous System Exclusive 8 messages is enabled by use of
         /// an 8-bit Stream ID field.
         var streamID: UInt8 = 0x00
-        
+
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-        
+
         public init(
             universalType: MIDIEvent.UniversalSysExType,
             deviceID: UInt7,
@@ -49,7 +49,7 @@ extension MIDIEvent {
             self.data = data
             self.group = group
         }
-        
+
         init(
             universalType: MIDIEvent.UniversalSysExType,
             deviceID: UInt7,
@@ -123,7 +123,7 @@ extension MIDIEvent.UniversalSysEx8 {
                 subID2.uInt8Value
             ]
             + data
-    
+
         return MIDIEvent.SysEx8.midi2RawUMPWords(
             fromSysEx8Data: rawData,
             streamID: streamID,

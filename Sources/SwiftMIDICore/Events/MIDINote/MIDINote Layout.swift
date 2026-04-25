@@ -1,6 +1,6 @@
 //
 //  MIDINote Layout.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -12,7 +12,7 @@ public typealias MIDINoteNumberRange = ClosedRange<UInt7>
 extension MIDINoteNumberRange {
     /// All 128 notes (`0 ... 127`)
     public static let all: Self = 0 ... 127
-    
+
     /// 88-key piano keyboard note range: (`12 ... 108`)
     public static let eightyEightKeys: Self = 21 ... 108
 }
@@ -25,7 +25,7 @@ extension MIDINoteRange {
     public static func all(style: MIDINote.Style = .yamaha) -> Self {
         MIDINote(0, style: style) ... MIDINote(127, style: style)
     }
-    
+
     /// 88-key piano keyboard note range: (`12 ... 108`)
     public static func eightyEightKeys(style: MIDINote.Style = .yamaha) -> Self {
         MIDINote(21, style: style) ... MIDINote(108, style: style)
@@ -38,7 +38,7 @@ extension MIDINote {
     public var isSharp: Bool {
         let octaveMod = number % 12
         return [1, 3, 6, 8, 10].contains(octaveMod)
-    
+
         // this also works, but the math above may be slightly more performant,
         // since the `name` property would have to call `Name.convert(noteNumber:)`
         //

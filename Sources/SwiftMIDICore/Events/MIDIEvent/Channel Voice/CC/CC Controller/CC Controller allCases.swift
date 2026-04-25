@@ -1,12 +1,13 @@
 //
 //  CC Controller allCases.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 extension MIDIEvent.CC.Controller: CaseIterable {
     public typealias AllCases = [Self]
-    
+
+    // swiftformat:disable consecutiveSpaces
     public static let allCases: [Self] = [
         .bankSelect,                    //   0
         .modWheel,                      //   1
@@ -137,4 +138,5 @@ extension MIDIEvent.CC.Controller: CaseIterable {
         .mode(.monoModeOn),             // 126
         .mode(.polyModeOn)              // 127
     ]
+    // swiftformat:enable consecutiveSpaces
 }

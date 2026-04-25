@@ -1,6 +1,6 @@
 //
 //  MIDINote NoteError.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -11,7 +11,7 @@ extension MIDINote {
     public enum NoteError: LocalizedError {
         /// Operation resulted in a MIDI note that is out of bounds (invalid).
         case outOfBounds
-    
+
         /// An unexpected or malformed note name was encountered and could not be parsed.
         case malformedNoteName
     }

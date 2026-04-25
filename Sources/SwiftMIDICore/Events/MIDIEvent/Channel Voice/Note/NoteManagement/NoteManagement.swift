@@ -1,6 +1,6 @@
 //
 //  NoteManagement.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -15,16 +15,16 @@ extension MIDIEvent {
         ///
         /// If MIDI 2.0 attribute is set to Pitch 7.9, then this value represents the note index.
         public var note: MIDINote
-        
+
         /// Option Flags
         public var flags: Set<OptionFlag> = []
-        
+
         /// Channel Number (`0x0 ... 0xF`)
         public var channel: UInt4
-        
+
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-        
+
         /// Channel Voice Message: Per-Note Management
         /// (MIDI 2.0)
         ///
@@ -47,7 +47,7 @@ extension MIDIEvent {
             self.channel = channel
             self.group = group
         }
-        
+
         /// Channel Voice Message: Per-Note Management
         /// (MIDI 2.0)
         ///
@@ -106,7 +106,7 @@ extension MIDIEvent {
             )
         )
     }
-    
+
     /// Channel Voice Message: Per-Note Management
     /// (MIDI 2.0)
     ///
@@ -142,20 +142,20 @@ extension MIDIEvent.NoteManagement {
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
     public func midi2RawUMPWords() -> [UMPWord] {
         let umpMessageType: MIDIUMPMessageType = .midi2ChannelVoice
-        
+
         let mtAndGroup = (umpMessageType.rawValue.uInt8Value << 4) + group.uInt8Value
-        
+
         // MIDI 2.0 only
-        
+
         let word1 = UMPWord(
             mtAndGroup,
             0xF0 + channel.uInt8Value,
             note.number.uInt8Value,
             flags.byte
         )
-        
+
         let word2: UInt32 = 0x0000_0000 // reserved
-        
+
         return [word1, word2]
     }
 }
@@ -175,7 +175,7 @@ extension MIDIEvent.NoteManagement {
         /// > longer respond to any Per-Note controllers. Currently playing notes shall maintain the
         /// > current values for all Per-Note controllers until the end of the note life cycle.
         case detachPerNoteControllers
-        
+
         /// Reset/Set Per-Note Controllers to default values (`S`)
         ///
         /// > MIDI 2.0 Spec:
@@ -200,29 +200,29 @@ extension Set<MIDIEvent.NoteManagement.OptionFlag> {
     @inlinable
     public init(byte: UInt8) {
         self.init()
-        
+
         if byte & 0b00000001 == 1 {
             insert(.resetPerNoteControllers)
         }
-        
+
         if (byte & 0b00000010) >> 1 == 1 {
             insert(.detachPerNoteControllers)
         }
     }
-    
+
     /// Returns the flags as a raw option flags byte.
     @inlinable
     public var byte: UInt8 {
         var byte: UInt8 = 0b00000000
-        
+
         if contains(.resetPerNoteControllers) {
             byte |= 0b00000001
         }
-        
+
         if contains(.detachPerNoteControllers) {
             byte |= 0b00000010
         }
-        
+
         return byte
     }
 }
@@ -232,7 +232,7 @@ extension MIDIEvent.NoteManagement.OptionFlag: CustomStringConvertible {
         switch self {
         case .detachPerNoteControllers:
             "detachPerNoteControllers"
-            
+
         case .resetPerNoteControllers:
             "resetPerNoteControllers"
         }
@@ -241,6 +241,6 @@ extension MIDIEvent.NoteManagement.OptionFlag: CustomStringConvertible {
 
 extension Collection<MIDIEvent.NoteManagement.OptionFlag> {
     public var description: String {
-        "[" + map { $0.description }.joined(separator: ", ") + "]"
+        "[" + map(\.description).joined(separator: ", ") + "]"
     }
 }

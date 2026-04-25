@@ -1,6 +1,6 @@
 //
 //  NoteAttribute Pitch7_9.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -16,10 +16,10 @@ extension MIDIEvent.NoteAttribute {
     public struct Pitch7_9 {
         /// 7-Bit coarse pitch in semitones, based on default Note Number equal temperament scale.
         public var coarse: UInt7
-    
+
         /// 9-Bit fractional pitch above Note Number (i.e., fraction of one semitone).
         public var fine: UInt9
-    
+
         /// Pitch 7.9 Note Attribute
         /// (MIDI 2.0)
         ///
@@ -64,20 +64,20 @@ extension MIDIEvent.NoteAttribute.Pitch7_9 {
     /// Range: `0+(0/512) ... 127+(511/512)`
     public init(_ bytePair: BytePair) {
         coarse = UInt7((bytePair.msb & 0b11111110) >> 1)
-    
+
         fine = UInt9(
             UInt9.Storage(bytePair.lsb)
                 + (UInt9.Storage(bytePair.msb & 0b1) << 8)
         )
     }
-    
+
     /// `UInt16` representation as a byte pair.
     @inlinable
     public var bytePair: BytePair {
         let msb = UInt8(coarse.uInt8Value << 1)
             + UInt8((fine.uInt16Value & 0b1_00000000) >> 8)
         let lsb = UInt8(fine.uInt16Value & 0b11111111)
-    
+
         return .init(msb: msb, lsb: lsb)
     }
 }
@@ -93,9 +93,9 @@ extension MIDIEvent.NoteAttribute.Pitch7_9 {
     /// Range: `0+(0/512) ... 127+(511/512)`
     public init(_ uInt16Value: UInt16) {
         coarse = ((uInt16Value & 0b11111110_00000000) >> 9).toUInt7
-        fine =    (uInt16Value & 0b00000001_11111111).toUInt9
+        fine = (uInt16Value & 0b00000001_11111111).toUInt9
     }
-    
+
     /// UInt16 representation.
     @inlinable
     public var uInt16Value: UInt16 {
@@ -114,13 +114,13 @@ extension MIDIEvent.NoteAttribute.Pitch7_9 {
     /// Range: `0+(0/512) ... 127+(511/512)`
     public init(_ double: Double) {
         let double = double.clamped(to: 0.0 ... 127.998046875)
-    
+
         let truncated = trunc(double)
-    
+
         coarse = UInt7(truncated)
         fine = UInt9(round((double - truncated) * 0b10_00000000))
     }
-    
+
     /// Converted to a Double value (`0.0 ... 127.998046875`)
     @inlinable
     public var doubleValue: Double {

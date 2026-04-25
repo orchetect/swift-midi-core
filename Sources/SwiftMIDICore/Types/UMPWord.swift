@@ -1,6 +1,6 @@
 //
 //  UMPWord.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -21,7 +21,7 @@ extension UMPWord {
     @_disfavoredOverload
     public init(_ byte0and1: UInt16, _ byte2and3: UInt16) {
         self = (Self(byte0and1) << 16)
-        + Self(byte2and3)
+            + Self(byte2and3)
     }
 }
 
@@ -36,13 +36,13 @@ extension Collection<UMPWord> {
             let byte2 = UInt8((word & 0x00FF_0000) >> 16)
             let byte3 = UInt8((word & 0x0000_FF00) >> 8)
             let byte4 = UInt8(word & 0x0000_00FF)
-    
+
             bytes.append(byte1)
             bytes.append(byte2)
             bytes.append(byte3)
             bytes.append(byte4)
         }
-    
+
         return bytes
     }
 }

@@ -1,6 +1,6 @@
 //
 //  ASCII String and Data.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -11,13 +11,13 @@ extension StringProtocol {
     public func toASCIIData(lossy: Bool = false) -> Data {
         lossy
             ? data(using: .nonLossyASCII)
-                ?? data(using: .ascii)
-                ?? data(using: .utf8)
-                ?? Data()
+            ?? data(using: .ascii)
+            ?? data(using: .utf8)
+            ?? Data()
             : data(using: .nonLossyASCII)
-                ?? Data()
+            ?? Data()
     }
-    
+
     /// Converts the string to ASCII-compatible raw bytes.
     public func toASCIIBytes(lossy: Bool = false) -> [UInt8] {
         [UInt8](toASCIIData(lossy: lossy))
@@ -33,7 +33,7 @@ extension Data {
             encoding: .nonLossyASCII
         )
     }
-    
+
     /// Converts ASCII data to `String`.
     /// Attempts to lossily convert the data if it is not valid ASCII.
     public func asciiDataToStringLossy() -> String {
@@ -62,12 +62,12 @@ extension DataProtocol {
             encoding: .nonLossyASCII
         )
     }
-    
+
     /// Converts ASCII data to `String`.
     /// Attempts to lossily convert the data if it is not valid ASCII.
     public func asciiDataToStringLossy() -> String {
         let data = Data(self)
-        
+
         // try standard String encoding inits first
         if let str = String(
             data: data,
@@ -84,12 +84,12 @@ extension DataProtocol {
         {
             return str
         }
-        
+
         // otherwise, map characters
         let scalars = data.map { UnicodeScalar($0) }
         var str = ""
         str.unicodeScalars.append(contentsOf: scalars)
-        
+
         return str
     }
 }

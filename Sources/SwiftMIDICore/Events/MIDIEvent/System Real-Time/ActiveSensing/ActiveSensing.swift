@@ -1,6 +1,6 @@
 //
 //  ActiveSensing.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -25,7 +25,7 @@ extension MIDIEvent {
     public struct ActiveSensing {
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-        
+
         public init(group: UInt4 = 0x0) {
             self.group = group
         }
@@ -74,7 +74,7 @@ extension MIDIEvent.ActiveSensing {
     public func midi1RawStatusByte() -> UInt8 {
         0xFE
     }
-    
+
     /// Returns the complete raw MIDI 1.0 message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -82,23 +82,23 @@ extension MIDIEvent.ActiveSensing {
     public func midi1RawBytes() -> [UInt8] {
         [midi1RawStatusByte()]
     }
-    
+
     /// Returns the raw MIDI 2.0 UMP (Universal MIDI Packet) message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
     public func midi2RawUMPWords() -> [UMPWord] {
         let umpMessageType: MIDIUMPMessageType = .systemRealTimeAndCommon
-    
+
         let mtAndGroup = (umpMessageType.rawValue.uInt8Value << 4) + group.uInt8Value
-    
+
         let word = UMPWord(
             mtAndGroup,
             midi1RawStatusByte(),
             0x00, // pad empty bytes to fill 4 bytes
             0x00
         ) // pad empty bytes to fill 4 bytes
-    
+
         return [word]
     }
 }

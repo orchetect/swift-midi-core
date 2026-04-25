@@ -1,6 +1,6 @@
 //
 //  SongPositionPointer.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -16,10 +16,10 @@ extension MIDIEvent {
     public struct SongPositionPointer {
         /// The number of MIDI beats (1 beat = 6 MIDI clocks) that have elapsed from the start.
         public var midiBeat: UInt14
-        
+
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-        
+
         public init(
             midiBeat: UInt14,
             group: UInt4 = 0x0
@@ -70,13 +70,13 @@ extension MIDIEvent.SongPositionPointer {
     public func midi1RawStatusByte() -> UInt8 {
         0xF2
     }
-    
+
     /// Returns the raw MIDI 1.0 data bytes for the event (excluding status byte).
     public func midi1RawDataBytes() -> (data1: UInt8, data2: UInt8) {
         let bytePair = midiBeat.bytePair
         return (data1: bytePair.lsb, data2: bytePair.msb)
     }
-    
+
     /// Returns the complete raw MIDI 1.0 message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -85,25 +85,25 @@ extension MIDIEvent.SongPositionPointer {
         let dataBytes = midi1RawDataBytes()
         return [midi1RawStatusByte(), dataBytes.data1, dataBytes.data2]
     }
-    
+
     /// Returns the raw MIDI 2.0 UMP (Universal MIDI Packet) message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
     public func midi2RawUMPWords() -> [UMPWord] {
         let umpMessageType: MIDIUMPMessageType = .systemRealTimeAndCommon
-    
+
         let mtAndGroup = (umpMessageType.rawValue.uInt8Value << 4) + group.uInt8Value
-    
+
         let bytePair = midiBeat.bytePair
-    
+
         let word = UMPWord(
             mtAndGroup,
             midi1RawStatusByte(),
             bytePair.lsb,
             bytePair.msb
         )
-    
+
         return [word]
     }
 }

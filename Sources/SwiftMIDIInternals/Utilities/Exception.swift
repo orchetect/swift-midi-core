@@ -1,6 +1,6 @@
 //
 //  Exception.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -19,15 +19,15 @@ extension Exception {
         switch self {
         case .overflow:
             Self.raiseException(.decimalNumberOverflowException, reason: reason)
-    
+
         case .underflow:
             Self.raiseException(.decimalNumberUnderflowException, reason: reason)
-    
+
         case .divisionByZero:
             Self.raiseException(.decimalNumberDivideByZeroException, reason: reason)
         }
     }
-    
+
     /// Raises an `NSException`
     @usableFromInline
     static func raiseException(

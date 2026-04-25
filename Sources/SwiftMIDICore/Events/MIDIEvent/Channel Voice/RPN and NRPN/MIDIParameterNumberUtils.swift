@@ -1,6 +1,6 @@
 //
 //  MIDIParameterNumberUtils.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -23,7 +23,7 @@ public enum MIDIParameterNumberUtils {
             case .relative:
                 0x4
             }
-            
+
         case .assignable:
             switch change {
             case .absolute:
@@ -33,7 +33,7 @@ public enum MIDIParameterNumberUtils {
             }
         }
     }
-    
+
     /// Utility:
     /// Returns the parameter type and change type for the given raw UMP SysEx Status Nibble.
     /// Returns `nil` if status nibble is invalid.

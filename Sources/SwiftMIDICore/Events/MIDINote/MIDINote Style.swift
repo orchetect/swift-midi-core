@@ -1,6 +1,6 @@
 //
 //  MIDINote Style.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -13,12 +13,12 @@ extension MIDINote {
         ///
         /// Yamaha traditionally chose "C3" to represent MIDI note 60 (Middle C).
         case yamaha
-    
+
         /// Roland (Middle C == C4)
         ///
         /// In 1982 Roland documentation writers chose "C4" to represent MIDI note 60 (Middle C).
         case roland
-    
+
         /// Cakewalk (Middle C == C5)
         ///
         /// Cakewalk originally chose "C5" to represent MIDI note 60 (Middle C).
@@ -36,10 +36,10 @@ extension MIDINote.Style {
         switch self {
         case .yamaha:
             -2
-    
+
         case .roland:
             -1
-    
+
         case .cakewalk:
             0
         }
@@ -50,15 +50,15 @@ extension MIDINote.Style: CustomStringConvertible {
     public var localizedDescription: String {
         description
     }
-    
+
     public var description: String {
         switch self {
         case .yamaha:
             "Yamaha (Middle C == C3)"
-    
+
         case .roland:
             "Roland (Middle C == C4)"
-    
+
         case .cakewalk:
             "Cakewalk (Middle C == C5)"
         }

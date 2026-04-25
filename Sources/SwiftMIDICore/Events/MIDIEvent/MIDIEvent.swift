@@ -1,6 +1,6 @@
 //
 //  MIDIEvent.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -26,24 +26,25 @@
 public enum MIDIEvent {
     // -------------------
     // MARK: Channel Voice
+
     // -------------------
-    
+
     /// Channel Voice Message: Note On
     /// (MIDI 1.0 / 2.0)
     case noteOn(NoteOn)
-    
+
     /// Channel Voice Message: Note Off
     /// (MIDI 1.0 / 2.0)
     case noteOff(NoteOff)
-    
+
     /// Channel Voice Message: Per-Note Control Change (CC)
     /// (MIDI 2.0)
     case noteCC(NoteCC)
-    
+
     /// Channel Voice Message: Per-Note Pitch Bend
     /// (MIDI 2.0)
     case notePitchBend(NotePitchBend)
-    
+
     /// Channel Voice Message: Per-Note Pressure (Polyphonic Aftertouch)
     /// (MIDI 1.0 / 2.0)
     ///
@@ -52,26 +53,26 @@ public enum MIDIEvent {
     /// - Logic Pro: "Polyphonic Aftertouch"
     /// - Cubase: "Poly Pressure"
     case notePressure(NotePressure)
-    
+
     /// Channel Voice Message: Per-Note Management
     /// (MIDI 2.0)
     ///
     /// The MIDI 2.0 Protocol introduces a Per-Note Management message to enable independent control
     /// from Per- Note Controllers to multiple Notes on the same Note Number.
     case noteManagement(NoteManagement)
-    
+
     /// Channel Voice Message: Channel Control Change (CC)
     /// (MIDI 1.0 / 2.0)
     case cc(CC)
-    
+
     /// Channel Voice Message: Channel Program Change
     /// (MIDI 1.0 / 2.0)
     case programChange(ProgramChange)
-    
+
     /// Channel Voice Message: Channel Pitch Bend
     /// (MIDI 1.0 / 2.0)
     case pitchBend(PitchBend)
-    
+
     /// Channel Voice Message: Channel Pressure (Aftertouch)
     /// (MIDI 1.0 / 2.0)
     ///
@@ -80,11 +81,12 @@ public enum MIDIEvent {
     /// - Logic Pro: "Aftertouch"
     /// - Cubase: "Aftertouch"
     case pressure(Pressure)
-    
+
     // -----------------------------------------------
     // MARK: Channel Voice - Parameter Number Messages
+
     // -----------------------------------------------
-    
+
     /// RPN (Registered Parameter Number) Message,
     /// also referred to as Registered Controller in MIDI 2.0.
     /// (MIDI 1.0 / 2.0)
@@ -125,7 +127,7 @@ public enum MIDIEvent {
     ///   [RP-018](https://www.midi.org/specifications/midi1-specifications/midi-1-addenda/response-to-data-increment-decrement-controllers)
     ///   of the MIDI 1.0 Spec Addenda.
     case rpn(RPN)
-    
+
     /// NRPN (Non-Registered Parameter Number) Message,
     /// also referred to as Assignable Controller in MIDI 2.0.
     /// (MIDI 1.0 / 2.0)
@@ -165,11 +167,12 @@ public enum MIDIEvent {
     /// [RP-018](https://www.midi.org/specifications/midi1-specifications/midi-1-addenda/response-to-data-increment-decrement-controllers)
     /// of the MIDI 1.0 Spec Addenda.
     case nrpn(NRPN)
-    
+
     // ----------------------
     // MARK: System Exclusive
+
     // ----------------------
-    
+
     /// System Exclusive: Manufacturer-specific (7-bit)
     /// (MIDI 1.0 / 2.0)
     ///
@@ -185,7 +188,7 @@ public enum MIDIEvent {
     /// > part of the instruments MIDI implementation — so long as the new instrument remains within
     /// > the definitions of the published specification.
     case sysEx7(SysEx7)
-    
+
     /// Universal System Exclusive (7-bit)
     /// (MIDI 1.0 / 2.0)
     ///
@@ -194,7 +197,7 @@ public enum MIDIEvent {
     ///
     /// - `deviceID` of `0x7F` indicates "All Devices".
     case universalSysEx7(UniversalSysEx7)
-    
+
     /// System Exclusive: Manufacturer-specific (8-bit)
     /// (MIDI 2.0 only)
     ///
@@ -206,17 +209,18 @@ public enum MIDIEvent {
     /// > high bit of every data byte, leaving only 7 bits to carry actual data. A System Exclusive
     /// > 8 Message is carried in one or more 128-bit UMPs.
     case sysEx8(SysEx8)
-    
+
     /// Universal System Exclusive (8-bit)
     /// (MIDI 2.0 only)
     ///
     /// - `deviceID` of `0x7F` indicates "All Devices".
     case universalSysEx8(UniversalSysEx8)
-    
+
     // -------------------
     // MARK: System Common
+
     // -------------------
-    
+
     /// System Common: Timecode Quarter-Frame
     /// (MIDI 1.0 / 2.0)
     ///
@@ -228,7 +232,7 @@ public enum MIDIEvent {
     /// > in an 8-message sequence. There is also an MTC FULL FRAME message which is a MIDI System
     /// > Exclusive Message.
     case timecodeQuarterFrame(TimecodeQuarterFrame)
-    
+
     /// System Common: Song Position Pointer
     /// (MIDI 1.0 / 2.0)
     ///
@@ -238,7 +242,7 @@ public enum MIDIEvent {
     /// > have elapsed from the start of the song and is used to begin playback of a sequence from a
     /// > position other than the beginning of the song.
     case songPositionPointer(SongPositionPointer)
-    
+
     /// System Common: Song Select
     /// (MIDI 1.0 / 2.0)
     ///
@@ -249,7 +253,7 @@ public enum MIDIEvent {
     /// > should be ignored if the receiver is not set to respond to incoming Real-Time messages
     /// > (MIDI Sync).
     case songSelect(SongSelect)
-    
+
     /// System Common: Tune Request
     /// (MIDI 1.0 / 2.0)
     ///
@@ -257,11 +261,12 @@ public enum MIDIEvent {
     /// >
     /// > Used with analog synthesizers to request that all oscillators be tuned.
     case tuneRequest(TuneRequest)
-    
+
     // ----------------------
     // MARK: System Real-Time
+
     // ----------------------
-    
+
     /// System Real-Time: Timing Clock
     /// (MIDI 1.0 / 2.0)
     ///
@@ -273,7 +278,7 @@ public enum MIDIEvent {
     /// > which are synchronized to incoming Real-Time messages (MIDI Sync mode) can thus phase lock
     /// > their internal clocks while waiting for a Start (`0xFA`) or Continue (`0xFB`) command.
     case timingClock(TimingClock)
-    
+
     /// System Real-Time: Start
     /// (MIDI 1.0 / 2.0)
     ///
@@ -283,7 +288,7 @@ public enum MIDIEvent {
     /// > pressed. This message commands all receivers which are synchronized to incoming Real-Time
     /// > messages (MIDI Sync mode) to start at the beginning of the song or sequence.
     case start(Start)
-    
+
     /// System Real-Time: Continue
     /// (MIDI 1.0 / 2.0)
     ///
@@ -292,7 +297,7 @@ public enum MIDIEvent {
     /// > Continue (`0xFB`) is sent when a CONTINUE button is hit. A sequence will continue from its
     /// > current location upon receipt of the next Timing Clock (`0xF8`).
     case `continue`(Continue)
-    
+
     /// System Real-Time: Stop
     /// (MIDI 1.0 / 2.0)
     ///
@@ -301,7 +306,7 @@ public enum MIDIEvent {
     /// > Stop (`0xFC`) is sent when a STOP button is hit. Playback in a receiver should stop
     /// > immediately.
     case stop(Stop)
-    
+
     /// System Real-Time: Active Sensing
     /// (MIDI 1.0)
     ///
@@ -320,7 +325,7 @@ public enum MIDIEvent {
     /// - Note: Use of Active Sensing in modern MIDI devices is uncommon and the use of this
     ///   standard has been deprecated as of MIDI 2.0.
     case activeSensing(ActiveSensing)
-    
+
     /// System Real-Time: System Reset
     /// (MIDI 1.0 / 2.0)
     ///
@@ -331,11 +336,12 @@ public enum MIDIEvent {
     /// > control only. It should not be sent automatically upon power-up and under no condition
     /// > should this message be echoed.
     case systemReset(SystemReset)
-    
+
     // -------------------------------
     // MARK: MIDI 2.0 Utility Messages
+
     // -------------------------------
-    
+
     /// NOOP - No Operation
     /// (MIDI 2.0 Utility Messages)
     ///
@@ -345,7 +351,7 @@ public enum MIDIEvent {
     /// > limited to NOOP and timestamps, and might in the future include UMP transport-related
     /// > functions.
     case noOp(NoOp)
-    
+
     /// JR Clock (Jitter-Reduction Clock)
     /// (MIDI 2.0 Utility Messages)
     ///
@@ -362,7 +368,7 @@ public enum MIDIEvent {
     /// > messages for the Receiver, the Sender shall send a JR Clock message at least once every
     /// > 250 milliseconds.
     case jrClock(JRClock)
-    
+
     /// JR Timestamp (Jitter-Reduction Timestamp)
     /// (MIDI 2.0 Utility Messages)
     ///

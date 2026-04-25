@@ -1,6 +1,6 @@
 //
 //  Task Extensions.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -11,6 +11,7 @@ import typealias Foundation.TimeInterval
 #else
 import struct FoundationEssentials.Date
 import typealias FoundationEssentials.TimeInterval
+
 private let NSEC_PER_SEC: UInt64 = 1_000_000_000
 #endif
 

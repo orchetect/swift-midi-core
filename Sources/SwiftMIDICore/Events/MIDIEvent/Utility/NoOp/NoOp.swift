@@ -1,6 +1,6 @@
 //
 //  NoOp.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -16,7 +16,7 @@ extension MIDIEvent {
     public struct NoOp {
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-        
+
         public init(group: UInt4 = 0x0) {
             self.group = group
         }
@@ -55,20 +55,20 @@ extension MIDIEvent.NoOp {
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
     public func midi2RawUMPWords() -> [UMPWord] {
         let umpMessageType: MIDIUMPMessageType = .utility
-    
+
         let mtAndGroup = (umpMessageType.rawValue.uInt8Value << 4) + group.uInt8Value
-    
+
         let utilityStatus: MIDIUMPUtilityStatusField = .noOp
-    
+
         // MIDI 2.0 only
-    
+
         let word = UMPWord(
             mtAndGroup,
             (utilityStatus.rawValue.uInt8Value << 4) + 0x0,
             0x00,
             0x00
         )
-    
+
         return [word]
     }
 }

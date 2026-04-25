@@ -1,6 +1,6 @@
 //
 //  UniversalSysEx7.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -16,23 +16,23 @@ extension MIDIEvent {
         /// Universal SysEx type:
         /// realtime or non-realtime
         public var universalType: UniversalSysExType
-        
+
         /// Device ID:
         /// `0x7F` indicates "All Devices"
         public var deviceID: UInt7
-        
+
         /// Sub ID #1
         public var subID1: UInt7
-        
+
         /// Sub ID #2
         public var subID2: UInt7
-        
+
         /// Data bytes (7-bit) (excluding leading 0xF0, trailing 0xF7, universal type and ID bytes)
         public var data: [UInt8]
-        
+
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-        
+
         /// - Throws: ``MIDIEvent/ParseError`` if any data bytes overflow 7 bits.
         public init(
             universalType: MIDIEvent.UniversalSysExType,
@@ -46,18 +46,18 @@ extension MIDIEvent {
             self.deviceID = deviceID
             self.subID1 = subID1
             self.subID2 = subID2
-            
+
             // data must all be 7-bit bytes,
             // but we make the array [UInt8] instead of [UInt7] to reduce friction
             guard data.allSatisfy({ $0 < 0x80 }) else {
                 throw .malformed
             }
-            
+
             self.data = data
-            
+
             self.group = group
         }
-        
+
         @_disfavoredOverload
         public init(
             universalType: MIDIEvent.UniversalSysExType,
@@ -72,7 +72,7 @@ extension MIDIEvent {
             self.subID1 = subID1
             self.subID2 = subID2
             self.data = data.map(\.uInt8Value)
-            
+
             self.group = group
         }
     }
@@ -119,7 +119,7 @@ extension MIDIEvent {
             )
         )
     }
-    
+
     /// System Exclusive: Universal SysEx (7-bit)
     /// (MIDI 1.0 / 2.0)
     ///
@@ -163,7 +163,7 @@ extension MIDIEvent.UniversalSysEx7 {
     public func midi1RawStatusByte() -> UInt8 {
         0xF0
     }
-    
+
     /// Returns the complete raw MIDI 1.0 message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -182,7 +182,7 @@ extension MIDIEvent.UniversalSysEx7 {
             + data
             + (trailingF7 ? [0xF7] : [])
     }
-    
+
     /// Returns the raw MIDI 2.0 UMP (Universal MIDI Packet) message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -196,7 +196,7 @@ extension MIDIEvent.UniversalSysEx7 {
                 subID2.uInt8Value
             ]
             + data
-    
+
         return MIDIEvent.SysEx7.midi2RawUMPWords(
             fromSysEx7Data: rawData,
             group: group

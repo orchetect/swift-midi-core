@@ -1,6 +1,6 @@
 //
 //  NoteCC PerNoteController.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -10,7 +10,7 @@ extension MIDIEvent.NoteCC {
     public enum PerNoteController {
         /// Registered Per-Note Controller
         case registered(Registered)
-    
+
         /// Assignable Per-Note Controller (Non-Registered)
         case assignable(Assignable)
     }
@@ -21,7 +21,9 @@ extension MIDIEvent.NoteCC.PerNoteController: Equatable { }
 extension MIDIEvent.NoteCC.PerNoteController: Hashable { }
 
 extension MIDIEvent.NoteCC.PerNoteController: Identifiable {
-    public var id: Self { self }
+    public var id: Self {
+        self
+    }
 }
 
 extension MIDIEvent.NoteCC.PerNoteController: Sendable { }
@@ -31,7 +33,7 @@ extension MIDIEvent.NoteCC.PerNoteController: CustomStringConvertible {
         switch self {
         case let .registered(cc):
             "registered(\(cc.number))"
-    
+
         case let .assignable(cc):
             "assignable(\(cc))"
         }
@@ -45,7 +47,7 @@ extension MIDIEvent.NoteCC.PerNoteController {
         switch self {
         case let .registered(cc):
             cc.number
-    
+
         case let .assignable(cc):
             cc
         }

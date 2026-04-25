@@ -1,6 +1,6 @@
 //
 //  Int7.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -10,10 +10,10 @@ import SwiftMIDIInternals
 /// A 7-bit signed integer value type used in SwiftMIDI. (`-64 ... 63`)
 public struct Int7 {
     @usableFromInline static let integerName = "Int7"
-    
+
     @usableFromInline var sixBitStorage: UInt8
     @usableFromInline var isNegative: Bool
-    
+
     /// Initializes from an unsigned integer value, throwing an exception in the event of overflow
     /// or underflow.
     @inlinable
@@ -31,7 +31,7 @@ public struct Int7 {
             fatalError()
         }
     }
-    
+
     /// Initializes from a signed integer value, throwing an exception in the event of overflow or
     /// underflow.
     @inlinable
@@ -58,7 +58,7 @@ public struct Int7 {
             fatalError()
         }
     }
-    
+
     /// Initializes from an unsigned integer value, returning nil if the value cannot be preserved
     /// because it would otherwise overflow or underflow.
     @inlinable
@@ -66,7 +66,7 @@ public struct Int7 {
         guard (-64 ... 63).contains(source) else { return nil }
         self.init(truncatingIfNecessary: source)
     }
-    
+
     /// Initializes from a signed integer value, returning nil if the value cannot be preserved
     /// because it would otherwise overflow or underflow.
     @inlinable
@@ -74,27 +74,27 @@ public struct Int7 {
         guard (-64 ... 63).contains(source) else { return nil }
         self.init(truncatingIfNecessary: source)
     }
-    
+
     @inlinable
     public init(truncatingIfNecessary uint: some UnsignedInteger) {
         sixBitStorage = UInt8(uint & 0b111111)
         isNegative = false
     }
-    
+
     @inlinable
     public init(truncatingIfNecessary int: some SignedInteger) {
         let truncated = Self.literalBits(truncatingIfNecessary: int)
         sixBitStorage = truncated.sixBitStorage
         isNegative = truncated.isNegative
     }
-    
+
     @inlinable
     public init(bitPattern source: some UnsignedInteger) {
         let truncated = Self.literalBits(truncatingIfNecessary: source)
         sixBitStorage = truncated.sixBitStorage
         isNegative = truncated.isNegative
     }
-    
+
     @inlinable
     static func literalBits(
         truncatingIfNecessary int: some BinaryInteger
@@ -106,7 +106,7 @@ public struct Int7 {
             isNegative: isNeg
         )
     }
-    
+
     /// Returns the 7-bit signed integer as a raw `UInt8` byte bit pattern.
     /// The top (8th) bit will always be `0`.
     @inlinable
@@ -115,21 +115,21 @@ public struct Int7 {
             ? sixBitStorage + 0b1000000
             : sixBitStorage
     }
-    
+
     /// Returns the 7-bit signed integer as a raw `UInt7` byte bit pattern.
     @inline(__always)
     public var rawUInt7Byte: UInt7 {
         UInt7(rawByte)
     }
-    
+
     /// Returns the integer as `Int`.
     @inlinable
     public var intValue: Int {
         isNegative
-            ? -Int((~(sixBitStorage) & 0b111111) + 1)
+            ? -Int((~sixBitStorage & 0b111111) + 1)
             : Int(sixBitStorage)
     }
-    
+
     /// Returns the bit pattern as a 7-bit binary string.
     public var binaryString: String {
         "0b" + ("0000000" + String(rawByte, radix: 2)).suffix(7)
@@ -138,12 +138,7 @@ public struct Int7 {
 
 // MARK: - Equatable
 
-extension Int7: Equatable {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.sixBitStorage == rhs.sixBitStorage &&
-            lhs.isNegative == rhs.isNegative
-    }
-}
+extension Int7: Equatable { }
 
 // MARK: - Hashable
 
@@ -165,7 +160,7 @@ extension Int7: Comparable {
 
 extension Int7: ExpressibleByIntegerLiteral {
     public typealias IntegerLiteralType = Int8
-    
+
     @inlinable
     public init(integerLiteral value: IntegerLiteralType) {
         self.init(truncatingIfNecessary: value)

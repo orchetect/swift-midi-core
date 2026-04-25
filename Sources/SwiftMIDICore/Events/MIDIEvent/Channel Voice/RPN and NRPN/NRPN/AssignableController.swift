@@ -1,6 +1,6 @@
 //
 //  AssignableController.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -55,7 +55,7 @@ extension MIDIEvent {
             dataEntryMSB: UInt7?,
             dataEntryLSB: UInt7?
         )
-    
+
         /// Null Function Number.
         ///
         /// The purpose of this event is to communicate the intent to disable data entry, data
@@ -72,29 +72,29 @@ extension MIDIEvent.AssignableController: Sendable { }
 
 extension MIDIEvent.AssignableController: MIDIParameterNumber {
     public static let type: MIDIParameterNumberType = .assignable
-    
+
     @inlinable
     public var parameterBytes: UInt7Pair {
         switch self {
         case let .raw(parameter, _, _):
             parameter
-            
+
         case .null:
             .init(msb: 0x7F, lsb: 0x7F)
         }
     }
-    
+
     @inlinable
     public var dataEntryBytes: (msb: UInt7?, lsb: UInt7?) {
         switch self {
         case let .raw(_, dataEntryMSB, dataEntryLSB):
             (msb: dataEntryMSB, lsb: dataEntryLSB)
-            
+
         case .null:
             (msb: nil, lsb: nil)
         }
     }
-    
+
     /// CC controller numbers used for non-UMP MIDI 1.0 transmission.
     public static let controllers: (
         msb: MIDIEvent.CC.Controller,

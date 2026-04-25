@@ -1,6 +1,6 @@
 //
 //  PThreadMutex.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -18,13 +18,13 @@ import Foundation
 @propertyWrapper
 public final class PThreadMutex<T> /* : @unchecked Sendable where T: Sendable */ {
     nonisolated(unsafe) private var value: T
-    
+
     private let lock = PThreadRWLock()
-    
+
     public init(wrappedValue value: T) {
         self.value = value
     }
-    
+
     public var wrappedValue: T {
         get {
             lock.readLock()
@@ -67,7 +67,7 @@ extension PThreadMutex {
         defer { lock.unlock() }
         return try block(value)
     }
-    
+
     @discardableResult @_disfavoredOverload
     public func withWriteLock<Result, E>(_ block: (inout T) throws(E) -> Result) rethrows -> Result {
         lock.writeLock()
@@ -80,35 +80,35 @@ extension PThreadMutex {
 
 final class PThreadRWLock: @unchecked Sendable {
     private var lock = pthread_rwlock_t()
-    
+
     init() {
         guard pthread_rwlock_init(&lock, nil) == 0 else {
             preconditionFailure("Unable to initialize the lock")
         }
     }
-    
+
     deinit {
         pthread_rwlock_destroy(&lock)
     }
-    
+
     func writeLock() {
         pthread_rwlock_wrlock(&lock)
     }
-    
+
     func readLock() {
         pthread_rwlock_rdlock(&lock)
     }
-    
+
     func unlock() {
         pthread_rwlock_unlock(&lock)
     }
-    
+
     func withReadLock<T, E>(block: () throws(E) -> T) rethrows -> T {
         readLock()
         defer { unlock() }
         return try block()
     }
-    
+
     func withWriteLock<T, E>(block: () throws(E) -> T) rethrows -> T {
         writeLock()
         defer { unlock() }

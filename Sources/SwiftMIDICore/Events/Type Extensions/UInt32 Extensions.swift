@@ -1,6 +1,6 @@
 //
 //  UInt32 Extensions.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -23,8 +23,8 @@ extension UInt32 {
     /// ```
     @_disfavoredOverload
     public init(bipolarUnitInterval: some BinaryFloatingPoint) {
-        let bipolarUnitInterval = bipolarUnitInterval.clamped(to: (-1.0) ... (1.0))
-    
+        let bipolarUnitInterval = bipolarUnitInterval.clamped(to: -1.0 ... 1.0)
+
         if bipolarUnitInterval > 0.0 {
             let scaled = Self(Double(bipolarUnitInterval) * 0x7FFF_FFFF)
             self = 0x8000_0000 + scaled
@@ -33,7 +33,7 @@ extension UInt32 {
             self = 0x8000_0000 - scaled
         }
     }
-    
+
     /// Converts from a bipolar floating-point unit interval (having a 0.0 neutral midpoint).
     ///
     /// - `-1.0 ... 0.0 ... 1.0` equates to:
@@ -50,8 +50,8 @@ extension UInt32 {
     /// ```
     @_disfavoredOverload
     public init(bipolarUnitInterval: Double) {
-        let bipolarUnitInterval = bipolarUnitInterval.clamped(to: (-1.0) ... (1.0))
-    
+        let bipolarUnitInterval = bipolarUnitInterval.clamped(to: -1.0 ... 1.0)
+
         if bipolarUnitInterval > 0.0 {
             let scaled = Self(bipolarUnitInterval * 0x7FFF_FFFF)
             self = 0x8000_0000 + scaled
@@ -60,7 +60,7 @@ extension UInt32 {
             self = 0x8000_0000 - scaled
         }
     }
-    
+
     /// Converts from integer to a bipolar floating-point unit interval (having a 0.0 neutral
     /// midpoint at 0x80000000).
     ///

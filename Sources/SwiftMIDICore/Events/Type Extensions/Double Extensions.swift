@@ -1,6 +1,6 @@
 //
 //  Double Extensions.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -22,7 +22,7 @@ extension Double {
     public init(bipolarUnitInterval: some BinaryFloatingPoint) {
         self = Double((bipolarUnitInterval / 2.0) + 0.5)
     }
-    
+
     /// Converts from a bipolar floating-point unit interval (having a 0.0 neutral midpoint).
     ///
     /// Example:
@@ -38,7 +38,7 @@ extension Double {
     public init(bipolarUnitInterval: Double) {
         self = (bipolarUnitInterval / 2.0) + 0.5
     }
-    
+
     /// Converts from integer to a bipolar floating-point unit interval (having a 0.0 neutral
     /// midpoint).
     @_disfavoredOverload

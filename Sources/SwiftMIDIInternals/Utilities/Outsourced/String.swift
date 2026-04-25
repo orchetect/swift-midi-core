@@ -14,6 +14,7 @@ import Foundation
 
 // ---------------------------------------------
 // MARK: - Extensions/Swift/String.swift
+
 // ---------------------------------------------
 
 extension String {
@@ -26,6 +27,7 @@ extension String {
 
 // -------------------------------------------------------------------
 // MARK: - Extensions/Foundation/String and CharacterSet.swift
+
 // -------------------------------------------------------------------
 
 // MARK: - Character filters
@@ -46,26 +48,26 @@ extension StringProtocol {
         let mergedCharacterSet = characterSets.isEmpty
             ? characterSet
             : characterSets.reduce(into: characterSet) { $0.formUnion($1) }
-    
+
         return unicodeScalars
             .filter { mergedCharacterSet.contains($0) }
             .map { "\($0)" }
             .joined()
     }
-    
+
     /// Returns a string preserving only characters from the passed string and removing all other
     /// characters.
     @_disfavoredOverload
     public func only(characters: String) -> String {
         only(CharacterSet(charactersIn: characters))
     }
-    
+
     /// Returns a string containing only alphanumeric characters and removing all other characters.
     @_disfavoredOverload
     public var onlyAlphanumerics: String {
         only(.alphanumerics)
     }
-    
+
     /// Returns a string removing all characters from the passed `CharacterSet`s.
     ///
     /// Example:
@@ -81,11 +83,11 @@ extension StringProtocol {
         let mergedCharacterSet = characterSets.isEmpty
             ? characterSet
             : characterSets.reduce(into: characterSet) { $0.formUnion($1) }
-    
+
         return components(separatedBy: mergedCharacterSet)
             .joined()
     }
-    
+
     /// Returns a string removing all characters from the passed string.
     @_disfavoredOverload
     public func removing(characters: String) -> String {

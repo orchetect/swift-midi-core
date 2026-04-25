@@ -1,6 +1,6 @@
 //
 //  BytePair.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -8,21 +8,21 @@
 public struct BytePair {
     public let msb: UInt8
     public let lsb: UInt8
-    
+
     /// Initialize from two UInt8 bytes.
     @inline(__always)
     public init(msb: UInt8, lsb: UInt8) {
         self.msb = msb
         self.lsb = lsb
     }
-    
+
     /// Initialize from a UInt16 value.
     @inline(__always)
     public init(_ uInt16: UInt16) {
         msb = UInt8((uInt16 & 0xFF00) >> 8)
-        lsb = UInt8((uInt16 & 0xFF))
+        lsb = UInt8(uInt16 & 0xFF)
     }
-    
+
     /// Returns a UInt16 value by combining the byte pair.
     @inline(__always)
     public var uInt16Value: UInt16 {
@@ -42,7 +42,7 @@ extension UInt16 {
     public init(bytePair: BytePair) {
         self = bytePair.uInt16Value
     }
-    
+
     /// Returns a struct that holds a pair of `UInt8`s - one MSB `UInt8`, one LSB `UInt8`.
     @inline(__always)
     public var bytePair: BytePair {

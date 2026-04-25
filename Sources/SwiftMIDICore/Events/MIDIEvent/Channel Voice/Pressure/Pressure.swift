@@ -1,6 +1,6 @@
 //
 //  Pressure.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -16,13 +16,13 @@ extension MIDIEvent {
         /// Pressure Amount
         @AmountValidated
         public var amount: Amount
-    
+
         /// Channel Number (`0x0 ... 0xF`)
         public var channel: UInt4
-    
+
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-    
+
         public init(
             amount: Amount,
             channel: UInt4,
@@ -33,7 +33,7 @@ extension MIDIEvent {
             self.group = group
         }
     }
-    
+
     /// Channel Voice Message: Channel Pressure (Aftertouch)
     /// (MIDI 1.0 / 2.0)
     ///
@@ -75,12 +75,12 @@ extension MIDIEvent.Pressure {
     public func midi1RawStatusByte() -> UInt8 {
         0xD0 + channel.uInt8Value
     }
-    
+
     /// Returns the raw MIDI 1.0 data bytes for the event (excluding status byte).
     public func midi1RawDataBytes() -> UInt8 {
         amount.midi1Value.uInt8Value
     }
-    
+
     /// Returns the complete raw MIDI 1.0 message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -88,19 +88,19 @@ extension MIDIEvent.Pressure {
     public func midi1RawBytes() -> [UInt8] {
         [midi1RawStatusByte(), midi1RawDataBytes()]
     }
-    
+
     private func umpMessageType(
         protocol midiProtocol: MIDIProtocolVersion
     ) -> MIDIUMPMessageType {
         switch midiProtocol {
         case .midi1_0:
             .midi1ChannelVoice
-    
+
         case .midi2_0:
             .midi2ChannelVoice
         }
     }
-    
+
     /// Returns the raw MIDI 2.0 UMP (Universal MIDI Packet) message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -110,7 +110,7 @@ extension MIDIEvent.Pressure {
     ) -> [UMPWord] {
         let mtAndGroup = (umpMessageType(protocol: midiProtocol).rawValue.uInt8Value << 4) + group
             .uInt8Value
-    
+
         switch midiProtocol {
         case .midi1_0:
             let word = UMPWord(
@@ -119,9 +119,9 @@ extension MIDIEvent.Pressure {
                 midi1RawDataBytes(),
                 0x00
             ) // pad an empty byte to fill 4 bytes
-    
+
             return [word]
-    
+
         case .midi2_0:
             let word1 = UMPWord(
                 mtAndGroup,
@@ -129,9 +129,9 @@ extension MIDIEvent.Pressure {
                 0x00, // reserved
                 0x00
             ) // reserved
-    
+
             let word2 = amount.midi2Value
-    
+
             return [word1, word2]
         }
     }

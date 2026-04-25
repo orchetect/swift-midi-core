@@ -1,6 +1,6 @@
 //
 //  EventHolder.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -8,48 +8,50 @@ import Foundation
 import SwiftMIDIInternals
 
 /// Event Holder.
-final class EventHolder<Event: MIDIParameterNumberEvent, TimeStamp, OutputEndpoint>: @unchecked Sendable
-where TimeStamp: Sendable, OutputEndpoint: Sendable
-{ // @unchecked required for @PThreadMutex use
+final class EventHolder<
+    Event: MIDIParameterNumberEvent,
+    TimeStamp: Sendable,
+    OutputEndpoint: Sendable
+>: @unchecked Sendable { // @unchecked required for @PThreadMutex use
     // MARK: - Options
-    
+
     typealias TimerExpiredHandler = @Sendable (_ storedEvent: ReturnedStoredEvent) -> Void
     let timerExpired: TimerExpiredHandler?
-    
+
     let timeOut: TimeInterval
-    
+
     typealias StoredEventWrapper = @Sendable (Event) -> MIDIEvent
     let storedEventWrapper: StoredEventWrapper
-    
+
     // MARK: - Parser State
-    
+
     @PThreadMutex
     private var expirationTimer: Timer?
-    
+
     @PThreadMutex
     private var expirationTask: /* Task<Void, any Error> */ Any? // can't strongly type as Task because of package back-compat
-    
+
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     private var expirationTaskTyped: Task<Void, any Error>? {
         get { expirationTask as? Task<Void, any Error> }
         set { expirationTask = newValue }
     }
-    
+
     typealias StoredEvent = (
         event: Event,
         timeStamp: TimeStamp,
         source: OutputEndpoint?
     )
-    
+
     @PThreadMutex
     var storedEvent: StoredEvent?
-    
+
     typealias ReturnedStoredEvent = (
         event: MIDIEvent,
         timeStamp: TimeStamp,
         source: OutputEndpoint?
     )
-    
+
     init(
         timeOut: TimeInterval = 0.05,
         storedEventWrapper: @escaping StoredEventWrapper,
@@ -64,7 +66,7 @@ where TimeStamp: Sendable, OutputEndpoint: Sendable
 extension EventHolder {
     func restartTimer() {
         invalidate()
-        
+
         // prefer using Task over Timer.
         // Timer uses old-school runloop which interferes with Swift Concurrency and in some contexts may not work correctly.
         if #available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *) {
@@ -85,24 +87,24 @@ extension EventHolder {
             }
         }
     }
-    
+
     func reset() {
         invalidate()
         storedEvent = nil
     }
-    
+
     func fireStored() {
         if storedEvent != nil {
             callTimerExpired()
         }
         storedEvent = nil
     }
-    
+
     func fireStoredAndReset() {
         invalidate()
         fireStored()
     }
-    
+
     func invalidate() {
         if #available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *) {
             expirationTaskTyped?.cancel()
@@ -111,18 +113,18 @@ extension EventHolder {
             expirationTimer?.invalidate()
         }
     }
-    
+
     func returnStoredAndReset() -> ReturnedStoredEvent? {
         let storedEvent = returnedStoredEvent()
         reset()
         return storedEvent
     }
-    
+
     func callTimerExpired() {
         guard let storedEvent = returnedStoredEvent() else { return }
         timerExpired?(storedEvent)
     }
-    
+
     func returnedStoredEvent() -> ReturnedStoredEvent? {
         guard let storedEvent else { return nil }
         let wrapped = storedEventWrapper(storedEvent.event)

@@ -1,6 +1,6 @@
 //
 //  AssignableController description.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -15,7 +15,7 @@ extension MIDIEvent.AssignableController: CustomStringConvertible {
             let msb = dataEntryMSB != nil ? "\(dataEntryMSB!)" : "nil (0)"
             let lsb = dataEntryLSB != nil ? "\(dataEntryLSB!)" : "nil (0)"
             return "raw(param: \(parameter), dataMSB: \(msb), dataLSB: \(lsb))"
-            
+
         case .null:
             return "null"
         }

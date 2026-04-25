@@ -1,6 +1,6 @@
 //
 //  NoteOff.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -12,20 +12,20 @@ extension MIDIEvent {
         ///
         /// If MIDI 2.0 attribute is set to Pitch 7.9, then this value represents the note index.
         public var note: MIDINote
-    
+
         /// Velocity
         @MIDIEvent.NoteVelocityValidated
         public var velocity: MIDIEvent.NoteVelocity
-    
+
         /// MIDI 2.0 Channel Voice Attribute
         public var attribute: NoteAttribute = .none
-    
+
         /// Channel Number (`0x0 ... 0xF`)
         public var channel: UInt4
-    
+
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-    
+
         /// Channel Voice Message: Note Off
         /// (MIDI 1.0 / 2.0)
         ///
@@ -48,7 +48,7 @@ extension MIDIEvent {
             self.attribute = attribute
             self.group = group
         }
-    
+
         /// Channel Voice Message: Note Off
         /// (MIDI 1.0 / 2.0)
         ///
@@ -107,7 +107,7 @@ extension MIDIEvent {
             )
         )
     }
-    
+
     /// Channel Voice Message: Note Off
     /// (MIDI 1.0 / 2.0)
     ///
@@ -144,12 +144,12 @@ extension MIDIEvent.NoteOff {
     public func midi1RawStatusByte() -> UInt8 {
         0x80 + channel.uInt8Value
     }
-    
+
     /// Returns the raw MIDI 1.0 data bytes for the event (excluding status byte).
     public func midi1RawDataBytes() -> (data1: UInt8, data2: UInt8) {
         (data1: note.number.uInt8Value, data2: velocity.midi1Value.uInt8Value)
     }
-    
+
     /// Returns the complete raw MIDI 1.0 message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -158,19 +158,19 @@ extension MIDIEvent.NoteOff {
         let dataBytes = midi1RawDataBytes()
         return [midi1RawStatusByte(), dataBytes.data1, dataBytes.data2]
     }
-    
+
     private func umpMessageType(
         protocol midiProtocol: MIDIProtocolVersion
     ) -> MIDIUMPMessageType {
         switch midiProtocol {
         case .midi1_0:
             .midi1ChannelVoice
-    
+
         case .midi2_0:
             .midi2ChannelVoice
         }
     }
-    
+
     /// Returns the raw MIDI 2.0 UMP (Universal MIDI Packet) message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -180,7 +180,7 @@ extension MIDIEvent.NoteOff {
     ) -> [UMPWord] {
         let mtAndGroup = (umpMessageType(protocol: midiProtocol).rawValue.uInt8Value << 4) + group
             .uInt8Value
-    
+
         switch midiProtocol {
         case .midi1_0:
             let word = UMPWord(
@@ -189,9 +189,9 @@ extension MIDIEvent.NoteOff {
                 note.number.uInt8Value,
                 velocity.midi1Value.uInt8Value
             )
-    
+
             return [word]
-    
+
         case .midi2_0:
             let word1 = UMPWord(
                 mtAndGroup,
@@ -199,12 +199,12 @@ extension MIDIEvent.NoteOff {
                 note.number.uInt8Value,
                 attribute.attributeType
             )
-    
+
             let word2 = UMPWord(
                 velocity.midi2Value,
                 attribute.attributeData
             )
-    
+
             return [word1, word2]
         }
     }

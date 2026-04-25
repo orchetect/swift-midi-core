@@ -1,22 +1,23 @@
 //
 //  NoOp Tests.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 @testable import SwiftMIDICore
 import Testing
 
-@Suite struct MIDIEventNoOp_Tests {
+@Suite
+struct MIDIEventNoOp_Tests {
     // swiftformat:options --wrapcollections preserve
-    
+
     typealias NoOp = MIDIEvent.NoOp
-    
+
     @Test
     func noOp() {
         for grp: UInt4 in 0x0 ... 0xF {
             let event: MIDIEvent = .noOp(group: grp)
-            
+
             #expect(
                 event.midi2RawUMPWords(protocol: .midi2_0) ==
                     [[

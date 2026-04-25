@@ -1,6 +1,6 @@
 //
 //  UInt8.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -12,10 +12,10 @@ extension UInt8 {
     public var nibbles: (high: UInt4, low: UInt4) {
         let high = (self & 0xF0) >> 4
         let low = self & 0xF
-    
+
         return (high: UInt4(high), low: UInt4(low))
     }
-    
+
     /// Convenience initializer from high and low 4-bit nibbles.
     @_disfavoredOverload @inline(__always)
     public init(high: UInt4, low: UInt4) {

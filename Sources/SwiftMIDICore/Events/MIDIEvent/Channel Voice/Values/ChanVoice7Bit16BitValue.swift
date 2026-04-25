@@ -1,6 +1,6 @@
 //
 //  ChanVoice7Bit16BitValue.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -12,10 +12,10 @@ extension MIDIEvent {
         /// Protocol-agnostic unit interval (`0.0 ... 1.0`)
         /// Scaled automatically depending on MIDI protocol (1.0/2.0) in use.
         case unitInterval(Double)
-    
+
         /// MIDI 1.0 7-bit Channel Voice Value (`0x00 ... 0x7F`)
         case midi1(UInt7)
-    
+
         /// MIDI 2.0 16-bit Channel Voice Value (`0x0000 ... 0xFFFF`)
         case midi2(UInt16)
     }
@@ -28,34 +28,34 @@ extension MIDIEvent.ChanVoice7Bit16BitValue: Equatable {
             switch rhs {
             case let .unitInterval(rhsInterval):
                 lhsInterval == rhsInterval
-    
+
             case let .midi1(rhsUInt7):
                 lhs.midi1Value == rhsUInt7
-    
+
             case let .midi2(rhsUInt16):
                 lhs.midi2Value == rhsUInt16
             }
-    
+
         case let .midi1(lhsUInt7):
             switch rhs {
             case .unitInterval:
                 lhsUInt7 == rhs.midi1Value
-    
+
             case let .midi1(rhsUInt7):
                 lhsUInt7 == rhsUInt7
-    
+
             case let .midi2(rhsUInt16):
                 lhs.midi2Value == rhsUInt16
             }
-    
+
         case let .midi2(lhsUInt16):
             switch rhs {
             case .unitInterval:
                 lhsUInt16 == rhs.midi2Value
-    
+
             case let .midi1(rhsUInt7):
                 lhs.midi1Value == rhsUInt7
-    
+
             case let .midi2(rhsUInt16):
                 lhsUInt16 == rhsUInt16
             }
@@ -93,38 +93,38 @@ extension MIDIEvent.ChanVoice7Bit16BitValue {
         switch self {
         case let .unitInterval(interval):
             interval.clamped(to: 0.0 ... 1.0)
-    
+
         case let .midi1(uInt7):
             MIDIEvent.scaledUnitInterval(from7Bit: uInt7)
-    
+
         case let .midi2(uInt16):
             MIDIEvent.scaledUnitInterval(from16Bit: uInt16)
         }
     }
-    
+
     /// Returns value as a MIDI 1.0 7-bit value, converting if necessary.
     public var midi1Value: UInt7 {
         switch self {
         case let .unitInterval(interval):
             MIDIEvent.scaled7Bit(fromUnitInterval: interval)
-    
+
         case let .midi1(uInt7):
             uInt7
-    
+
         case let .midi2(uInt16):
             MIDIEvent.scaled7Bit(from16Bit: uInt16)
         }
     }
-    
+
     /// Returns value as a MIDI 2.0 16-bit value, converting if necessary.
     public var midi2Value: UInt16 {
         switch self {
         case let .unitInterval(interval):
             MIDIEvent.scaled16Bit(fromUnitInterval: interval)
-    
+
         case let .midi1(uInt7):
             MIDIEvent.scaled16Bit(from7Bit: uInt7)
-    
+
         case let .midi2(uInt16):
             uInt16
         }
@@ -137,9 +137,9 @@ extension MIDIEvent.ChanVoice7Bit16BitValue {
     @propertyWrapper
     public struct Validated {
         public typealias Value = MIDIEvent.ChanVoice7Bit16BitValue
-    
+
         private var value: Value
-    
+
         public var wrappedValue: Value {
             get {
                 value
@@ -148,16 +148,16 @@ extension MIDIEvent.ChanVoice7Bit16BitValue {
                 switch newValue {
                 case let .unitInterval(interval):
                     value = .unitInterval(interval.clamped(to: 0.0 ... 1.0))
-    
+
                 case .midi1:
                     value = newValue
-    
+
                 case .midi2:
                     value = newValue
                 }
             }
         }
-    
+
         public init(wrappedValue: Value) {
             value = wrappedValue
         }

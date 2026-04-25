@@ -1,17 +1,18 @@
 //
 //  UInt32 Extensions Tests.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 import SwiftMIDICore
 import Testing
 
-@Suite struct UInt32Extensions_Tests {
-    private let _min: UInt32      = 0x0000_0000
+@Suite
+struct UInt32Extensions_Tests {
+    private let _min: UInt32 = 0x0000_0000
     private let _midpoint: UInt32 = 0x8000_0000
-    private let _max: UInt32      = 0xFFFF_FFFF
-    
+    private let _max: UInt32 = 0xFFFF_FFFF
+
     @Test
     func initBipolarUnitInterval_Float() {
         #expect(UInt32(bipolarUnitInterval: Float(-1.0)) == UInt32(_min))
@@ -20,16 +21,16 @@ import Testing
         #expect(UInt32(bipolarUnitInterval: Float(0.5)) == UInt32(0xBFFF_FFFF))
         #expect(UInt32(bipolarUnitInterval: Float(1.0)) == UInt32(_max))
     }
-    
+
     @Test
     func initBipolarUnitInterval_Double() {
         #expect(UInt32(bipolarUnitInterval: -1.0) == UInt32(_min))
         #expect(UInt32(bipolarUnitInterval: -0.5) == UInt32(0x4000_0000))
-        #expect(UInt32(bipolarUnitInterval:  0.0) == UInt32(_midpoint))
-        #expect(UInt32(bipolarUnitInterval:  0.5) == UInt32(0xBFFF_FFFF))
-        #expect(UInt32(bipolarUnitInterval:  1.0) == UInt32(_max))
+        #expect(UInt32(bipolarUnitInterval: 0.0) == UInt32(_midpoint))
+        #expect(UInt32(bipolarUnitInterval: 0.5) == UInt32(0xBFFF_FFFF))
+        #expect(UInt32(bipolarUnitInterval: 1.0) == UInt32(_max))
     }
-    
+
     @Test
     func bipolarUnitIntervalValue() {
         #expect(UInt32(_min).bipolarUnitIntervalValue == -1.0)

@@ -1,6 +1,6 @@
 //
 //  PitchBend.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -10,13 +10,13 @@ extension MIDIEvent {
         /// Value
         @ValueValidated
         public var value: Value
-    
+
         /// Channel Number (`0x0 ... 0xF`)
         public var channel: UInt4
-    
+
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-    
+
         public init(
             value: Value,
             channel: UInt4,
@@ -27,7 +27,7 @@ extension MIDIEvent {
             self.group = group
         }
     }
-    
+
     /// Channel Voice Message: Pitch Bend
     ///
     /// - Parameters:
@@ -63,13 +63,13 @@ extension MIDIEvent.PitchBend {
     public func midi1RawStatusByte() -> UInt8 {
         0xE0 + channel.uInt8Value
     }
-    
+
     /// Returns the raw MIDI 1.0 data bytes for the event (excluding status byte).
     public func midi1RawDataBytes() -> (data1: UInt8, data2: UInt8) {
         let bytePair = value.midi1Value.bytePair
         return (data1: bytePair.lsb, data2: bytePair.msb)
     }
-    
+
     /// Returns the complete raw MIDI 1.0 message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -78,19 +78,19 @@ extension MIDIEvent.PitchBend {
         let dataBytes = midi1RawDataBytes()
         return [midi1RawStatusByte(), dataBytes.data1, dataBytes.data2]
     }
-    
+
     private func umpMessageType(
         protocol midiProtocol: MIDIProtocolVersion
     ) -> MIDIUMPMessageType {
         switch midiProtocol {
         case .midi1_0:
             .midi1ChannelVoice
-    
+
         case .midi2_0:
             .midi2ChannelVoice
         }
     }
-    
+
     /// Returns the raw MIDI 2.0 UMP (Universal MIDI Packet) message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -100,20 +100,20 @@ extension MIDIEvent.PitchBend {
     ) -> [UMPWord] {
         let mtAndGroup = (umpMessageType(protocol: midiProtocol).rawValue.uInt8Value << 4) + group
             .uInt8Value
-    
+
         switch midiProtocol {
         case .midi1_0:
             let bytePair = value.midi1Value.bytePair
-    
+
             let word = UMPWord(
                 mtAndGroup,
                 midi1RawStatusByte(),
                 bytePair.lsb,
                 bytePair.msb
             )
-    
+
             return [word]
-    
+
         case .midi2_0:
             let word1 = UMPWord(
                 mtAndGroup,
@@ -121,9 +121,9 @@ extension MIDIEvent.PitchBend {
                 0x00, // reserved
                 0x00
             ) // reserved
-    
+
             let word2 = value.midi2Value
-    
+
             return [word1, word2]
         }
     }

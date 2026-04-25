@@ -1,6 +1,6 @@
 //
 //  CC.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -10,17 +10,17 @@ extension MIDIEvent {
     public struct CC {
         /// Controller
         public var controller: Controller
-    
+
         /// Value
         @ValueValidated
         public var value: Value
-    
+
         /// Channel Number (`0x0 ... 0xF`)
         public var channel: UInt4
-    
+
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-    
+
         /// Channel Voice Message: Control Change (CC)
         /// (MIDI 1.0 / 2.0)
         ///
@@ -40,7 +40,7 @@ extension MIDIEvent {
             self.channel = channel
             self.group = group
         }
-    
+
         /// Channel Voice Message: Control Change (CC)
         /// (MIDI 1.0 / 2.0)
         ///
@@ -93,7 +93,7 @@ extension MIDIEvent {
             )
         )
     }
-    
+
     /// Channel Voice Message: Control Change (CC)
     /// (MIDI 1.0 / 2.0)
     ///
@@ -127,12 +127,12 @@ extension MIDIEvent.CC {
     public func midi1RawStatusByte() -> UInt8 {
         0xB0 + channel.uInt8Value
     }
-    
+
     /// Returns the raw MIDI 1.0 data bytes for the event (excluding status byte).
     public func midi1RawDataBytes() -> (data1: UInt8, data2: UInt8) {
         (data1: controller.number.uInt8Value, data2: value.midi1Value.uInt8Value)
     }
-    
+
     /// Returns the complete raw MIDI 1.0 message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -141,19 +141,19 @@ extension MIDIEvent.CC {
         let dataBytes = midi1RawDataBytes()
         return [midi1RawStatusByte(), dataBytes.data1, dataBytes.data2]
     }
-    
+
     private func umpMessageType(
         protocol midiProtocol: MIDIProtocolVersion
     ) -> MIDIUMPMessageType {
         switch midiProtocol {
         case .midi1_0:
             .midi1ChannelVoice
-    
+
         case .midi2_0:
             .midi2ChannelVoice
         }
     }
-    
+
     /// Returns the raw MIDI 2.0 UMP (Universal MIDI Packet) message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -163,7 +163,7 @@ extension MIDIEvent.CC {
     ) -> [UMPWord] {
         let mtAndGroup = (umpMessageType(protocol: midiProtocol).rawValue.uInt8Value << 4) + group
             .uInt8Value
-    
+
         switch midiProtocol {
         case .midi1_0:
             let word = UMPWord(
@@ -172,9 +172,9 @@ extension MIDIEvent.CC {
                 controller.number.uInt8Value,
                 value.midi1Value.uInt8Value
             )
-    
+
             return [word]
-    
+
         case .midi2_0:
             let word1 = UMPWord(
                 mtAndGroup,
@@ -182,9 +182,9 @@ extension MIDIEvent.CC {
                 controller.number.uInt8Value,
                 0x00
             ) // reserved
-    
+
             let word2 = value.midi2Value
-    
+
             return [word1, word2]
         }
     }

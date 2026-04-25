@@ -1,6 +1,6 @@
 //
 //  SysEx7.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -22,13 +22,13 @@ extension MIDIEvent {
     public struct SysEx7 {
         /// SysEx Manufacturer ID
         public var manufacturer: SysExManufacturer
-        
+
         /// Data bytes (7-bit) (excluding leading 0xF0, trailing 0xF7 and manufacturer bytes)
         public var data: [UInt8]
-        
+
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-        
+
         /// - Throws: ``MIDIEvent/ParseError`` if any data bytes overflow 7 bits.
         public init(
             manufacturer: MIDIEvent.SysExManufacturer,
@@ -36,17 +36,17 @@ extension MIDIEvent {
             group: UInt4 = 0x0
         ) throws(ParseError) {
             self.manufacturer = manufacturer
-            
+
             // data must all be 7-bit bytes,
             // but we make the array [UInt8] instead of [UInt7] to reduce friction
             guard data.allSatisfy({ $0 < 0x80 }) else {
                 throw ParseError.malformed
             }
             self.data = data
-            
+
             self.group = group
         }
-        
+
         @_disfavoredOverload
         public init(
             manufacturer: MIDIEvent.SysExManufacturer,
@@ -55,7 +55,7 @@ extension MIDIEvent {
         ) {
             self.manufacturer = manufacturer
             self.data = data.map(\.uInt8Value)
-            
+
             self.group = group
         }
     }
@@ -102,7 +102,7 @@ extension MIDIEvent {
             )
         )
     }
-    
+
     /// System Exclusive: Manufacturer-specific (7-bit)
     /// (MIDI 1.0 / 2.0)
     ///
@@ -154,7 +154,7 @@ extension MIDIEvent.SysEx7 {
             leadingF0: leadingF0,
             trailingF7: trailingF7
         )
-    
+
         if let separator {
             return bytes.hexString(padEachTo: 2, prefixes: false, separator: separator)
         } else {
@@ -171,7 +171,7 @@ extension MIDIEvent.SysEx7 {
     public func midi1RawStatusByte() -> UInt8 {
         0xF0
     }
-    
+
     /// Returns the complete raw MIDI 1.0 message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -185,7 +185,7 @@ extension MIDIEvent.SysEx7 {
             + data
             + (trailingF7 ? [0xF7] : [])
     }
-    
+
     /// Returns the raw MIDI 2.0 UMP (Universal MIDI Packet) message bytes that comprise the event.
     ///
     /// Generates one or more 64-bit UMP packets depending on the system exclusive data length (each
@@ -195,7 +195,7 @@ extension MIDIEvent.SysEx7 {
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
     public func midi2RawUMPWords() -> [[UMPWord]] {
         let rawData = manufacturer.sysEx7RawBytes() + data
-    
+
         return Self.midi2RawUMPWords(
             fromSysEx7Data: rawData,
             group: group
@@ -212,21 +212,23 @@ extension MIDIEvent.SysEx7 {
         group: UInt4
     ) -> [[UMPWord]] {
         let maxDataBytesPerPacket = 6
-    
+
         let umpMessageType: MIDIUMPMessageType = .data64bit
-    
+
         let mtAndGroup = (umpMessageType.rawValue.uInt8Value << 4) + group.uInt8Value
-    
+
         func rawDataOrNull(_ offset: Int) -> UInt8 {
             guard data.count > offset else { return 0x00 }
             return data[data.startIndex.advanced(by: offset)]
         }
-    
-        var rawDataByteCountRemaining: Int { data.count - rawDataPosition }
-    
+
+        var rawDataByteCountRemaining: Int {
+            data.count - rawDataPosition
+        }
+
         var rawDataPosition = 0
         var packets: [[UMPWord]] = []
-    
+
         while rawDataPosition < data.count {
             let status: MIDIUMPSysExStatusField
             switch rawDataPosition {
@@ -238,29 +240,29 @@ extension MIDIEvent.SysEx7 {
                 assertionFailure("Unexpected raw data position index.")
                 return []
             }
-    
+
             let statusByte = status.rawValue.uInt8Value << 4
-    
+
             let packetDataBytes = rawDataByteCountRemaining.clamped(to: 0 ... maxDataBytesPerPacket)
-    
+
             let word1 = UMPWord(
                 mtAndGroup,
                 statusByte + UInt8(packetDataBytes),
                 rawDataOrNull(rawDataPosition + 0),
                 rawDataOrNull(rawDataPosition + 1)
             )
-    
+
             let word2 = UMPWord(
                 rawDataOrNull(rawDataPosition + 2),
                 rawDataOrNull(rawDataPosition + 3),
                 rawDataOrNull(rawDataPosition + 4),
                 rawDataOrNull(rawDataPosition + 5)
             )
-    
+
             packets.append([word1, word2])
             rawDataPosition += packetDataBytes
         }
-    
+
         return packets
     }
 }

@@ -1,6 +1,6 @@
 //
 //  NoteAttribute.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -14,19 +14,19 @@ extension MIDIEvent {
         /// When sending, Attribute Value will be `0x0000` and receiver should ignore Attribute
         /// Value.
         case none
-    
+
         /// Manufacturer Specific:
         /// Interpretation of Attribute Data is determined by manufacturer.
         case manufacturerSpecific(data: UInt16)
-    
+
         /// Profile Specific:
         /// Interpretation of Attribute Data is determined by MIDI-CI Profile in use.
         case profileSpecific(data: UInt16)
-    
+
         /// Pitch 7.9:
         /// A Q7.9 fixed-point unsigned integer that specifies a pitch in semitones.
         case pitch7_9(Pitch7_9)
-    
+
         /// Undefined (`0x04 ... 0xFF`)
         ///
         /// > MIDI 2.0 Spec:
@@ -62,21 +62,21 @@ extension MIDIEvent.NoteAttribute {
         switch type {
         case 0x00:
             self = .none
-    
+
         case 0x01:
             self = .manufacturerSpecific(data: data)
-    
+
         case 0x02:
             self = .profileSpecific(data: data)
-    
+
         case 0x03:
             self = .pitch7_9(.init(data))
-    
+
         default:
             self = .undefined(attributeType: type, data: data)
         }
     }
-    
+
     /// Pitch 7.9 Note Attribute
     /// (MIDI 2.0)
     ///
@@ -101,16 +101,16 @@ extension MIDIEvent.NoteAttribute: CustomStringConvertible {
         switch self {
         case .none:
             return "none"
-    
+
         case let .manufacturerSpecific(data):
             return "manufacturerSpecific(\(data))"
-    
+
         case let .profileSpecific(data):
             return "profileSpecific(\(data))"
-    
+
         case let .pitch7_9(p79):
             return "\(p79)"
-    
+
         case let .undefined(attributeType: attributeType, data):
             let attrString = attributeType.hexString(padTo: 2, prefix: true)
             let dataString = data.hexString(padTo: 4, prefix: true)
@@ -126,37 +126,37 @@ extension MIDIEvent.NoteAttribute {
         switch self {
         case .none:
             0x00
-    
+
         case .manufacturerSpecific:
             0x01
-    
+
         case .profileSpecific:
             0x02
-    
+
         case .pitch7_9:
             0x03
-    
+
         case .undefined(attributeType: let attributeType, data: _):
             attributeType
         }
     }
-    
+
     /// Attribute Data
     @inlinable
     public var attributeData: UInt16 {
         switch self {
         case .none:
             0x0000
-    
+
         case let .manufacturerSpecific(data):
             data
-    
+
         case let .profileSpecific(data):
             data
-    
+
         case let .pitch7_9(pitch):
             pitch.uInt16Value
-    
+
         case .undefined(attributeType: _, data: let data):
             data
         }

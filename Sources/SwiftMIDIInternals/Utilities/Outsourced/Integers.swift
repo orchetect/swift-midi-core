@@ -17,8 +17,10 @@ extension BinaryInteger {
     /// Same as `String(describing: self)`
     /// (Functional convenience method)
     @_disfavoredOverload
-    public var string: String { String(describing: self) }
-    
+    public var string: String {
+        String(describing: self)
+    }
+
     /// Convenience method to return a String, padded to `paddedTo` number of leading zeros
     @_disfavoredOverload
     public func string(paddedTo: Int) -> String {

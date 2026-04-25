@@ -1,6 +1,6 @@
 //
 //  MIDI2ParameterNumberChange.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -43,7 +43,7 @@ extension MIDI2ParameterNumberChange {
     func umpStatusNibble(for type: MIDIParameterNumberType) -> UInt4 {
         MIDIParameterNumberUtils.umpStatusNibble(type: type, change: self)
     }
-    
+
     init?(umpStatusNibble: UInt4) {
         guard let types = MIDIParameterNumberUtils.typeAndChange(
             fromUMPStatusNibble: umpStatusNibble

@@ -1,6 +1,6 @@
 //
 //  UInt14.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -19,7 +19,7 @@ public struct UInt14: MIDIUnsignedInteger, _MIDIUnsignedInteger {
 
 extension UInt14 {
     @usableFromInline static let integerName: StaticString = "UInt14"
-    
+
     @inline(__always)
     init(unchecked value: Storage) {
         storage = value
@@ -31,7 +31,7 @@ extension UInt14 {
 extension UInt14 {
     public typealias Magnitude = Storage.Magnitude
     public typealias Words = Storage.Words
-    
+
     public static let bitWidth: Int = 14
 }
 
@@ -43,7 +43,7 @@ extension BinaryInteger {
     public var toUInt14: UInt14 {
         UInt14(self)
     }
-    
+
     /// Convenience initializer for `UInt14(exactly:)`.
     @inline(__always)
     public var toUInt14Exactly: UInt14? {
@@ -57,7 +57,7 @@ extension BinaryFloatingPoint {
     public var toUInt14: UInt14 {
         UInt14(self)
     }
-    
+
     /// Convenience initializer for `UInt14(exactly:)`.
     @inline(__always)
     public var toUInt14Exactly: UInt14? {
@@ -72,10 +72,12 @@ extension UInt14 {
     // 0b1000000_0000000, int 8192, hex 0x2000
     /// Neutral midpoint.
     public static let midpoint = Self(Self.midpoint(as: Storage.self))
-    static func midpoint<T: BinaryInteger>(as ofType: T.Type) -> T { 8192 }
-    
+    static func midpoint<T: BinaryInteger>(as ofType: T.Type) -> T {
+        8192
+    }
+
     // MARK: - Inits
-    
+
     /// Converts from a bipolar floating-point unit interval (having a 0.0 neutral midpoint)
     /// (`-1.0 ... 0.0 ... 1.0` == `0 ... 8192 ... 16383`).
     ///
@@ -87,15 +89,15 @@ extension UInt14 {
     ///     init(bipolarUnitInterval:  0.5) == 12287
     ///     init(bipolarUnitInterval:  1.0) == 16383 == .max
     public init(bipolarUnitInterval: some BinaryFloatingPoint) {
-        let bipolarUnitInterval = bipolarUnitInterval.clamped(to: (-1.0) ... (1.0))
-    
+        let bipolarUnitInterval = bipolarUnitInterval.clamped(to: -1.0 ... 1.0)
+
         if bipolarUnitInterval > 0.0 {
             storage = 8192 + Storage(bipolarUnitInterval * 8191)
         } else {
             storage = 8192 - Storage(abs(bipolarUnitInterval) * 8192)
         }
     }
-    
+
     /// Initialize the raw 14-bit value from two 7-bit value bytes.
     /// The top bit of each byte (`0b1000_0000`) will be truncated (set to 0).
     @inlinable
@@ -104,7 +106,7 @@ extension UInt14 {
         let lsb = Storage(bytePair.lsb & 0b1111111)
         storage = msb + lsb
     }
-    
+
     /// Initialize the raw 14-bit value from two 7-bit value bytes.
     @inlinable
     public init(uInt7Pair: UInt7Pair) {
@@ -112,13 +114,15 @@ extension UInt14 {
         let lsb = Storage(uInt7Pair.lsb.storage)
         storage = msb + lsb
     }
-    
+
     // MARK: - Computed properties
-    
+
     /// Returns the integer as a `UInt16` instance.
     @inline(__always)
-    public var uInt16Value: UInt16 { storage }
-    
+    public var uInt16Value: UInt16 {
+        storage
+    }
+
     /// Converts from integer to a bipolar floating-point unit interval (having a 0.0 neutral
     /// midpoint at 8192).
     /// (`0 ... 8192 ... 16383` == `-1.0 ... 0.0 ... 1.0`)
@@ -131,7 +135,7 @@ extension UInt14 {
             (Double(storage) - 8192) / 8192
         }
     }
-    
+
     /// Returns the raw 14-bit value as two 7-bit value bytes.
     @inlinable
     public var bytePair: BytePair {
@@ -139,7 +143,7 @@ extension UInt14 {
         let lsb = storage & 0b1111111
         return BytePair(msb: UInt8(msb), lsb: UInt8(lsb))
     }
-    
+
     /// Returns the raw 14-bit value as two 7-bit value bytes.
     public var midiUInt7Pair: UInt7Pair {
         let msb = (storage & 0b111111_10000000) >> 7
@@ -150,15 +154,12 @@ extension UInt14 {
 
 // ----------------------------------------
 // MARK: - Common Conformances Across UInts
+
 // ----------------------------------------
 
 // MARK: - Equatable
 
-extension UInt14: Equatable {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.storage == rhs.storage
-    }
-}
+extension UInt14: Equatable { }
 
 // MARK: - Comparable
 
@@ -187,7 +188,7 @@ extension UInt14: Codable {
         var e = encoder.singleValueContainer()
         try e.encode(storage)
     }
-    
+
     public init(from decoder: Decoder) throws {
         let d = try decoder.singleValueContainer()
         let decoded = try d.decode(Storage.self)
@@ -220,14 +221,19 @@ extension UInt14: CustomDebugStringConvertible {
 // MARK: - _MIDIUnsignedInteger Default Implementation
 
 extension UInt14 {
-    static func min<T: BinaryInteger>(as ofType: T.Type) -> T { 0 }
-    static func min<T: BinaryFloatingPoint>(as ofType: T.Type) -> T { 0 }
-    
+    static func min<T: BinaryInteger>(as ofType: T.Type) -> T {
+        0
+    }
+
+    static func min<T: BinaryFloatingPoint>(as ofType: T.Type) -> T {
+        0
+    }
+
     static func max<T: BinaryInteger>(as ofType: T.Type) -> T {
         (0 ..< bitWidth)
             .reduce(into: T()) { $0 |= (0b1 << $1) }
     }
-    
+
     static func max<T: BinaryFloatingPoint>(as ofType: T.Type) -> T {
         T(max(as: Int.self))
     }
@@ -238,22 +244,28 @@ extension UInt14 {
 extension UInt14 {
     /// Returns the integer converted to an `Int` instance (convenience).
     @inline(__always)
-    public var intValue: Int { Int(storage) }
+    public var intValue: Int {
+        Int(storage)
+    }
 }
 
 // MARK: - FixedWidthInteger
 
 // doesn't fully conform to FixedWidthInteger, as it's a bit overkill for our needs in SwiftMIDI
 extension UInt14 /* : FixedWidthInteger */ {
-    public static var min: Self { Self(Self.min(as: Storage.self)) }
-    
-    public static var max: Self { Self(Self.max(as: Storage.self)) }
-    
+    public static var min: Self {
+        Self(Self.min(as: Storage.self))
+    }
+
+    public static var max: Self {
+        Self(Self.max(as: Storage.self))
+    }
+
     // this would be synthesized if MIDIUnsignedInteger conformed to FixedWidthInteger
     public static func >>= (lhs: inout Self, rhs: some BinaryInteger) {
         lhs.storage >>= rhs
     }
-    
+
     // this would be synthesized if MIDIUnsignedInteger conformed to FixedWidthInteger
     public static func <<= (lhs: inout Self, rhs: some BinaryInteger) {
         lhs.storage <<= rhs
@@ -265,12 +277,12 @@ extension UInt14 /* : FixedWidthInteger */ {
 extension UInt14: Numeric {
     // Magnitude is already expressed as same-type constraint on MIDIUnsignedInteger
     // public typealias Magnitude = Storage.Magnitude
-    
+
     @inlinable
     public var magnitude: Storage.Magnitude {
         storage.magnitude
     }
-    
+
     @inline(__always)
     public init?(exactly source: some BinaryInteger) {
         if source < Self.min(as: Storage.self) ||
@@ -280,11 +292,11 @@ extension UInt14: Numeric {
         }
         self.init(unchecked: Storage(source))
     }
-    
+
     public static func * (lhs: Self, rhs: Self) -> Self {
         Self(lhs.storage * rhs.storage)
     }
-    
+
     public static func *= (lhs: inout Self, rhs: Self) {
         lhs = Self(lhs.storage * rhs.storage)
     }
@@ -295,18 +307,18 @@ extension UInt14: Numeric {
 extension UInt14: AdditiveArithmetic {
     // synthesized by AdditiveArithmetic
     // static let zero
-    
+
     public static func + (lhs: Self, rhs: Self) -> Self {
         Self(lhs.storage + rhs.storage)
     }
-    
+
     // synthesized by AdditiveArithmetic
     // += operator
-    
+
     public static func - (lhs: Self, rhs: Self) -> Self {
         Self(lhs.storage - rhs.storage)
     }
-    
+
     // synthesized by AdditiveArithmetic
     // -= operator
 }
@@ -316,56 +328,58 @@ extension UInt14: AdditiveArithmetic {
 extension UInt14: BinaryInteger {
     // Words is already expressed as same-type constraint on MIDIUnsignedInteger
     // public typealias Words = Storage.Words
-    
+
     public var words: Storage.Words {
         storage.words
     }
-    
+
     // synthesized?
     // public static var isSigned: Bool { false }
-    
-    public var bitWidth: Int { Self.bitWidth }
-    
+
+    public var bitWidth: Int {
+        Self.bitWidth
+    }
+
     public var trailingZeroBitCount: Int {
         storage.trailingZeroBitCount - (storage.bitWidth - Self.bitWidth)
     }
-    
+
     public static func / (lhs: Self, rhs: Self) -> Self {
         Self(lhs.storage / rhs.storage)
     }
-    
+
     public static func /= (lhs: inout Self, rhs: Self) {
         lhs = Self(lhs.storage / rhs.storage)
     }
-    
+
     public static func % (lhs: Self, rhs: Self) -> Self {
         Self(lhs.storage % rhs.storage)
     }
-    
+
     public static func << (lhs: Self, rhs: some BinaryInteger) -> Self {
         Self(lhs.storage << rhs)
     }
-    
+
     public static func >> (lhs: Self, rhs: some BinaryInteger) -> Self {
         Self(lhs.storage >> rhs)
     }
-    
+
     public static func %= (lhs: inout Self, rhs: Self) {
         lhs.storage %= rhs.storage
     }
-    
+
     public static func &= (lhs: inout Self, rhs: Self) {
         lhs.storage &= rhs.storage
     }
-    
+
     public static func |= (lhs: inout Self, rhs: Self) {
         lhs.storage |= rhs.storage
     }
-    
+
     public static func ^= (lhs: inout Self, rhs: Self) {
         lhs.storage ^= rhs.storage
     }
-    
+
     public static prefix func ~ (x: Self) -> Self {
         // mask to bit width
         Self(unchecked: ~x.storage & Self.max(as: Self.self).storage)

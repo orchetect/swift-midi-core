@@ -1,6 +1,6 @@
 //
 //  MIDIParameterNumber.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -11,13 +11,13 @@ import Foundation
 public protocol MIDIParameterNumber: Sendable {
     /// The parameter number type.
     static var type: MIDIParameterNumberType { get }
-    
+
     /// Returns the parameter number byte pair.
     var parameterBytes: UInt7Pair { get }
-    
+
     /// Returns the data entry bytes, if present.
     var dataEntryBytes: (msb: UInt7?, lsb: UInt7?) { get }
-    
+
     /// Controllers used for MSB and LSB CC messages.
     static var controllers: (msb: MIDIEvent.CC.Controller, lsb: MIDIEvent.CC.Controller) { get }
 }
@@ -42,9 +42,9 @@ extension MIDIParameterNumber {
                 group: group
             )
         ]
-        
+
         let dataEntryBytes = dataEntryBytes
-        
+
         if let dataEntryMSB = dataEntryBytes.msb {
             rpnEvents.append(.cc(
                 .dataEntry,
@@ -53,7 +53,7 @@ extension MIDIParameterNumber {
                 group: group
             ))
         }
-        
+
         if let dataEntryLSB = dataEntryBytes.lsb {
             rpnEvents.append(.cc(
                 .lsb(for: .dataEntry),
@@ -62,7 +62,7 @@ extension MIDIParameterNumber {
                 group: group
             ))
         }
-        
+
         return rpnEvents
     }
 }
@@ -82,19 +82,19 @@ extension MIDIParameterNumber {
                 .joined()
         )
     }
-    
+
     private func umpMessageType(
         protocol midiProtocol: MIDIProtocolVersion
     ) -> MIDIUMPMessageType {
         switch midiProtocol {
         case .midi1_0:
             .midi1ChannelVoice
-            
+
         case .midi2_0:
             .midi2ChannelVoice
         }
     }
-    
+
     /// Returns the raw MIDI 2.0 UMP (Universal MIDI Packet) message bytes that comprise the event.
     /// May return 1 or more packets which is why this method returns an array of word arrays.
     /// Each inner array contains words for one packet.
@@ -109,7 +109,7 @@ extension MIDIParameterNumber {
     ) -> [[UMPWord]] {
         let mtAndGroup = (umpMessageType(protocol: midiProtocol).rawValue.uInt8Value << 4) + group
             .uInt8Value
-        
+
         switch midiProtocol {
         case .midi1_0:
             // UMP has no MIDI 1.0 RPN/NRPN message, so we send all the CC messages individually.
@@ -119,7 +119,7 @@ extension MIDIParameterNumber {
                     .map { $0.midi2RawUMPWords(protocol: midiProtocol) }
                     .joined()
             )
-            
+
         case .midi2_0:
             // UMP has a dedicated MIDI 2.0 RPN/NRPN message
             let statusNibble = Self.type.umpStatusNibble(for: change).uInt8Value << 4
@@ -130,7 +130,7 @@ extension MIDIParameterNumber {
                 paramPair.msb.uInt8Value,
                 paramPair.lsb.uInt8Value
             ) // reserved
-            
+
             // MIDI 2.0 RPN/NRPN UMP upscales 14-bit data value to 32-bit
             let dataBytes = UInt7Pair(
                 msb: dataEntryBytes.msb ?? 0x00,
@@ -140,7 +140,7 @@ extension MIDIParameterNumber {
                 .midi1(UInt14(uInt7Pair: dataBytes))
                 .midi2Value
             let word2 = upscaledData
-            
+
             // only need to return one packet containing 2 words
             let ump = [word1, word2]
             return [ump]

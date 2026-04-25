@@ -1,20 +1,21 @@
 //
 //  NoteOff Tests.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 @testable import SwiftMIDICore
 import Testing
 
-@Suite struct MIDIEvent_NoteOff_Tests {
+@Suite
+struct MIDIEvent_NoteOff_Tests {
     // swiftformat:options --wrapcollections preserve
     // swiftformat:disable spaceInsideParens spaceInsideBrackets
-    
+
     typealias NoteOff = MIDIEvent.NoteOff
-    
+
     // MARK: - Standard Note tests
-    
+
     @Test
     func midi1() {
         for noteNum: UInt7 in 0 ... 127 {
@@ -24,14 +25,14 @@ import Testing
                 attribute: .none,
                 channel: 0x1
             )
-            
+
             #expect(
                 cc.midi1RawBytes() ==
                     [0x81, noteNum.uInt8Value, 64]
             )
         }
     }
-    
+
     @Test
     func ump_MIDI1_0() {
         for noteNum: UInt7 in 0 ... 127 {
@@ -42,7 +43,7 @@ import Testing
                 channel: 0x1,
                 group: 0x9
             )
-            
+
             #expect(
                 cc.midi2RawUMPWords(protocol: .midi1_0) ==
                     [[
@@ -56,7 +57,7 @@ import Testing
             )
         }
     }
-    
+
     @Test
     func ump_MIDI2_0() {
         for noteNum: UInt7 in 0 ... 127 {
@@ -67,7 +68,7 @@ import Testing
                 channel: 0x1,
                 group: 0x9
             )
-            
+
             #expect(
                 cc.midi2RawUMPWords(protocol: .midi2_0) ==
                     [[
@@ -87,7 +88,7 @@ import Testing
             )
         }
     }
-    
+
     @Test
     func ump_MIDI2_0_WithAttribute() {
         for noteNum: UInt7 in 0 ... 127 {
@@ -101,7 +102,7 @@ import Testing
                 channel: 0x1,
                 group: 0x9
             )
-            
+
             #expect(
                 cc.midi2RawUMPWords(protocol: .midi2_0) ==
                     [[

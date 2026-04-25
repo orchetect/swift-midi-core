@@ -1,6 +1,6 @@
 //
 //  NRPN.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -9,7 +9,7 @@ extension MIDIEvent {
     // - below in this file to static init(s)
     // - MIDIEvent.AssignableController
     // - MIDIEvent enum case
-    
+
     /// Channel Voice Message: NRPN (Non-Registered Parameter Number),
     /// also referred to as Assignable Controller in MIDI 2.0.
     /// (MIDI 1.0 / MIDI 2.0)
@@ -57,18 +57,18 @@ extension MIDIEvent {
     public struct NRPN {
         /// Non-Registered Parameter Number (Assignable Controller).
         public var parameter: AssignableController
-        
+
         /// MIDI 2.0 Parameter Number value type.
         /// Determines whether the value is absolute or a relative change.
         /// (MIDI 1.0 will always be absolute and this property is ignored.)
         public var change: MIDI2ParameterNumberChange
-        
+
         /// Channel Number (`0x0 ... 0xF`)
         public var channel: UInt4
-        
+
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-        
+
         public init(
             _ parameter: AssignableController,
             change: MIDI2ParameterNumberChange = .absolute,
@@ -93,7 +93,7 @@ extension MIDIEvent.NRPN: MIDIParameterNumberEvent { }
 
 extension MIDIEvent {
     // note: this comment block should be duplicated to the places noted at the top of this file
-    
+
     /// Channel Voice Message: NRPN (Non-Registered Parameter Number),
     /// also referred to as Assignable Controller in MIDI 2.0.
     /// (MIDI 1.0 / MIDI 2.0)
@@ -154,9 +154,9 @@ extension MIDIEvent {
             )
         )
     }
-    
+
     // note: this comment block should be duplicated to the places noted at the top of this file
-    
+
     /// Channel Voice Message: NRPN (Non-Registered Parameter Number),
     /// also referred to as Assignable Controller in MIDI 2.0.
     /// (MIDI 1.0 / MIDI 2.0)
@@ -217,9 +217,9 @@ extension MIDIEvent {
             group: group
         )
     }
-    
+
     // note: this comment block should be duplicated to the places noted at the top of this file
-    
+
     /// Channel Voice Message: NRPN (Non-Registered Parameter Number),
     /// also referred to as Assignable Controller in MIDI 2.0.
     /// (MIDI 1.0 / MIDI 2.0)
@@ -282,9 +282,9 @@ extension MIDIEvent {
             group: group
         )
     }
-    
+
     // note: this comment block should be duplicated to the places noted at the top of this file
-    
+
     /// Channel Voice Message: NRPN (Non-Registered Parameter Number),
     /// also referred to as Assignable Controller in MIDI 2.0.
     /// (MIDI 1.0 / MIDI 2.0)
@@ -348,7 +348,7 @@ extension MIDIEvent {
             group: group
         )
     }
-    
+
     /// Assembles a MIDI 1.0 NRPN compound message, consisting of multiple CC events.
     ///
     /// This is provided for legacy support. It is recommended to use
@@ -374,7 +374,7 @@ extension MIDIEvent.NRPN {
     public func midi1RawBytes() -> [UInt8] {
         parameter.midi1RawBytes(channel: channel, group: group)
     }
-    
+
     /// Returns the raw MIDI 2.0 UMP (Universal MIDI Packet) message bytes that comprise the event.
     /// May return 1 or more packets which is why this method returns an array of word arrays.
     /// Each inner array contains words for one packet.

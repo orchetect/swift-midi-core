@@ -1,6 +1,6 @@
 //
 //  PThreadMutexValue.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -17,13 +17,13 @@ import Foundation
 @_documentation(visibility: internal)
 public struct PThreadMutexValue<T> {
     nonisolated(unsafe) private var storage: T
-    
+
     private let lock = PThreadRWLock()
-    
+
     public init(_ value: T) {
-        self.storage = value
+        storage = value
     }
-    
+
     public var value: T {
         get {
             lock.readLock()
@@ -66,7 +66,7 @@ extension PThreadMutexValue {
         defer { lock.unlock() }
         return try block(storage)
     }
-    
+
     @discardableResult @_disfavoredOverload
     public mutating func withWriteLock<Result, E>(_ block: (inout T) throws(E) -> Result) rethrows -> Result {
         lock.writeLock()

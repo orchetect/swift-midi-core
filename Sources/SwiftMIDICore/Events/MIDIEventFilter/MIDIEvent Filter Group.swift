@@ -1,6 +1,6 @@
 //
 //  MIDIEvent Filter Group.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -11,7 +11,7 @@ extension Collection<MIDIEvent> {
     public func filter(group: UInt4) -> [Element] {
         filter { $0.group == group }
     }
-    
+
     /// Filter events by UMP groups.
     public func filter(groups: [UInt4]) -> [Element] {
         filter { groups.contains($0.group) }
@@ -25,7 +25,7 @@ extension Collection<MIDIEvent> {
     public func drop(group: UInt4) -> [Element] {
         filter { $0.group != group }
     }
-    
+
     /// Drop all events with any of the specified UMP groups.
     public func drop(groups: [UInt4]) -> [Element] {
         filter { !groups.contains($0.group) }

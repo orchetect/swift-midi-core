@@ -1,6 +1,6 @@
 //
 //  SysExID.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -22,7 +22,7 @@ extension MIDIEvent.SysExID: CustomStringConvertible {
         switch self {
         case let .universal(universalType):
             "universal(\(universalType))"
-    
+
         case let .manufacturer(mfr):
             "manufacturer(\(mfr))"
         }
@@ -37,23 +37,23 @@ extension MIDIEvent.SysExID {
             self = .manufacturer(mfr)
             return
         }
-    
+
         if sysEx7RawBytes.count == 1,
            let ustype = MIDIEvent.UniversalSysExType(rawUInt8Value: sysEx7RawBytes[0])
         {
             self = .universal(ustype)
             return
         }
-    
+
         return nil
     }
-    
+
     public init?(sysEx8RawBytes: [UInt8]) {
         if let mfr = MIDIEvent.SysExManufacturer(sysEx8RawBytes: sysEx8RawBytes) {
             self = .manufacturer(mfr)
             return
         }
-    
+
         if sysEx8RawBytes.count == 2,
            sysEx8RawBytes[0] == 0x00,
            let ustype = MIDIEvent.UniversalSysExType(rawUInt8Value: sysEx8RawBytes[1])
@@ -61,7 +61,7 @@ extension MIDIEvent.SysExID {
             self = .universal(ustype)
             return
         }
-    
+
         return nil
     }
 }
@@ -73,18 +73,18 @@ extension MIDIEvent.SysExID {
         switch self {
         case let .manufacturer(mfr):
             mfr.sysEx7RawBytes()
-    
+
         case let .universal(uSysEx):
             [uSysEx.rawValue.uInt8Value]
         }
     }
-    
+
     /// Returns the Manufacturer byte(s) formatted for MIDI 2.0 SysEx8, as two bytes (16-bit).
     public func sysEx8RawBytes() -> [UInt8] {
         switch self {
         case let .manufacturer(mfr):
             mfr.sysEx8RawBytes()
-    
+
         case let .universal(uSysEx):
             [0x00, uSysEx.rawValue.uInt8Value]
         }

@@ -1,6 +1,6 @@
 //
 //  SysCommonType.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -10,15 +10,15 @@ extension MIDIEvent {
         /// System Common: Timecode Quarter-Frame
         /// (MIDI 1.0 / 2.0)
         case timecodeQuarterFrame
-        
+
         /// System Common: Song Position Pointer
         /// (MIDI 1.0 / 2.0)
         case songPositionPointer
-        
+
         /// System Common: Song Select
         /// (MIDI 1.0 / 2.0)
         case songSelect
-        
+
         /// System Common: Tune Request
         /// (MIDI 1.0 / 2.0)
         case tuneRequest
@@ -30,7 +30,9 @@ extension MIDIEvent.SysCommonType: Equatable { }
 extension MIDIEvent.SysCommonType: Hashable { }
 
 extension MIDIEvent.SysCommonType: Identifiable {
-    public var id: Self { self }
+    public var id: Self {
+        self
+    }
 }
 
 extension MIDIEvent.SysCommonType: Sendable { }
@@ -44,14 +46,14 @@ extension MIDIEvent {
         case onlyType(SysCommonType)
         /// Return only System Common events matching certain event type(s).
         case onlyTypes(Set<SysCommonType>)
-        
+
         /// Retain System Common events only with a certain type,
         /// while retaining all non-System Common events.
         case keepType(SysCommonType)
         /// Retain System Common events only with certain type(s),
         /// while retaining all non-System Common events.
         case keepTypes(Set<SysCommonType>)
-        
+
         /// Drop all System Common events,
         /// while retaining all non-System Common events.
         case drop

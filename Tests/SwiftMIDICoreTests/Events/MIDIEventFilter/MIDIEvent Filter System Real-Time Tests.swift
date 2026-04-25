@@ -1,19 +1,20 @@
 //
 //  MIDIEvent Filter System Real-Time Tests.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 import SwiftMIDICore
 import Testing
 
-@Suite struct MIDIEvent_Filter_SystemRealTime_Tests {
+@Suite
+struct MIDIEvent_Filter_SystemRealTime_Tests {
     @Test
     func metadata() {
         // isSystemRealTime
-    
+
         let events = kEvents.SysRealTime.oneOfEachEventType
-    
+
         for event in events {
             #expect(!event.isChannelVoice)
             #expect(!event.isSystemCommon)
@@ -21,94 +22,94 @@ import Testing
             #expect(event.isSystemRealTime)
             #expect(!event.isUtility)
         }
-    
+
         // isSystemRealTime(ofType:)
-    
+
         #expect(
             MIDIEvent.timingClock(group: 0)
                 .isSystemRealTime(ofType: .timingClock)
         )
-    
+
         #expect(
             !MIDIEvent.timingClock(group: 0)
                 .isSystemRealTime(ofType: .start)
         )
-    
+
         // isSystemRealTime(ofTypes:)
-    
+
         #expect(
             MIDIEvent.timingClock(group: 0)
                 .isSystemRealTime(ofTypes: [.timingClock])
         )
-    
+
         #expect(
             MIDIEvent.timingClock(group: 0)
                 .isSystemRealTime(ofTypes: [.timingClock, .start])
         )
-    
+
         #expect(
             !MIDIEvent.timingClock(group: 0)
                 .isSystemRealTime(ofTypes: [.start])
         )
-    
+
         #expect(
             !MIDIEvent.timingClock(group: 0)
                 .isSystemRealTime(ofTypes: [])
         )
     }
-    
+
     // MARK: - only
-    
+
     @Test
     func filter_only() {
         let events = kEvents.oneOfEachEventType
-    
+
         let filteredEvents = events.filter(sysRealTime: .only)
-    
+
         let expectedEvents = kEvents.SysRealTime.oneOfEachEventType
-    
+
         #expect(filteredEvents == expectedEvents)
     }
-    
+
     @Test
     func filter_onlyType() {
         let events = kEvents.oneOfEachEventType
-    
+
         let filteredEvents = events.filter(sysRealTime: .onlyType(.start))
-    
+
         let expectedEvents = [kEvents.SysRealTime.start]
-    
+
         #expect(filteredEvents == expectedEvents)
     }
-    
+
     @Test
     func filter_onlyTypes() {
         let events = kEvents.oneOfEachEventType
-    
+
         var filteredEvents: [MIDIEvent]
         var expectedEvents: [MIDIEvent]
-    
+
         filteredEvents = events.filter(sysRealTime: .onlyTypes([.start]))
         expectedEvents = [kEvents.SysRealTime.start]
         #expect(filteredEvents == expectedEvents)
-    
+
         filteredEvents = events.filter(sysRealTime: .onlyTypes([.start, .stop]))
         expectedEvents = [kEvents.SysRealTime.start, kEvents.SysRealTime.stop]
         #expect(filteredEvents == expectedEvents)
-    
+
         filteredEvents = events.filter(sysRealTime: .onlyTypes([]))
         expectedEvents = []
         #expect(filteredEvents == expectedEvents)
     }
-    
+
     // MARK: - keep
-    
+
     @Test
     func filter_keepType() {
         let events = kEvents.oneOfEachEventType
-    
+
         let filteredEvents = events.filter(sysRealTime: .keepType(.start))
-    
+
         var expectedEvents: [MIDIEvent] = []
         expectedEvents += kEvents.ChanVoice.oneOfEachEventType
         expectedEvents += kEvents.SysCommon.oneOfEachEventType
@@ -117,16 +118,16 @@ import Testing
             kEvents.SysRealTime.start
         ]
         expectedEvents += kEvents.Utility.oneOfEachEventType
-    
+
         #expect(filteredEvents == expectedEvents)
     }
-    
+
     @Test
     func filter_keepTypes() {
         let events = kEvents.oneOfEachEventType
-    
+
         let filteredEvents = events.filter(sysRealTime: .keepTypes([.start, .stop]))
-    
+
         var expectedEvents: [MIDIEvent] = []
         expectedEvents += kEvents.ChanVoice.oneOfEachEventType
         expectedEvents += kEvents.SysCommon.oneOfEachEventType
@@ -136,33 +137,33 @@ import Testing
             kEvents.SysRealTime.stop
         ]
         expectedEvents += kEvents.Utility.oneOfEachEventType
-    
+
         #expect(filteredEvents == expectedEvents)
     }
-    
+
     // MARK: - drop
-    
+
     @Test
     func filter_drop() {
         let events = kEvents.oneOfEachEventType
-    
+
         let filteredEvents = events.filter(sysRealTime: .drop)
-    
+
         var expectedEvents: [MIDIEvent] = []
         expectedEvents += kEvents.ChanVoice.oneOfEachEventType
         expectedEvents += kEvents.SysCommon.oneOfEachEventType
         expectedEvents += kEvents.SysEx.oneOfEachEventType
         expectedEvents += kEvents.Utility.oneOfEachEventType
-    
+
         #expect(filteredEvents == expectedEvents)
     }
-    
+
     @Test
     func filter_dropType() {
         let events = kEvents.oneOfEachEventType
-    
+
         let filteredEvents = events.filter(sysRealTime: .dropType(.start))
-    
+
         var expectedEvents: [MIDIEvent] = []
         expectedEvents += kEvents.ChanVoice.oneOfEachEventType
         expectedEvents += kEvents.SysCommon.oneOfEachEventType
@@ -175,16 +176,16 @@ import Testing
             kEvents.SysRealTime.systemReset
         ]
         expectedEvents += kEvents.Utility.oneOfEachEventType
-    
+
         #expect(filteredEvents == expectedEvents)
     }
-    
+
     @Test
     func filter_dropTypes() {
         let events = kEvents.oneOfEachEventType
-    
+
         let filteredEvents = events.filter(sysRealTime: .dropTypes([.start, .stop]))
-    
+
         var expectedEvents: [MIDIEvent] = []
         expectedEvents += kEvents.ChanVoice.oneOfEachEventType
         expectedEvents += kEvents.SysCommon.oneOfEachEventType
@@ -196,7 +197,7 @@ import Testing
             kEvents.SysRealTime.systemReset
         ]
         expectedEvents += kEvents.Utility.oneOfEachEventType
-    
+
         #expect(filteredEvents == expectedEvents)
     }
 }

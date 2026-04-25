@@ -1,6 +1,6 @@
 //
 //  UInt7Pair.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -8,13 +8,13 @@
 public struct UInt7Pair {
     public let msb: UInt7
     public let lsb: UInt7
-    
+
     @inline(__always)
     public init(msb: UInt7, lsb: UInt7) {
         self.msb = msb
         self.lsb = lsb
     }
-    
+
     @inlinable
     public var uInt14Value: UInt14 {
         .init(uInt7Pair: self)

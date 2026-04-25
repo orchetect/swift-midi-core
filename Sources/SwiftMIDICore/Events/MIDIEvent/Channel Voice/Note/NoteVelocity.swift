@@ -1,6 +1,6 @@
 //
 //  NoteVelocity.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -21,7 +21,7 @@ extension MIDIEvent {
     /// > MIDI 1.0 value of the Velocity is zero, then the Translator shall replace the zero with a
     /// > value of 1.
     public typealias NoteVelocity = MIDIEvent.ChanVoice7Bit16BitValue
-    
+
     /// MIDI Note Velocity.
     /// (MIDI 1.0 / MIDI 2.0)
     ///

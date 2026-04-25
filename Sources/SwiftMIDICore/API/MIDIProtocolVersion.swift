@@ -1,6 +1,6 @@
 //
 //  MIDIProtocolVersion.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -11,7 +11,7 @@ public enum MIDIProtocolVersion {
     /// MIDI 1.0 defines the original MIDI specification as ratified in the mid-1980s with minor
     /// revisions through 1996.
     case midi1_0
-    
+
     /// MIDI 2.0
     ///
     /// MIDI 2.0 defines new packet formats and events over top of the MIDI 1.0 specification and
@@ -33,7 +33,7 @@ extension MIDIProtocolVersion: CustomStringConvertible {
         switch self {
         case .midi1_0:
             "MIDI 1.0"
-    
+
         case .midi2_0:
             "MIDI 2.0"
         }
@@ -41,7 +41,9 @@ extension MIDIProtocolVersion: CustomStringConvertible {
 }
 
 extension MIDIProtocolVersion: Identifiable {
-    public var id: Self { self }
+    public var id: Self {
+        self
+    }
 }
 
 extension MIDIProtocolVersion: Sendable { }

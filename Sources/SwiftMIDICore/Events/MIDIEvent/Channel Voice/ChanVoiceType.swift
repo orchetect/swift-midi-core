@@ -1,6 +1,6 @@
 //
 //  ChanVoiceType.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -10,19 +10,19 @@ extension MIDIEvent {
         /// Channel Voice Message: Note On
         /// (MIDI 1.0 / 2.0)
         case noteOn
-        
+
         /// Channel Voice Message: Note Off
         /// (MIDI 1.0 / 2.0)
         case noteOff
-        
+
         /// Channel Voice Message: Per-Note Control Change (CC)
         /// (MIDI 2.0)
         case noteCC
-        
+
         /// Channel Voice Message: Per-Note Pitch Bend
         /// (MIDI 2.0)
         case notePitchBend
-        
+
         /// Channel Voice Message: Per-Note Aftertouch (Polyphonic Aftertouch)
         /// (MIDI 1.0 / 2.0)
         ///
@@ -31,26 +31,26 @@ extension MIDIEvent {
         /// - Logic Pro: "Polyphonic Aftertouch"
         /// - Cubase: "Poly Pressure"
         case notePressure
-        
+
         /// Channel Voice Message: Per-Note Management
         /// (MIDI 2.0)
         ///
         /// The MIDI 2.0 Protocol introduces a Per-Note Management message to enable independent
         /// control from Per- Note Controllers to multiple Notes on the same Note Number.
         case noteManagement
-        
+
         /// Channel Voice Message: Channel Control Change (CC)
         /// (MIDI 1.0 / 2.0)
         case cc
-        
+
         /// Channel Voice Message: Channel Program Change
         /// (MIDI 1.0 / 2.0)
         case programChange
-        
+
         /// Channel Voice Message: Channel Pitch Bend
         /// (MIDI 1.0 / 2.0)
         case pitchBend
-        
+
         /// Channel Voice Message: Channel Pressure (Aftertouch)
         /// (MIDI 1.0 / 2.0)
         ///
@@ -59,12 +59,12 @@ extension MIDIEvent {
         /// - Logic Pro: "Aftertouch"
         /// - Cubase: "Aftertouch"
         case pressure
-        
+
         /// RPN (Registered Parameter Number) Message,
         /// also referred to as Registered Controller in MIDI 2.0.
         /// (MIDI 1.0 / 2.0)
         case rpn
-        
+
         /// NRPN (Non-Registered Parameter Number) Message,
         /// also referred to as Assignable Controller in MIDI 2.0.
         /// (MIDI 1.0 / 2.0)
@@ -77,7 +77,9 @@ extension MIDIEvent.ChanVoiceType: Equatable { }
 extension MIDIEvent.ChanVoiceType: Hashable { }
 
 extension MIDIEvent.ChanVoiceType: Identifiable {
-    public var id: Self { self }
+    public var id: Self {
+        self
+    }
 }
 
 extension MIDIEvent.ChanVoiceType: Sendable { }
@@ -103,7 +105,7 @@ extension MIDIEvent {
         case onlyNotesInRange(ClosedRange<UInt7>)
         /// Return only noteOn/noteOff events within certain note number range(s).
         case onlyNotesInRanges([ClosedRange<UInt7>])
-    
+
         /// Retain Channel Voice events only with a certain type,
         /// while retaining all non-Channel Voice events.
         case keepType(ChanVoiceType)
@@ -128,7 +130,7 @@ extension MIDIEvent {
         /// Retains only noteOn/noteOff events within certain note ranges(s),
         /// while retaining all non-Channel Voice events.
         case keepNotesInRanges([ClosedRange<UInt7>])
-    
+
         /// Drop all Channel Voice events,
         /// while retaining all non-Channel Voice events.
         case drop
@@ -169,21 +171,21 @@ extension MIDIEvent.ChanVoiceTypes: Sendable { }
 
 extension MIDIEvent.ChanVoiceTypes {
     // MARK: Only
-    
+
     /// Return only Control Change (CC) events matching a certain controller number.
     @_disfavoredOverload
     public static func onlyCC(_ cc: UInt7) -> Self {
         .onlyCC(.init(number: cc))
     }
-    
+
     /// Return only Control Change (CC) events matching certain controller number(s).
     @_disfavoredOverload
     public static func onlyCCs(_ ccs: [UInt7]) -> Self {
         .onlyCCs(ccs.map { .init(number: $0) })
     }
-    
+
     // MARK: Keep
-    
+
     /// Retain only CC events with a certain controller,
     /// while retaining all non-Channel Voice events.
     @_disfavoredOverload
@@ -197,9 +199,9 @@ extension MIDIEvent.ChanVoiceTypes {
     public static func keepCCs(_ ccs: [UInt7]) -> Self {
         .keepCCs(ccs.map { .init(number: $0) })
     }
-    
+
     // MARK: Drop
-    
+
     /// Drop any Control Change (CC) events matching a certain controller,
     /// while retaining all non-Channel Voice events.
     @_disfavoredOverload

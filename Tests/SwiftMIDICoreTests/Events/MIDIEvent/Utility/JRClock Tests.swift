@@ -1,17 +1,18 @@
 //
 //  JRClock Tests.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 @testable import SwiftMIDICore
 import Testing
 
-@Suite struct MIDIEventJRClock_Tests {
+@Suite
+struct MIDIEventJRClock_Tests {
     // swiftformat:options --wrapcollections preserve
-    
+
     typealias JRClock = MIDIEvent.JRClock
-    
+
     @Test
     func jrClock() {
         for grp: UInt4 in 0x0 ... 0xF {
@@ -19,7 +20,7 @@ import Testing
                 time: 0x1234,
                 group: grp
             )
-            
+
             #expect(
                 event.midi2RawUMPWords(protocol: .midi2_0) ==
                     [[

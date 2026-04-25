@@ -1,18 +1,18 @@
 //
 //  MIDIUMPMessageType.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 /// Universal MIDI Packet Message Type
 public enum MIDIUMPMessageType: UInt4 {
-    case utility                 = 0x0
+    case utility = 0x0
     case systemRealTimeAndCommon = 0x1
-    case midi1ChannelVoice       = 0x2
-    case data64bit               = 0x3
-    case midi2ChannelVoice       = 0x4
-    case data128bit              = 0x5
-    
+    case midi1ChannelVoice = 0x2
+    case data64bit = 0x3
+    case midi2ChannelVoice = 0x4
+    case data128bit = 0x5
+
     // 0x6 ... 0xF are reserved as of MIDI 2.0 spec
 }
 

@@ -1,6 +1,6 @@
 //
 //  SongSelect.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -17,10 +17,10 @@ extension MIDIEvent {
     public struct SongSelect {
         /// Song Number
         public var number: UInt7
-        
+
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-        
+
         public init(
             number: UInt7,
             group: UInt4 = 0x0
@@ -72,12 +72,12 @@ extension MIDIEvent.SongSelect {
     public func midi1RawStatusByte() -> UInt8 {
         0xF3
     }
-    
+
     /// Returns the raw MIDI 1.0 data bytes for the event (excluding status byte).
     public func midi1RawDataBytes() -> UInt8 {
         number.uInt8Value
     }
-    
+
     /// Returns the complete raw MIDI 1.0 message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
@@ -85,23 +85,23 @@ extension MIDIEvent.SongSelect {
     public func midi1RawBytes() -> [UInt8] {
         [midi1RawStatusByte(), midi1RawDataBytes()]
     }
-    
+
     /// Returns the raw MIDI 2.0 UMP (Universal MIDI Packet) message bytes that comprise the event.
     ///
     /// - Note: This is mainly for internal use and is not necessary to access during typical usage
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
     public func midi2RawUMPWords() -> [UMPWord] {
         let umpMessageType: MIDIUMPMessageType = .systemRealTimeAndCommon
-    
+
         let mtAndGroup = (umpMessageType.rawValue.uInt8Value << 4) + group.uInt8Value
-    
+
         let word = UMPWord(
             mtAndGroup,
             midi1RawStatusByte(),
             midi1RawDataBytes(),
             0x00
         ) // pad an empty byte to fill 4 bytes
-    
+
         return [word]
     }
 }

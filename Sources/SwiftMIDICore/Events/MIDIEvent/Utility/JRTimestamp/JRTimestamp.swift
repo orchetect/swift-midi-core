@@ -1,6 +1,6 @@
 //
 //  JRTimestamp.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -26,10 +26,10 @@ extension MIDIEvent {
         /// > A 16-bit time value in clock ticks of 1/31250 of one second (32 μsec, clock frequency
         /// > of 1 MHz / 32).
         public var time: UInt16
-        
+
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-        
+
         /// JR Timestamp (Jitter-Reduction Timestamp)
         /// (MIDI 2.0 Utility Messages)
         ///
@@ -87,22 +87,22 @@ extension MIDIEvent.JRTimestamp {
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
     public func midi2RawUMPWords() -> [UMPWord] {
         let umpMessageType: MIDIUMPMessageType = .utility
-    
+
         let mtAndGroup = (umpMessageType.rawValue.uInt8Value << 4) + group.uInt8Value
-    
+
         let utilityStatus: MIDIUMPUtilityStatusField = .jrTimestamp
-    
+
         // MIDI 2.0 only
-    
+
         let timeBytes = BytePair(time)
-    
+
         let word = UMPWord(
             mtAndGroup,
             (utilityStatus.rawValue.uInt8Value << 4) + 0x0,
             timeBytes.msb,
             timeBytes.lsb
         )
-    
+
         return [word]
     }
 }

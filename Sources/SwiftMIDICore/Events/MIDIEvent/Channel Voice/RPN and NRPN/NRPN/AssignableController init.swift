@@ -1,6 +1,6 @@
 //
 //  AssignableController init.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -16,7 +16,7 @@ extension MIDIEvent.AssignableController {
         switch (parameter.msb, parameter.lsb) {
         case (0x7F, 0x7F):
             self = .null // ignore data entry bytes
-            
+
         default:
             self = .raw(
                 parameter: parameter,

@@ -1,18 +1,19 @@
 //
 //  CC RPN Tests.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 import SwiftMIDICore
 import Testing
 
-@Suite struct MIDIEvent_CC_RPN_Tests {
-    // swiftformat:options --wrapcollections preserve
+@Suite
+struct MIDIEvent_CC_RPN_Tests {
+    // swiftformat:options --wrap-collections preserve --allow-partial-wrapping true
     // swiftformat:disable spaceInsideParens spaceInsideBrackets
-    
+
     // MARK: - MIDIEvent.midi1RPN() -> Raw MIDI 1.0 Bytes
-    
+
     @Test
     func rpn_MIDI1_EventToBytes_NoDataEntry() {
         let rpn: [MIDIEvent] = MIDIEvent.midi1RPN(
@@ -23,14 +24,14 @@ import Testing
             ),
             channel: 0x9
         )
-        
+
         #expect(
             rpn.flatMap { $0.midi1RawBytes() } ==
                 [0xB9, 0x65, 66,
                  0xB9, 0x64, 103]
         )
     }
-    
+
     @Test
     func rpn_MIDI1_EventToBytes_DataEntryMSB() {
         let rpn: [MIDIEvent] = MIDIEvent.midi1RPN(
@@ -41,7 +42,7 @@ import Testing
             ),
             channel: 0x9
         )
-        
+
         #expect(
             rpn.flatMap { $0.midi1RawBytes() } ==
                 [0xB9, 0x65, 66,
@@ -49,7 +50,7 @@ import Testing
                  0xB9, 0x06, 127]
         )
     }
-    
+
     @Test
     func rpn_MIDI1_EventToBytes_DataEntryMSBandLSB() {
         let rpn: [MIDIEvent] = MIDIEvent.midi1RPN(
@@ -60,7 +61,7 @@ import Testing
             ),
             channel: 0x9
         )
-        
+
         #expect(
             rpn.flatMap { $0.midi1RawBytes() } ==
                 [0xB9, 0x65, 66,
@@ -69,26 +70,27 @@ import Testing
                  0xB9, 0x26, 2]
         )
     }
-    
+
     @Test
     func rpn_MIDI1_EventToBytes_Null() {
         let nrpn: [MIDIEvent] = MIDIEvent.midi1RPN(
             .null,
             channel: 0x9
         )
-        
+
         #expect(
             nrpn.flatMap { $0.midi1RawBytes() } ==
                 [0xB9, 0x65, 0x7F,
                  0xB9, 0x64, 0x7F]
         )
     }
-    
+
     // MARK: - Raw MIDI 1.0 Bytes -> MIDIEvent.rpn()
+
     // See SwiftMIDIIO - MIDI1Parser Tests.swift
-    
+
     // MARK: - MIDIEvent.rpn() -> Raw MIDI 2.0 RPN UMP Words
-    
+
     @Test
     func rpn_MIDI2_EventToWords_Absolute() {
         let nrpn: MIDIEvent = .rpn(
@@ -100,14 +102,14 @@ import Testing
             change: .absolute,
             channel: 0x9
         )
-        
+
         #expect(
             nrpn.midi2RawUMPWords(protocol: .midi2_0) ==
                 [[UMPWord(0x40, 0x29, 0x40, 0x01),
                   UMPWord(0x24, 0x00, 0x00, 0x00)]]
         )
     }
-    
+
     @Test
     func rpn_MIDI2_EventToWords_Relative() {
         let nrpn: MIDIEvent = .rpn(
@@ -119,14 +121,14 @@ import Testing
             change: .relative,
             channel: 0x9
         )
-        
+
         #expect(
             nrpn.midi2RawUMPWords(protocol: .midi2_0) ==
                 [[UMPWord(0x40, 0x49, 0x40, 0x01),
                   UMPWord(0x24, 0x00, 0x00, 0x00)]]
         )
     }
-    
+
     @Test
     func rpn_MIDI2_EventToWords_Null() {
         let nrpn: MIDIEvent = .rpn(
@@ -134,14 +136,15 @@ import Testing
             change: .absolute,
             channel: 0x9
         )
-        
+
         #expect(
             nrpn.midi2RawUMPWords(protocol: .midi2_0) ==
                 [[UMPWord(0x40, 0x29, 0x7F, 0x7F),
                   UMPWord(0x00, 0x00, 0x00, 0x00)]]
         )
     }
-    
+
     // MARK: - Raw MIDI 2.0 RPN UMP Words -> MIDIEvent.rpn()
+
     // See SwiftMIDIIO - MIDI2Parser Tests.swift
 }

@@ -1,6 +1,6 @@
 //
 //  MIDIParameterNumberEvent.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -10,10 +10,10 @@ import Foundation
 /// This includes RPN (Registered Controller) and NRPN (Assignable Controller).
 public protocol MIDIParameterNumberEvent: Sendable {
     associatedtype P: MIDIParameterNumber
-    
+
     /// Type-erased Parameter Number.
     var parameter: P { get set }
-    
+
     /// MIDI 2.0 Parameter Number value type.
     /// Determines whether the value is absolute or a relative change.
     /// (MIDI 1.0 will always be absolute and this property is ignored.)

@@ -1,6 +1,6 @@
 //
 //  MIDIUnsignedInteger.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -20,6 +20,8 @@ import SwiftMIDIInternals
 //      -> Strideable
 //         -> Comparable
 
+// swiftformat:disable opaqueGenericParameters simplifyGenericConstraints
+
 /// Protocol adopted by specialized unsigned integer types in SwiftMIDI representing novel bit
 /// widths.
 public protocol MIDIUnsignedInteger: UnsignedInteger, Codable, Sendable
@@ -31,28 +33,28 @@ public protocol MIDIUnsignedInteger: UnsignedInteger, Codable, Sendable
 {
     /// Backing storage type for the integer.
     associatedtype Storage: BinaryInteger
-    
+
     // Public conveniences
-    
+
     /// Returns the integer as an `Int` instance
     @inlinable
     var intValue: Int { get }
-    
+
     // FixedWidthInteger types declared without conforming to FixedWidthInteger
     static var bitWidth: Int { get }
     static var min: Self { get }
     static var max: Self { get }
-    
+
     // implemented in _MIDIUnsignedInteger
     @inlinable
     init(_ source: some BinaryInteger)
-    
+
     @inlinable
     init(truncatingIfNeeded source: some BinaryInteger)
-    
+
     @inlinable
     init<T: BinaryFloatingPoint>(_ source: T)
-    
+
     @inlinable
     init?<T: BinaryFloatingPoint>(exactly source: T)
 }
@@ -62,16 +64,16 @@ public protocol MIDIUnsignedInteger: UnsignedInteger, Codable, Sendable
 protocol _MIDIUnsignedInteger: MIDIUnsignedInteger {
     /// Internal: Type name for use in debugging and exceptions.
     static var integerName: StaticString { get }
-    
+
     /// Internal: Backing storage for the integer.
     var storage: Storage { get set }
-    
+
     /// Internal: Initialize storage from a known good value, without validation checks.
     init(unchecked value: Storage)
-    
+
     static func min<T: BinaryInteger>(as ofType: T.Type) -> T
     static func min<T: BinaryFloatingPoint>(as ofType: T.Type) -> T
-    
+
     static func max<T: BinaryInteger>(as ofType: T.Type) -> T
     static func max<T: BinaryFloatingPoint>(as ofType: T.Type) -> T
 }
@@ -87,12 +89,12 @@ extension _MIDIUnsignedInteger {
         }
         self.init(unchecked: Storage(source))
     }
-    
+
     @inlinable
     public init(truncatingIfNeeded source: some BinaryInteger) {
         self.init(Storage(truncatingIfNeeded: source))
     }
-    
+
     @inlinable
     public init(clamping source: some BinaryInteger) {
         let clamped = Storage(
@@ -101,7 +103,7 @@ extension _MIDIUnsignedInteger {
         )
         self.init(clamped)
     }
-    
+
     @inlinable
     public init<T: BinaryFloatingPoint>(_ source: T) {
         // it should be safe to cast as T.self since it's virtually impossible
@@ -118,7 +120,7 @@ extension _MIDIUnsignedInteger {
         }
         self.init(unchecked: Storage(source))
     }
-    
+
     @inlinable
     public init?<T: BinaryFloatingPoint>(exactly source: T) {
         // it should be safe to cast as T.self since it's virtually impossible
@@ -137,11 +139,11 @@ extension _MIDIUnsignedInteger {
 extension MIDIUnsignedInteger /*: Strideable */ {
     // Stride is already expressed as same-type constraint on MIDIUnsignedInteger
     // public typealias Stride = Int
-    
+
     public func advanced(by n: Stride) -> Self {
         self + Self(n)
     }
-    
+
     public func distance(to other: Self) -> Stride {
         Stride(other) - Stride(self)
     }
@@ -152,7 +154,7 @@ extension MIDIUnsignedInteger /*: Strideable */ {
 extension MIDIUnsignedInteger /*: ExpressibleByIntegerLiteral */ {
     // IntegerLiteralType is already expressed as same-type constraint on MIDIUnsignedInteger
     // public typealias IntegerLiteralType = Storage
-    
+
     @inlinable
     public init(integerLiteral value: Storage) {
         self.init(value)

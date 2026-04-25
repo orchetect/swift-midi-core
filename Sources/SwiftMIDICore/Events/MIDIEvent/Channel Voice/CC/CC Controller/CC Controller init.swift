@@ -1,6 +1,6 @@
 //
 //  CC Controller init.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -11,6 +11,7 @@ extension MIDIEvent.CC.Controller {
     /// Initialize an enum case from the controller number.
     @inlinable
     public init(number: UInt7) {
+        // swiftformat:disable consecutiveSpaces
         switch number {
         case   0: self = .bankSelect
         case   1: self = .modWheel
@@ -145,5 +146,6 @@ extension MIDIEvent.CC.Controller {
             assertionFailure("Unhandled MIDI CC controller number: \(number).")
             self = .modWheel
         }
+        // swiftformat:enable consecutiveSpaces
     }
 }

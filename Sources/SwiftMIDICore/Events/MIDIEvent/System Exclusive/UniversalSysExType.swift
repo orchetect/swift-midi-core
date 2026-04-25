@@ -1,6 +1,6 @@
 //
 //  UniversalSysExType.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -9,7 +9,7 @@ extension MIDIEvent {
     public enum UniversalSysExType: UInt7 {
         /// Real-Time System Exclusive ID number (`0x7F`).
         case realTime = 0x7F
-    
+
         /// Non- Real-Time System Exclusive ID number (`0x7E`).
         case nonRealTime = 0x7E
     }
@@ -31,7 +31,9 @@ extension MIDIEvent.UniversalSysExType: CustomStringConvertible {
 extension MIDIEvent.UniversalSysExType: CaseIterable { }
 
 extension MIDIEvent.UniversalSysExType: Identifiable {
-    public var id: Self { self }
+    public var id: Self {
+        self
+    }
 }
 
 extension MIDIEvent.UniversalSysExType: Sendable { }
@@ -46,7 +48,7 @@ extension MIDIEvent.UniversalSysExType {
     /// Initialize from raw UInt8 byte.
     public init?(rawUInt8Value: UInt8) {
         guard let uInt7 = UInt7(exactly: rawUInt8Value) else { return nil }
-        
+
         self.init(rawValue: uInt7)
     }
 }
@@ -71,7 +73,7 @@ extension MIDIEvent {
             data: []
         )
     }
-    
+
     /// SysEx: Device Inquiry response message.
     ///
     /// When a device receives a Device Inquiry request message

@@ -1,6 +1,6 @@
 //
 //  MIDIEvent Filter System Exclusive.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -15,31 +15,31 @@ extension MIDIEvent {
              .sysEx8,
              .universalSysEx8:
             true
-    
+
         default:
             false
         }
     }
-    
+
     /// Returns `true` if the event is a System Exclusive message of a specific type.
     public func isSystemExclusive(ofType sysExType: SysExType) -> Bool {
-        // swiftformat:disable spacearoundoperators
+        // swiftformat:disable consecutiveSpaces
         switch self {
-        case .sysEx7          : sysExType == .sysEx7
-        case .universalSysEx7 : sysExType == .universalSysEx7
-        case .sysEx8          : sysExType == .sysEx8
-        case .universalSysEx8 : sysExType == .universalSysEx8
-        default               : false
+        case .sysEx7:          sysExType == .sysEx7
+        case .universalSysEx7: sysExType == .universalSysEx7
+        case .sysEx8:          sysExType == .sysEx8
+        case .universalSysEx8: sysExType == .universalSysEx8
+        default:               false
         }
-        // swiftformat:enable spacearoundoperators
+        // swiftformat:enable consecutiveSpaces
     }
-    
+
     /// Returns `true` if the event is a System Exclusive message of a specific type.
     public func isSystemExclusive(ofTypes sysExTypes: Set<SysExType>) -> Bool {
         for eventType in sysExTypes {
             if isSystemExclusive(ofType: eventType) { return true }
         }
-    
+
         return false
     }
 }
@@ -51,35 +51,35 @@ extension Collection<MIDIEvent> {
     public func filter(sysEx types: MIDIEvent.SysExTypes) -> [Element] {
         switch types {
         case .only:
-            filter { $0.isSystemExclusive }
-    
+            filter(\.isSystemExclusive)
+
         case let .onlyType(specificType):
             filter { $0.isSystemExclusive(ofType: specificType) }
-    
+
         case let .onlyTypes(specificTypes):
             filter { $0.isSystemExclusive(ofTypes: specificTypes) }
-    
+
         case let .keepType(specificType):
             filter {
                 guard $0.isSystemExclusive else { return true }
                 return $0.isSystemExclusive(ofType: specificType)
             }
-    
+
         case let .keepTypes(specificTypes):
             filter {
                 guard $0.isSystemExclusive else { return true }
                 return $0.isSystemExclusive(ofTypes: specificTypes)
             }
-    
+
         case .drop:
             filter { !$0.isSystemExclusive }
-    
+
         case let .dropType(specificType):
             filter {
                 guard $0.isSystemExclusive else { return true }
                 return !$0.isSystemExclusive(ofType: specificType)
             }
-    
+
         case let .dropTypes(specificTypes):
             filter {
                 guard $0.isSystemExclusive else { return true }

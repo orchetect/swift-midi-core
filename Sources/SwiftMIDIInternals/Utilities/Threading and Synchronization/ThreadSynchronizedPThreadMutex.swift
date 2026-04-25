@@ -1,6 +1,6 @@
 //
 //  ThreadSynchronizedPThreadMutex.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -13,7 +13,7 @@ public final class ThreadSynchronizedPThreadMutex<T> {
     private nonisolated let queue: DispatchQueue
     private let lock = PThreadRWLock()
     nonisolated(unsafe) private let storage: ValueWrapper
-    
+
     public init(wrappedValue value: T, target: DispatchQueue? = nil) {
         let queue = DispatchQueue(
             label: "ThreadSynchronizedPThreadMutex-\(type(of: T.self))-access",
@@ -22,7 +22,7 @@ public final class ThreadSynchronizedPThreadMutex<T> {
         self.queue = queue
         storage = queue.sync { ValueWrapper(value) }
     }
-    
+
     public var wrappedValue: T {
         get {
             lock.readLock()
@@ -45,8 +45,7 @@ public final class ThreadSynchronizedPThreadMutex<T> {
 }
 
 extension ThreadSynchronizedPThreadMutex: Equatable where T: Equatable {
-    public static func == (lhs: ThreadSynchronizedPThreadMutex<T>,
-                           rhs: ThreadSynchronizedPThreadMutex<T>) -> Bool {
+    public static func == (lhs: ThreadSynchronizedPThreadMutex<T>, rhs: ThreadSynchronizedPThreadMutex<T>) -> Bool {
         lhs.wrappedValue == rhs.wrappedValue
     }
 }
@@ -68,7 +67,7 @@ extension ThreadSynchronizedPThreadMutex {
         defer { lock.unlock() }
         return try queue.sync { try block(storage.value) }
     }
-    
+
     @discardableResult @_disfavoredOverload
     public func withWriteLock<Result, E>(_ block: (inout T) throws(E) -> Result) rethrows -> Result {
         lock.writeLock()
@@ -82,7 +81,7 @@ extension ThreadSynchronizedPThreadMutex {
 extension ThreadSynchronizedPThreadMutex {
     fileprivate final class ValueWrapper {
         var value: T
-        
+
         init(_ value: T) {
             self.value = value
         }
@@ -90,8 +89,10 @@ extension ThreadSynchronizedPThreadMutex {
 }
 
 extension ThreadSynchronizedPThreadMutex.ValueWrapper: Equatable where T: Equatable {
-    static func == (lhs: ThreadSynchronizedPThreadMutex<T>.ValueWrapper,
-                    rhs: ThreadSynchronizedPThreadMutex<T>.ValueWrapper) -> Bool {
+    static func == (
+        lhs: ThreadSynchronizedPThreadMutex<T>.ValueWrapper,
+        rhs: ThreadSynchronizedPThreadMutex<T>.ValueWrapper
+    ) -> Bool {
         lhs.value == rhs.value
     }
 }

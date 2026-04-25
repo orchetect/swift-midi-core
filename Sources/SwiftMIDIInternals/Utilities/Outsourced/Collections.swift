@@ -22,7 +22,7 @@ extension Collection {
         backwards: Bool = false
     ) -> [SubSequence] {
         var result: [SubSequence] = []
-    
+
         for i in stride(from: 0, to: count, by: every) {
             switch backwards {
             case true:
@@ -33,9 +33,9 @@ extension Collection {
                     limitedBy: startIndex
                 )
                     ?? startIndex
-    
+
                 result.insert(self[offsetStartIndex ..< offsetEndIndex], at: 0)
-    
+
             case false:
                 let offsetStartIndex = index(startIndex, offsetBy: i)
                 let offsetEndIndex = index(
@@ -44,11 +44,11 @@ extension Collection {
                     limitedBy: endIndex
                 )
                     ?? endIndex
-    
+
                 result.append(self[offsetStartIndex ..< offsetEndIndex])
             }
         }
-    
+
         return result
     }
 }

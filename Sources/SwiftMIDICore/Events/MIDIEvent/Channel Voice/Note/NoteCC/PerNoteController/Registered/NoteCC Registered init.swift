@@ -1,6 +1,6 @@
 //
 //  NoteCC Registered init.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -12,7 +12,8 @@ extension MIDIEvent.NoteCC.PerNoteController.Registered {
     @inlinable
     public init(number: UInt8) {
         // this looks scary but its heart is in the right place
-    
+
+        // swiftformat:disable consecutiveSpaces
         switch number {
         case   1: self = .modWheel
         case   2: self = .breath
@@ -274,5 +275,6 @@ extension MIDIEvent.NoteCC.PerNoteController.Registered {
             assertionFailure("Unhandled MIDI Per-Note CC controller number: \(number).")
             self = .modWheel
         }
+        // swiftformat:enable consecutiveSpaces
     }
 }

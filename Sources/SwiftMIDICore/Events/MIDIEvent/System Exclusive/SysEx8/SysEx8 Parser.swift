@@ -1,6 +1,6 @@
 //
 //  SysEx8 Parser.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -24,7 +24,7 @@ extension MIDIEvent {
         group: UInt4 = 0
     ) throws(ParseError) -> Self {
         var readPos = rawBytes.startIndex
-    
+
         func readPosAdvance(by: Int) throws(ParseError) {
             let newPos = readPos + by
             guard readPos + by < rawBytes.endIndex else {
@@ -32,52 +32,52 @@ extension MIDIEvent {
             }
             readPos = newPos
         }
-    
+
         func readData() -> [UInt8] {
             Array(rawBytes[readPos...])
         }
-    
+
         // prevent zero-byte events from being formed
         guard !rawBytes.isEmpty else {
             throw .rawBytesEmpty
         }
-    
+
         // minimum length
         guard rawBytes.count > 1 else {
             throw .malformed
         }
-    
+
         let streamID = rawBytes[readPos]
-    
+
         // ID bytes
-    
+
         try readPosAdvance(by: 1)
         let idByte1 = rawBytes[readPos]
         try readPosAdvance(by: 1)
         let idByte2 = rawBytes[readPos]
-    
+
         let sysExID = SysExID(sysEx8RawBytes: [idByte1, idByte2])
-    
+
         switch sysExID {
         case let .universal(universalType):
             try readPosAdvance(by: 1)
             guard let deviceID = UInt7(exactly: rawBytes[readPos])
             else { throw ParseError.malformed }
-    
+
             try readPosAdvance(by: 1)
             guard let subID1 = UInt7(exactly: rawBytes[readPos])
             else { throw ParseError.malformed }
-    
+
             try readPosAdvance(by: 1)
             guard let subID2 = UInt7(exactly: rawBytes[readPos])
             else { throw ParseError.malformed }
-    
+
             let data: [UInt8] = if (try? readPosAdvance(by: 1)) != nil {
                 readData()
             } else {
                 []
             }
-    
+
             return .universalSysEx8(
                 .init(
                     universalType: universalType,
@@ -89,17 +89,17 @@ extension MIDIEvent {
                     group: group
                 )
             )
-    
+
         case let .manufacturer(mfr):
             var data: [UInt8] = []
-    
+
             let actualEndIndex = rawBytes.endIndex.advanced(by: -1)
             if readPos < actualEndIndex {
                 if (try? readPosAdvance(by: 1)) != nil {
                     data = readData()
                 }
             }
-    
+
             return .sysEx8(
                 .init(
                     manufacturer: mfr,
@@ -108,7 +108,7 @@ extension MIDIEvent {
                     group: group
                 )
             )
-    
+
         default:
             // malformed
             throw .malformed

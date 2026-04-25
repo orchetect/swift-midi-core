@@ -44,11 +44,11 @@ import Darwin
 @_disfavoredOverload
 public func clock_gettime_monotonic_raw() -> timespec {
     var uptime = timespec()
-    
+
     if clock_gettime(CLOCK_MONOTONIC_RAW, &uptime) != 0 {
         fatalError("Could not execute clock_gettime, errno: \(errno)")
     }
-    
+
     return uptime
 }
 
@@ -59,9 +59,9 @@ extension timespec {
     @_disfavoredOverload
     public init(seconds floatingPoint: some BinaryFloatingPoint) {
         self.init()
-        
+
         let intVal = Int(floatingPoint * 1_000_000_000)
-        
+
         tv_nsec = intVal % 1_000_000_000
         tv_sec = intVal / 1_000_000_000
     }
@@ -78,12 +78,12 @@ extension timespec {
         let s = lhs.tv_sec + rhs.tv_sec + (nsRaw / 1_000_000_000)
         return timespec(tv_sec: s, tv_nsec: ns)
     }
-    
+
     /// Subtract two instances of `timespec`.
     @_disfavoredOverload
     public static func - (lhs: timespec, rhs: timespec) -> timespec {
         let nsRaw = lhs.tv_nsec - rhs.tv_nsec
-        
+
         if nsRaw >= 0 {
             let ns = nsRaw % 1_000_000_000
             let s = lhs.tv_sec - rhs.tv_sec + (nsRaw / 1_000_000_000)
@@ -103,7 +103,7 @@ extension timespec /* : Equatable */ {
         lhs.tv_sec == rhs.tv_sec &&
             lhs.tv_nsec == rhs.tv_nsec
     }
-    
+
     @_disfavoredOverload
     public static func != (lhs: Self, rhs: Self) -> Bool {
         !(lhs == rhs)
@@ -115,13 +115,13 @@ extension timespec /* : Comparable */ {
     public static func < (lhs: timespec, rhs: timespec) -> Bool {
         if lhs.tv_sec < rhs.tv_sec { return true }
         if lhs.tv_sec > rhs.tv_sec { return false }
-        
+
         // seconds equate; now test nanoseconds
         if lhs.tv_nsec < rhs.tv_nsec { return true }
-        
+
         return false
     }
-    
+
     @_disfavoredOverload
     public static func > (lhs: timespec, rhs: timespec) -> Bool {
         !(lhs < rhs)

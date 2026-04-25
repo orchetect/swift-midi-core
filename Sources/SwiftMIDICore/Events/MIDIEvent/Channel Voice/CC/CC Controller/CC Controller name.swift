@@ -1,13 +1,13 @@
 //
 //  CC Controller name.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 extension MIDIEvent.CC.Controller {
     /// Returns the controller name as a human-readable String.
     public var name: String {
-        // swiftformat:disable spacearoundoperators
+        // swiftformat:disable consecutiveSpaces
         switch self {
         case .bankSelect:                    "Bank Select"
         case .modWheel:                      "Mod Wheel"
@@ -62,6 +62,6 @@ extension MIDIEvent.CC.Controller {
         case let .mode(mode):                mode.name
         case let .undefined(cc):             cc.name
         }
-        // enable:disable spacearoundoperators
+        // enable:disable consecutiveSpaces
     }
 }

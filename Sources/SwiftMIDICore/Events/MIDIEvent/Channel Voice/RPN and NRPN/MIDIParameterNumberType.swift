@@ -1,6 +1,6 @@
 //
 //  MIDIParameterNumberType.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -11,7 +11,7 @@ public enum MIDIParameterNumberType {
     /// also referred to as Registered Controllers in MIDI 2.0.
     /// (MIDI 1.0 / MIDI 2.0)
     case registered
-    
+
     /// Cases describing NRPNs (Non-Registered Parameter Numbers),
     /// also referred to as Assignable Controllers in MIDI 2.0.
     /// (MIDI 1.0 / MIDI 2.0)
@@ -41,7 +41,7 @@ extension MIDIParameterNumberType {
     func umpStatusNibble(for change: MIDI2ParameterNumberChange) -> UInt4 {
         MIDIParameterNumberUtils.umpStatusNibble(type: self, change: change)
     }
-    
+
     init?(umpStatusNibble: UInt4) {
         guard let types = MIDIParameterNumberUtils.typeAndChange(
             fromUMPStatusNibble: umpStatusNibble

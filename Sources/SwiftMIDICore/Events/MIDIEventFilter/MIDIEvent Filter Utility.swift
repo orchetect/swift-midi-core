@@ -1,6 +1,6 @@
 //
 //  MIDIEvent Filter Utility.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -14,30 +14,30 @@ extension MIDIEvent {
              .jrClock,
              .jrTimestamp:
             true
-    
+
         default:
             false
         }
     }
-    
+
     /// Returns `true` if the event is a Utility message of a specific type.
     public func isUtility(ofType utilityType: UtilityType) -> Bool {
-        // swiftformat:disable spacearoundoperators
+        // swiftformat:disable consecutiveSpaces
         switch self {
-        case .noOp        : utilityType == .noOp
-        case .jrClock     : utilityType == .jrClock
-        case .jrTimestamp : utilityType == .jrTimestamp
-        default           : false
+        case .noOp:        utilityType == .noOp
+        case .jrClock:     utilityType == .jrClock
+        case .jrTimestamp: utilityType == .jrTimestamp
+        default:           false
         }
-        // swiftformat:enable spacearoundoperators
+        // swiftformat:enable consecutiveSpaces
     }
-    
+
     /// Returns `true` if the event is a Utility message of a specific type.
     public func isUtility(ofTypes utilityTypes: Set<UtilityType>) -> Bool {
         for eventType in utilityTypes {
             if isUtility(ofType: eventType) { return true }
         }
-    
+
         return false
     }
 }
@@ -49,35 +49,35 @@ extension Collection<MIDIEvent> {
     public func filter(utility types: MIDIEvent.UtilityTypes) -> [Element] {
         switch types {
         case .only:
-            filter { $0.isUtility }
-    
+            filter(\.isUtility)
+
         case let .onlyType(specificType):
             filter { $0.isUtility(ofType: specificType) }
-    
+
         case let .onlyTypes(specificTypes):
             filter { $0.isUtility(ofTypes: specificTypes) }
-    
+
         case let .keepType(specificType):
             filter {
                 guard $0.isUtility else { return true }
                 return $0.isUtility(ofType: specificType)
             }
-    
+
         case let .keepTypes(specificTypes):
             filter {
                 guard $0.isUtility else { return true }
                 return $0.isUtility(ofTypes: specificTypes)
             }
-    
+
         case .drop:
             filter { !$0.isUtility }
-    
+
         case let .dropType(specificType):
             filter {
                 guard $0.isUtility else { return true }
                 return !$0.isUtility(ofType: specificType)
             }
-    
+
         case let .dropTypes(specificTypes):
             filter {
                 guard $0.isUtility else { return true }

@@ -1,20 +1,21 @@
 //
 //  Int7 Tests.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
 import SwiftMIDICore
 import Testing
 
-@Suite struct Int7_Tests {
-    // swiftformat:disable spaceInsideParens spaceInsideBrackets spacearoundoperators
-    // swiftformat:disable spacearoundoperators
-    
+@Suite
+struct Int7_Tests {
+    // swiftformat:options --wrap-collections preserve --allow-partial-wrapping true --max-width none
+    // swiftformat:disable consecutiveSpaces spaceInsideParens spaceInsideBrackets spaceAroundOperators
+
     private let _min      = 0b1111111 // int -64
     private let _midpoint = 0b0000000 // int   0
     private let _max      = 0b0111111 // int  63
-    
+
     @Test
     func init_SignedInteger() {
         // by adding + 0 it prevents using init(integerLiteral:)
@@ -26,7 +27,7 @@ import Testing
         #expect(Int7(-64 + 0).intValue == -64)
         // can't test illegal values since they will throw an exception or crash
     }
-    
+
     @Test
     func init_UnsignedInteger() {
         #expect(Int7(UInt8( 63)).intValue ==  63)
@@ -34,7 +35,7 @@ import Testing
         #expect(Int7(UInt8(  0)).intValue ==   0)
         // can't test illegal values since they will throw an exception or crash
     }
-    
+
     @Test
     func initExactly_SignedInteger() {
         #expect(Int7(exactly:  64) == nil)
@@ -46,7 +47,7 @@ import Testing
         #expect(Int7(exactly: -64)?.intValue == -64)
         #expect(Int7(exactly: -65) == nil)
     }
-    
+
     @Test
     func initExactly_UnsignedInteger() {
         #expect(Int7(exactly: UInt8(64)) == nil)
@@ -54,7 +55,7 @@ import Testing
         #expect(Int7(exactly: UInt8( 1))?.intValue ==   1)
         #expect(Int7(exactly: UInt8( 0))?.intValue ==   0)
     }
-    
+
     @Test
     func truncatingIfNecessary_intValue() {
         #expect(Int7(truncatingIfNecessary:  65).intValue == -63) // oob
@@ -68,14 +69,14 @@ import Testing
         #expect(Int7(truncatingIfNecessary: -64).intValue == -64) // valid
         #expect(Int7(truncatingIfNecessary: -65).intValue ==  63) // oob
         #expect(Int7(truncatingIfNecessary: -66).intValue ==  62) // oob
-        
+
         #expect(Int7(truncatingIfNecessary: UInt8( 0)).intValue == 0)  // valid
         #expect(Int7(truncatingIfNecessary: UInt8( 1)).intValue == 1)  // valid
         #expect(Int7(truncatingIfNecessary: UInt8(63)).intValue == 63) // valid
         #expect(Int7(truncatingIfNecessary: UInt8(64)).intValue == 0)  // oob
         #expect(Int7(truncatingIfNecessary: UInt8(65)).intValue == 1)  // oob
     }
-    
+
     @Test
     func truncatingIfNecessary_rawByte() {
         #expect(Int7(truncatingIfNecessary:  65).rawByte == 0b1000001) // wrap -63
@@ -90,7 +91,7 @@ import Testing
         #expect(Int7(truncatingIfNecessary: -65).rawByte == 0b0111111) // wrap 63
         #expect(Int7(truncatingIfNecessary: -66).rawByte == 0b0111110) // wrap 62
     }
-    
+
     @Test
     func truncatingIfNecessary_rawUInt7Byte() {
         #expect(Int7(truncatingIfNecessary:  65).rawUInt7Byte == 0b1000001) // wrap -63
@@ -105,7 +106,7 @@ import Testing
         #expect(Int7(truncatingIfNecessary: -65).rawUInt7Byte == 0b0111111) // wrap 63
         #expect(Int7(truncatingIfNecessary: -66).rawUInt7Byte == 0b0111110) // wrap 62
     }
-    
+
     @Test
     func truncatingIfNecessary_binaryString() {
         #expect(Int7(truncatingIfNecessary:  65).binaryString == "0b1000001") // wrap -63
@@ -120,7 +121,7 @@ import Testing
         #expect(Int7(truncatingIfNecessary: -65).binaryString == "0b0111111") // wrap 63
         #expect(Int7(truncatingIfNecessary: -66).binaryString == "0b0111110") // wrap 62
     }
-    
+
     @Test
     func init_BitPattern_UInt7() {
         #expect(Int7(bitPattern: UInt7(0b1000001)).intValue == -63) // wrap -63
@@ -135,7 +136,7 @@ import Testing
         #expect(Int7(bitPattern: UInt7(0b0111111)).intValue ==  63) // wrap 63
         #expect(Int7(bitPattern: UInt7(0b0111110)).intValue ==  62) // wrap 62
     }
-    
+
     @Test
     func init_BitPattern_UInt8() {
         #expect(Int7(bitPattern: UInt8(0b1000001)).intValue == -63) // wrap -63

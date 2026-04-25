@@ -1,6 +1,6 @@
 //
 //  ReceivesMIDIEvents.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -29,10 +29,10 @@
 /// ```
 ///
 /// Adoption of this protocol is a convenience and not required.
-public protocol ReceivesMIDIEvents: AnyObject where Self: Sendable  {
+public protocol ReceivesMIDIEvents: AnyObject where Self: Sendable {
     /// Process MIDI events.
     func midiIn(event: MIDIEvent)
-    
+
     /// Process MIDI events.
     func midiIn(events: [MIDIEvent])
 }

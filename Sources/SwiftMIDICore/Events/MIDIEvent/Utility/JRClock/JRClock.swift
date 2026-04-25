@@ -1,6 +1,6 @@
 //
 //  JRClock.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -34,10 +34,10 @@ extension MIDIEvent {
         /// > messages for the Receiver, the Sender shall send a JR Clock message at least once
         /// > every 250 milliseconds.
         public var time: UInt16
-        
+
         /// UMP Group (`0x0 ... 0xF`)
         public var group: UInt4 = 0x0
-        
+
         /// JR Clock (Jitter-Reduction Clock)
         /// (MIDI 2.0 Utility Messages)
         ///
@@ -105,22 +105,22 @@ extension MIDIEvent.JRClock {
     ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
     public func midi2RawUMPWords() -> [UMPWord] {
         let umpMessageType: MIDIUMPMessageType = .utility
-    
+
         let mtAndGroup = (umpMessageType.rawValue.uInt8Value << 4) + group.uInt8Value
-    
+
         let utilityStatus: MIDIUMPUtilityStatusField = .jrClock
-    
+
         // MIDI 2.0 only
-    
+
         let timeBytes = BytePair(time)
-    
+
         let word = UMPWord(
             mtAndGroup,
             (utilityStatus.rawValue.uInt8Value << 4) + 0x0,
             timeBytes.msb,
             timeBytes.lsb
         )
-    
+
         return [word]
     }
 }

@@ -1,6 +1,6 @@
 //
 //  MainThreadSynchronizedPThreadMutexValue.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -12,7 +12,7 @@ public struct MainThreadSynchronizedPThreadMutexValue<T> {
     private nonisolated let queue: DispatchQueue = .main
     private let lock = PThreadRWLock()
     nonisolated(unsafe) private let storage: ValueWrapper
-    
+
     public init(_ value: T) {
         if Thread.isMainThread {
             storage = ValueWrapper(value)
@@ -20,7 +20,7 @@ public struct MainThreadSynchronizedPThreadMutexValue<T> {
             storage = queue.sync { ValueWrapper(value) }
         }
     }
-    
+
     public var value: T {
         get {
             lock.readLock()
@@ -55,8 +55,7 @@ public struct MainThreadSynchronizedPThreadMutexValue<T> {
 }
 
 extension MainThreadSynchronizedPThreadMutexValue: Equatable where T: Equatable {
-    public static func == (lhs: MainThreadSynchronizedPThreadMutexValue<T>,
-                           rhs: MainThreadSynchronizedPThreadMutexValue<T>) -> Bool {
+    public static func == (lhs: MainThreadSynchronizedPThreadMutexValue<T>, rhs: MainThreadSynchronizedPThreadMutexValue<T>) -> Bool {
         lhs.value == rhs.value
     }
 }
@@ -76,19 +75,19 @@ extension MainThreadSynchronizedPThreadMutexValue {
     public func withReadLock<Result, E>(_ block: (T) throws(E) -> Result) rethrows -> Result {
         lock.readLock()
         defer { lock.unlock() }
-        
+
         if Thread.isMainThread {
             return try block(storage.value)
         } else {
             return try queue.sync { try block(storage.value) }
         }
     }
-    
+
     @discardableResult @_disfavoredOverload
     public mutating func withWriteLock<Result, E>(_ block: (inout T) throws(E) -> Result) rethrows -> Result {
         lock.writeLock()
         defer { lock.unlock() }
-        
+
         if Thread.isMainThread {
             return try block(&storage.value)
         } else {
@@ -102,7 +101,7 @@ extension MainThreadSynchronizedPThreadMutexValue {
 extension MainThreadSynchronizedPThreadMutexValue {
     fileprivate final class ValueWrapper {
         var value: T
-        
+
         init(_ value: T) {
             self.value = value
         }
@@ -110,8 +109,10 @@ extension MainThreadSynchronizedPThreadMutexValue {
 }
 
 extension MainThreadSynchronizedPThreadMutexValue.ValueWrapper: Equatable where T: Equatable {
-    static func == (lhs: MainThreadSynchronizedPThreadMutexValue<T>.ValueWrapper,
-                    rhs: MainThreadSynchronizedPThreadMutexValue<T>.ValueWrapper) -> Bool {
+    static func == (
+        lhs: MainThreadSynchronizedPThreadMutexValue<T>.ValueWrapper,
+        rhs: MainThreadSynchronizedPThreadMutexValue<T>.ValueWrapper
+    ) -> Bool {
         lhs.value == rhs.value
     }
 }

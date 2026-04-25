@@ -1,6 +1,6 @@
 //
 //  MIDINote.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -12,15 +12,15 @@ import Foundation
 /// string representation.
 public struct MIDINote: Equatable, Hashable {
     // MARK: - Constants
-    
+
     /// MIDI note number.
     public var number: UInt7 = 0
-    
+
     /// MIDI note naming style (octave offset).
     public var style: Style = .yamaha
-    
+
     // MARK: - Init
-    
+
     /// Construct from a MIDI note number.
     @_disfavoredOverload
     public init(
@@ -28,13 +28,13 @@ public struct MIDINote: Equatable, Hashable {
         style: Style = .yamaha
     ) throws(NoteError) {
         self.style = style
-    
+
         guard let uint7 = UInt7(exactly: number) else {
             throw NoteError.outOfBounds
         }
         self.number = uint7
     }
-    
+
     /// Construct from a MIDI note number.
     public init(
         _ number: UInt7,
@@ -43,7 +43,7 @@ public struct MIDINote: Equatable, Hashable {
         self.style = style
         self.number = number
     }
-    
+
     /// Construct from a note `Name` and octave.
     public init(
         _ name: Name,
@@ -56,7 +56,7 @@ public struct MIDINote: Equatable, Hashable {
             octave: octave
         )
     }
-    
+
     /// Construct from a MIDI note name string.
     public init(
         _ string: String,
@@ -65,7 +65,7 @@ public struct MIDINote: Equatable, Hashable {
         self.style = style
         try setNoteNumber(from: string)
     }
-    
+
     /// Construct from a frequency in Hz and round to the nearest MIDI note.
     /// Sets the nearest note number to the frequency.
     public init(
@@ -75,7 +75,7 @@ public struct MIDINote: Equatable, Hashable {
         self.style = style
         try setNoteNumber(frequency: frequency)
     }
-    
+
     /// Get the MIDI note name enum case.
     public var name: Name {
         Name.convert(
@@ -84,7 +84,7 @@ public struct MIDINote: Equatable, Hashable {
         )
         .name
     }
-    
+
     /// Get the MIDI note name enum case.
     ///
     /// This octave number reflects the naming style that was set at time of initialization.
@@ -95,7 +95,7 @@ public struct MIDINote: Equatable, Hashable {
         )
         .octave
     }
-    
+
     /// Get the MIDI note name string (ie: "A-2" "C#6").
     ///
     /// This string reflects the naming style that was set at time of initialization.
@@ -114,19 +114,19 @@ public struct MIDINote: Equatable, Hashable {
             .quotientAndRemainder(dividingBy: 12)
         let octave = divided.quotient + style.firstOctaveOffset
         let scaleOffset = divided.remainder
-    
+
         let findNoteName = Name.allCases
             .first(where: { $0.scaleOffset == scaleOffset })
-    
+
         let noteName = findNoteName?.stringValue(
             respellSharpAsFlat: respellSharpAsFlat,
             unicodeAccidental: unicodeAccidental
         )
             ?? "?"
-    
+
         return "\(noteName)\(octave)"
     }
-    
+
     /// Get MIDI note frequency in Hz, based on tuning.
     public func frequencyValue(tuning: Double = 440.0) -> Double {
         Self.calculateFrequency(
@@ -145,18 +145,18 @@ extension MIDINote {
         octave: Int
     ) throws(NoteError) {
         let noteNum = ((octave - style.firstOctaveOffset) * 12) + source.scaleOffset
-    
+
         guard let uInt7 = UInt7(exactly: noteNum) else {
             throw .outOfBounds
         }
-    
+
         number = uInt7
     }
-    
+
     /// Set note number from a MIDI note name string.
     mutating func setNoteNumber(from source: String) throws(NoteError) {
         var noteString = ""
-    
+
         let testCharSet = CharacterSet(charactersIn: "ABCDEFG")
         guard let rngNote = source.rangeOfCharacter(
             from: testCharSet,
@@ -165,30 +165,30 @@ extension MIDINote {
         ) else {
             throw .malformedNoteName
         }
-    
+
         // test for # Sharp
-    
+
         let cs = [
             MIDINote.Name.sharpAccidental,
             MIDINote.Name.sharpAccidentalUnicode,
             MIDINote.Name.flatAccidental,
             MIDINote.Name.flatAccidentalUnicode
         ]
-            .map { "\($0)" }
-            .joined()
-    
+        .map { "\($0)" }
+        .joined()
+
         let accidentalCharSet = CharacterSet(charactersIn: cs)
-    
+
         if let rngAccidental = source.rangeOfCharacter(from: accidentalCharSet) {
             noteString = String(source[rngNote.lowerBound ... rngAccidental.lowerBound])
         } else {
             noteString = String(source[rngNote])
         }
-    
+
         guard let noteName = Name(noteString) else {
             throw .malformedNoteName
         }
-    
+
         let octaveString = String(
             source[
                 source.index(
@@ -197,23 +197,23 @@ extension MIDINote {
                 )...
             ]
         )
-    
+
         // must convert string to int
         guard let octave = Int(octaveString) else {
             throw .outOfBounds
         }
-    
+
         // must be within range
         guard (style.firstOctaveOffset ... 10 + style.firstOctaveOffset) ~= octave else {
             throw .outOfBounds
         }
-    
+
         try setNoteNumber(
             noteName,
             octave: octave
         )
     }
-    
+
     /// Sets the nearest note number to the frequency in Hz.
     mutating func setNoteNumber(
         frequency: Double,
@@ -223,11 +223,11 @@ extension MIDINote {
             frequency: frequency,
             tuning: tuning
         )
-    
+
         guard let uInt7 = UInt7(exactly: noteNum) else {
             throw .outOfBounds
         }
-    
+
         number = uInt7
     }
 }
@@ -248,7 +248,7 @@ extension MIDINote: Comparable {
     public static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.number == rhs.number
     }
-    
+
     public static func < (lhs: Self, rhs: Self) -> Bool {
         lhs.number < rhs.number
     }
@@ -256,20 +256,22 @@ extension MIDINote: Comparable {
 
 extension MIDINote: Strideable {
     public typealias Stride = Int
-    
+
     public func distance(to other: Self) -> Int {
         other.number.intValue - number.intValue
     }
-    
+
     public func advanced(by n: Int) -> Self {
         let clamped = UInt7(clamping: number.intValue + n)
-    
+
         return Self(clamped, style: style)
     }
 }
 
 extension MIDINote: Identifiable {
-    public var id: UInt7 { number }
+    public var id: UInt7 {
+        number
+    }
 }
 
 extension MIDINote: Sendable { }
@@ -292,7 +294,7 @@ extension MIDINote {
     ) -> Double {
         pow(2.0, (Double(midiNote) - 69.0) / 12.0) * tuning
     }
-    
+
     /// Utility method that returns a MIDI note number calculated from frequency in Hz.
     /// Note: Results may be out-of-bounds (outside of `0 ... 127`)
     /// - Parameters:

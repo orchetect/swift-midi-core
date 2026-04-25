@@ -1,6 +1,6 @@
 //
 //  Hex and Binary String.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -15,7 +15,7 @@ extension BinaryInteger {
         (prefix ? "0x" : "")
             + String(self, radix: 16, uppercase: true)
     }
-    
+
     /// Returns an integer as a hex string padded to _n_ characters after the prefix.
     /// Prefix optional.
     public func hexString(padTo: Int, prefix: Bool = true) -> String {
@@ -36,7 +36,7 @@ extension Collection where Element: BinaryInteger {
         map { $0.hexString(prefix: prefixes) }
             .joined(separator: separator)
     }
-    
+
     /// Returns a collection of integers as a flat string of hex strings
     /// padded to _n_ characters after the prefix.
     /// Prefixes optional.
@@ -48,7 +48,7 @@ extension Collection where Element: BinaryInteger {
         map { $0.hexString(padTo: padEachTo, prefix: prefixes) }
             .joined(separator: separator)
     }
-    
+
     /// Returns a concatenated string formatted as a hex string array literal.
     public func hexStringArrayLiteral(padEachTo: Int = 2) -> String {
         "[" + hexString(padEachTo: padEachTo, prefixes: true, separator: ", ") + "]"
@@ -64,7 +64,7 @@ extension BinaryInteger {
         (prefix ? "0b" : "")
             + String(self, radix: 2, uppercase: true)
     }
-    
+
     /// Returns an integer as a binary string padded to _n_ characters after the prefix.
     /// Prefix optional.
     public func binaryString(padTo: Int, prefix: Bool = true) -> String {
@@ -85,7 +85,7 @@ extension Collection where Element: BinaryInteger {
         map { $0.binaryString(prefix: prefixes) }
             .joined(separator: separator)
     }
-    
+
     /// Returns a collection of integers as a flat string of binary strings
     /// padded to _n_ characters after the prefix.
     /// Prefixes optional.

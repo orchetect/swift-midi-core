@@ -1,6 +1,6 @@
 //
 //  SysExManufacturer.swift
-//  swift-midi • https://github.com/orchetect/swift-midi
+//  swift-midi-core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
@@ -50,56 +50,56 @@ extension MIDIEvent.SysExManufacturer {
             case 0x00:
                 // 0x00 is invalid if no bytes follow
                 return nil
-    
+
             case 0x01 ... 0x7D:
                 self = .oneByte(sysEx7RawBytes[0].toUInt7)
                 return
-    
+
             case 0x7E, 0x7F:
                 // reserved for Universal Sys Ex, not valid manufacturer IDs
                 return nil
-    
+
             default: // 0x80...
                 // top bit set is invalid; malformed
                 return nil
             }
-    
+
         case 3:
             guard sysEx7RawBytes[0] == 0x00 else { return nil }
-    
+
             guard let byte2 = UInt7(exactly: sysEx7RawBytes[1]),
                   let byte3 = UInt7(exactly: sysEx7RawBytes[2])
             else { return nil }
-    
+
             self = .threeByte(byte2: byte2, byte3: byte3)
             return
-    
+
         default:
             return nil
         }
     }
-    
+
     /// Initialize from a MIDI 2.0 SysEx8 ID (two bytes).
     public init?(sysEx8RawBytes: [UInt8]) {
         guard sysEx8RawBytes.count == 2 else { return nil }
-    
+
         switch sysEx8RawBytes[0] {
         case 0x00: // "one byte" ID
             // 0x00 is not valid for one-byte ID
             guard sysEx8RawBytes[1] > 0x00 else { return nil }
-    
+
             // 0x7E and 0x7F are reserved for Universal SysEx
             guard sysEx8RawBytes[1] < 0x7E else { return nil }
-    
+
             guard let byte = UInt7(exactly: sysEx8RawBytes[1]) else { return nil }
             self = .oneByte(byte)
             return
-    
+
         case 0x80...: // "three byte" ID
             let byte2 = (sysEx8RawBytes[0] & 0b01111111).toUInt7
             guard let byte3 = UInt7(exactly: sysEx8RawBytes[1]) else { return nil }
             self = .threeByte(byte2: byte2, byte3: byte3)
-    
+
         default:
             return nil
         }
@@ -113,18 +113,18 @@ extension MIDIEvent.SysExManufacturer {
         switch self {
         case let .oneByte(byte):
             [byte.uInt8Value]
-    
+
         case let .threeByte(byte2: byte2, byte3: byte3):
             [0x00, byte2.uInt8Value, byte3.uInt8Value]
         }
     }
-    
+
     /// Returns the Manufacturer byte(s) formatted for MIDI 2.0 SysEx8, as two bytes (16-bit).
     public func sysEx8RawBytes() -> [UInt8] {
         switch self {
         case let .oneByte(byte):
             [0x00, byte.uInt8Value]
-    
+
         case let .threeByte(byte2: byte2, byte3: byte3):
             [
                 0b10000000 + byte2.uInt8Value,
@@ -146,14 +146,14 @@ extension MIDIEvent.SysExManufacturer {
         switch self {
         case let .oneByte(byte):
             (0x01 ... 0x7D).contains(byte)
-    
+
         case let .threeByte(byte2: byte2, byte3: byte3):
             // both can't be 0x00, at least one has to be non-zero.
             // all other scenarios are valid
             !(byte2 == 0x00 && byte3 == 0x00)
         }
     }
-    
+
     /// Returns the name of the manufacturer associated with the Manufacturer System Exclusive ID,
     /// as assigned by the MIDI Manufacturers Association.
     ///
@@ -193,7 +193,7 @@ extension MIDIEvent.SysExManufacturer {
         // MARK: Special IDs
 
         [0x7D]: "-", // used for Educational Use or for unit testing, not public release
-        
+
         // MARK: North American Group
 
         // 0x00 is Used for ID extensions and is not a valid 1-byte ID
@@ -576,7 +576,7 @@ extension MIDIEvent.SysExManufacturer {
         [0x00, 0x02, 0x39]: "Isla Instruments",
         [0x00, 0x02, 0x3A]: "Soundiron LLC",
         [0x00, 0x02, 0x3B]: "Sonoclast, LLC",
-        
+
         // MARK: European and 'Other' Group
 
         [0x00, 0x20, 0x00]: "Dream SAS",
@@ -797,9 +797,9 @@ extension MIDIEvent.SysExManufacturer {
         [0x00, 0x21, 0x57]: "RSS Sound Design",
         [0x00, 0x21, 0x58]: "Nonlinear Labs GmbH",
         [0x00, 0x21, 0x59]: "Robkoo Information & Technologies Co., Ltd.",
-        
+
         // MARK: Japanese Group
-    
+
         [0x40]: "Kawai Musical Instruments MFG. CO. Ltd",
         [0x41]: "Roland Corporation",
         [0x42]: "Korg Inc.",
@@ -822,7 +822,7 @@ extension MIDIEvent.SysExManufacturer {
         [0x5A]: "Internet Corporation",
         [0x5C]: "Seekers Co. Ltd.",
         [0x5F]: "SD Card Association",
-        
+
         [0x00, 0x40, 0x00]: "Crimson Technology Inc.",
         [0x00, 0x40, 0x01]: "Softbank Mobile Corp",
         [0x00, 0x40, 0x03]: "D&M Holdings Inc.",
@@ -830,12 +830,12 @@ extension MIDIEvent.SysExManufacturer {
         [0x00, 0x40, 0x05]: "AlphaTheta Corporation",
         [0x00, 0x40, 0x06]: "Pioneer Corporation",
         [0x00, 0x40, 0x07]: "Slik Corporation",
-        
-        [0x00, 0x48, 0x00]: "sigboost Co., Ltd.",        // expiration date: 2021.50.30
-        [0x00, 0x48, 0x01]: "Lost Technology",           // expiration date: 2021.06.19
-        [0x00, 0x48, 0x02]: "Uchiwa Fujin",              // expiration date: 2021.06.30
+
+        [0x00, 0x48, 0x00]: "sigboost Co., Ltd.", // expiration date: 2021.50.30
+        [0x00, 0x48, 0x01]: "Lost Technology", // expiration date: 2021.06.19
+        [0x00, 0x48, 0x02]: "Uchiwa Fujin", // expiration date: 2021.06.30
         [0x00, 0x48, 0x03]: "Tsukuba Science Co., Ltd.", // expiration date: 2021.10.04
-        [0x00, 0x48, 0x04]: "Sonicware Co., Ltd.",       // expiration date: 2021.11.06
-        [0x00, 0x48, 0x05]: "Poppy only workshop"        // expiration date: 2021.10.20
+        [0x00, 0x48, 0x04]: "Sonicware Co., Ltd.", // expiration date: 2021.11.06
+        [0x00, 0x48, 0x05]: "Poppy only workshop" // expiration date: 2021.10.20
     ]
 }
