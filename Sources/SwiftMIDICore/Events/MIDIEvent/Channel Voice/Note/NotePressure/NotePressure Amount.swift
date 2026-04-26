@@ -1,6 +1,6 @@
 //
 //  NotePressure Amount.swift
-//  swift-midi-core • https://github.com/orchetect/swift-midi-core
+//  SwiftMIDI Core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
