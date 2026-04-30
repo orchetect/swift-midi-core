@@ -16,25 +16,30 @@ public enum Exception {
 extension Exception {
     @inlinable
     public func raise(reason: String? = nil) {
-        switch self {
-        case .overflow:
-            Self.raiseException(.decimalNumberOverflowException, reason: reason)
+        #if canImport(ObjectiveC)
+            let name: NSExceptionName =
+                switch self {
+                case .overflow:
+                    .decimalNumberOverflowException
 
-        case .underflow:
-            Self.raiseException(.decimalNumberUnderflowException, reason: reason)
+                case .underflow:
+                    .decimalNumberUnderflowException
 
-        case .divisionByZero:
-            Self.raiseException(.decimalNumberDivideByZeroException, reason: reason)
-        }
-    }
+                case .divisionByZero:
+                    .decimalNumberDivideByZeroException
+                }
 
-    /// Raises an `NSException`
-    @usableFromInline
-    static func raiseException(
-        _ exceptionName: NSExceptionName,
-        reason: String? = nil
-    ) {
-        let exception = NSException(name: exceptionName, reason: reason, userInfo: nil)
-        exception.raise()
+            let exception = NSException(name: name, reason: reason, userInfo: nil)
+            exception.raise()
+        #else
+            switch self {
+            case .overflow:
+                fatalError(reason ?? "Decimal number overflow")
+            case .underflow:
+                fatalError(reason ?? "Decimal number underflow")
+            case .divisionByZero:
+                fatalError(reason ?? "Decimal number division by zero")
+            }
+        #endif
     }
 }

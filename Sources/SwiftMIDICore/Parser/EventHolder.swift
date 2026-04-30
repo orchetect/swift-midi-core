@@ -70,7 +70,7 @@ extension EventHolder {
         // prefer using Task over Timer.
         // Timer uses old-school runloop which interferes with Swift Concurrency and in some contexts may not work correctly.
         if #available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *) {
-            let nsec = UInt64(timeOut * TimeInterval(NSEC_PER_SEC))
+            let nsec = UInt64(timeOut * 1_000_000_000)
             expirationTaskTyped = Task { [weak self] in
                 try await Task.sleep(nanoseconds: nsec)
                 try Task.checkCancellation()

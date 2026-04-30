@@ -130,7 +130,7 @@ extension timespec /* : Comparable */ {
 
 #endif
 
-#if canImport(Foundation)
+#if canImport(Darwin)
 
 import Foundation
 

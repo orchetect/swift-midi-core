@@ -45,7 +45,7 @@ public final class SafeDispatchTimer /* : Sendable */ {
         rate: Rate,
         leeway: DispatchTimeInterval = .nanoseconds(0),
         queue: DispatchQueue? = nil,
-        eventHandler: @escaping DispatchSource.DispatchSourceHandler = { }
+        eventHandler: @escaping SwiftMIDIDispatchSourceHandler = { }
     ) {
         self.rate = rate
         self.leeway = leeway
@@ -120,7 +120,7 @@ public final class SafeDispatchTimer /* : Sendable */ {
     }
 
     /// Set the event handler closure that the timer executes
-    public func setEventHandler(handler: @escaping DispatchSource.DispatchSourceHandler) {
+    public func setEventHandler(handler: @escaping SwiftMIDIDispatchSourceHandler) {
         timer.setEventHandler(handler: handler)
     }
 

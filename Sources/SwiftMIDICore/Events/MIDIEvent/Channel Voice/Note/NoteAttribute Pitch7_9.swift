@@ -4,7 +4,6 @@
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-import Darwin
 
 extension MIDIEvent.NoteAttribute {
     /// Pitch 7.9 Note Attribute
@@ -113,12 +112,23 @@ extension MIDIEvent.NoteAttribute.Pitch7_9 {
     ///
     /// Range: `0+(0/512) ... 127+(511/512)`
     public init(_ double: Double) {
-        let double = double.clamped(to: 0.0 ... 127.998046875)
+        // Clamp to representable range
+        let clamped = double.clamped(to: 0.0 ... 127.998046875)
 
-        let truncated = trunc(double)
+        // Integer part: 0 ... 127, truncate toward zero
+        let coarseDouble = clamped.rounded(.towardZero)
 
-        coarse = UInt7(truncated)
-        fine = UInt9(round((double - truncated) * 0b10_00000000))
+        // Fractional part in 0 ... 1
+        let fractional = clamped - coarseDouble
+
+        // Scale fractional part to 9-bit range (0 ... 511) and round to nearest
+        let fineDouble = (fractional * 512).rounded()  // 0b10_00000000 == 512
+
+        // Clamp to 0...511 to avoid +1 overflow if rounded hits 512
+        let fineClamped = fineDouble.clamped(to: 0.0 ... 511.0)
+
+        coarse = UInt7(coarseDouble)
+        fine = UInt9(fineClamped)
     }
 
     /// Converted to a Double value (`0.0 ... 127.998046875`)

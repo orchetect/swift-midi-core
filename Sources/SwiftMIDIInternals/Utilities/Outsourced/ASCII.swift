@@ -27,10 +27,7 @@ extension StringProtocol {
     /// will be substituted.
     @available(OSX 10.11, iOS 9.0, *)
     var asciiStringLossy: String {
-        let transformed = applyingTransform(
-            StringTransform("Latin-ASCII"),
-            reverse: false
-        )
+        let transformed = TextTransform.apply(.latinASCII, to: String(self))
 
         let components = (transformed ?? String(self))
             .components(separatedBy: CharacterSet.asciiPrintable.inverted)

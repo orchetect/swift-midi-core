@@ -4,7 +4,6 @@
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-import CoreMIDI
 import SwiftMIDIInternals
 
 /// Platform-agnostic raw MIDI 2.0 UMP (Universal MIDI Packet) packet data.
