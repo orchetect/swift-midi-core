@@ -40,7 +40,9 @@ To use this extension as standalone dependency (instead of importing the **swift
 
 ## Documentation & Support
 
-See the [online documentation](https://swiftpackageindex.com/orchetect/swift-midi-core/main/documentation) for this repository and the dedicated [code examples](https://github.com/orchetect/swift-midi-examples) repository.
+See the [online documentation](https://swiftpackageindex.com/orchetect/swift-midi-core/main/documentation) for this repository.
+
+For example projects covering this package's functionality, see the [`swift-midi-io`](https://github.com/orchetect/swift-midi-io) Examples folder.
 
 For support, feature requests, and bug reports see the main [SwiftMIDI](https://github.com/orchetect/swift-midi) repository.
 
