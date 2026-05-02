@@ -39,4 +39,4 @@ SwiftMIDI contains additional objects and value types.
 
 ## Examples
 
-See the [example projects](https://github.com/orchetect/swift-midi-examples) for demonstration of best practises in using SwiftMIDI.
+For example projects covering this package's functionality, see the [`swift-midi-io`](https://github.com/orchetect/swift-midi-io) Examples folder.
