@@ -8,11 +8,11 @@ MIDI events and value types for [SwiftMIDI](https://github.com/orchetect/swift-m
 
 ## Compatibility
 
-| macOS | iOS  | visionOS | Linux | Android | Windows |
-| :---: | :--: | :------: | :---: | :-----: | :-----: |
-|   🟢   |  🟢   |    🟢     |  🚧 †  |   🚧 †   |    -    |
+| macOS | iOS  | visionOS | tvOS | watchOS | Linux  | Android | Windows |
+| :---: | :--: | :------: | :--: | :-----: | :----: | :-----: | :-----: |
+|   🟢   |  🟢   |    🟢     |  🟢   |    🟢    | 🚧 [^1] | 🚧 [^1]  |    -    |
 
-`†` Support for indicated platforms is either planned or WIP.
+[^1]: Support for indicated platforms is either planned or WIP.
 
 ## Getting Started
 
