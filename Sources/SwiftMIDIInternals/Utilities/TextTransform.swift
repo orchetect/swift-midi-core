@@ -1,5 +1,5 @@
 //
-//  Utilities.swift
+//  TextTransform.swift
 //  SwiftMIDI Core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews + contributors • Licensed under MIT License
 //
@@ -7,46 +7,37 @@
 import CoreFoundation
 import Foundation
 
-enum ICUTransform: String {
+/// Cross-platform text transformation.
+enum TextTransform: String, Sendable {
     case latinASCII = "Latin-ASCII"
 }
 
-enum TextTransform {
-    @inline(__always)
-    private static func makeCFMutableString(_ source: String) -> CFMutableString {
-        let ns = NSMutableString(string: source)
-        return unsafeBitCast(ns, to: CFMutableString.self)
-    }
+// MARK: - Methods
 
-    @inline(__always)
-    private static func makeCFString(_ source: String) -> CFString {
-        let ns = source as NSString
-        return unsafeBitCast(ns, to: CFString.self)
-    }
-
-    @inline(__always)
-    private static func makeString(_ source: CFMutableString) -> String {
-        let ns = unsafeBitCast(source, to: NSMutableString.self)
-        return ns as String
-    }
-
-    static func apply(
-        _ transform: ICUTransform,
+extension TextTransform {
+    func apply(
         to source: String,
         reverse: Bool = false
     ) -> String? {
-        let mutable = makeCFMutableString(source)
-        let success = CFStringTransform(
+        let mutable = source.toCFMutableString()
+        let isSuccess = CFStringTransform(
             mutable,
             nil,
-            makeCFString(transform.rawValue),
+            rawValue.toCFString(),
             reverse
         )
-        guard success else { return nil }
-        return makeString(mutable)
+        guard isSuccess else { return nil }
+        return mutable.toString()
     }
+}
 
-    static func latinToASCII(_ source: String) -> String? {
-        apply(.latinASCII, to: source)
+// MARK: - String Category Method
+
+extension String {
+    func apply(
+        transform: TextTransform,
+        reverse: Bool = false
+    ) -> String? {
+        transform.apply(to: self, reverse: reverse)
     }
 }
