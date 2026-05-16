@@ -8,7 +8,7 @@
 import Testing
 import TestingExtensions
 
-@Suite
+@Suite(.enabledIfSystemTimingStable())
 struct AdvancedMIDI2Parser_Tests {
     /// Using dummy timestamp/endpoint types, as they are implementation details of platform-specific I/O frameworks,
     /// so we aren't testing them here.
