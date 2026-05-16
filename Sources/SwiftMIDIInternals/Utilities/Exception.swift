@@ -6,7 +6,7 @@
 
 import Foundation
 
-/// Pre-formed `NSException` cases.
+/// Exception types.
 public enum Exception {
     case overflow
     case underflow
@@ -14,32 +14,39 @@ public enum Exception {
 }
 
 extension Exception {
+    /// Description of the reason for the exception.
     @inlinable
-    public func raise(reason: String? = nil) {
+    public var reason: String {
+        switch self {
+        case .overflow:
+            "Number overflow."
+        case .underflow:
+            "Number underflow."
+        case .divisionByZero:
+            "Division by zero."
+        }
+    }
+
+    /// Raises the exception.
+    /// On Apple platforms, this raises an Objective-C exception.
+    /// On non-Apple platforms, this calls `fatalError`.
+    @inlinable
+    public func raise(reason customReason: String? = nil) {
+        let reasonString = customReason ?? reason
+        
         #if canImport(ObjectiveC)
-            let name: NSExceptionName =
-                switch self {
-                case .overflow:
-                    .decimalNumberOverflowException
+            // raise an Objective-C exception
+            let name: NSExceptionName = switch self {
+            case .overflow: .decimalNumberOverflowException
+            case .underflow: .decimalNumberUnderflowException
+            case .divisionByZero: .decimalNumberDivideByZeroException
+            }
 
-                case .underflow:
-                    .decimalNumberUnderflowException
-
-                case .divisionByZero:
-                    .decimalNumberDivideByZeroException
-                }
-
-            let exception = NSException(name: name, reason: reason, userInfo: nil)
+            let exception = NSException(name: name, reason: reasonString, userInfo: nil)
             exception.raise()
         #else
-            switch self {
-            case .overflow:
-                fatalError(reason ?? "Decimal number overflow")
-            case .underflow:
-                fatalError(reason ?? "Decimal number underflow")
-            case .divisionByZero:
-                fatalError(reason ?? "Decimal number division by zero")
-            }
+            // fall back to fatal error
+            fatalError(reasonString)
         #endif
     }
 }
