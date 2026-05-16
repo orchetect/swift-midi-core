@@ -1,4 +1,4 @@
-![swift-midi-core](Images/swift-midi-core-banner.png)
+![SwiftMIDI Core](Images/swift-midi-core-banner.png)
 
 # SwiftMIDI Core
 
@@ -10,7 +10,7 @@ MIDI events and value types for [SwiftMIDI](https://github.com/orchetect/swift-m
 
 | macOS | iOS  | visionOS | Linux | Android | Windows |
 | :---: | :--: | :------: | :---: | :-----: | :-----: |
-|   🟢   |  🟢   |    🟢     |  🚧 †  |   🚧 †   |    -    |
+|   🟢   |  🟢   |    🟢     |   🟢   |   🚧 †   |    -    |
 
 `†` Support for indicated platforms is either planned or WIP.
 
