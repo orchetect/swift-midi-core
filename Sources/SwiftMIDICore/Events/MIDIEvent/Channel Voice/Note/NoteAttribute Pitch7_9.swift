@@ -122,19 +122,20 @@ extension MIDIEvent.NoteAttribute.Pitch7_9 {
         let fractional = clamped - coarseDouble
 
         // Scale fractional part to 9-bit range (0 ... 511) and round to nearest
-        let fineDouble = (fractional * 512).rounded()  // 0b10_00000000 == 512
+        let fineDouble = Int((fractional * 0b10_00000000).rounded()) // 0b10_00000000 == 512
 
-        // Clamp to 0...511 to avoid +1 overflow if rounded hits 512
-        let fineClamped = fineDouble.clamped(to: 0.0 ... 511.0)
+        // Clamp to avoid +1 rounding overflow if rounded hits 512
+        let fineClamped = UInt9(clamping: fineDouble)
 
         coarse = UInt7(coarseDouble)
-        fine = UInt9(fineClamped)
+        fine = fineClamped
     }
 
     /// Converted to a `Double` value.
     /// (`0.0 ..< 128.0` which is in effect `0.0 ... 127.998046875`)
     @inlinable
     public var doubleValue: Double {
-        Double(coarse.uInt8Value) + (Double(fine.uInt16Value) / 0b10_00000000)
+        Double(coarse.uInt8Value)
+            + (Double(fine.uInt16Value) / 0b10_00000000) // 0b10_00000000 == 512
     }
 }
