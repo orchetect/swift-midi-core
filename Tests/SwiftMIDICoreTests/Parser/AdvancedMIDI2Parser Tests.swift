@@ -76,7 +76,7 @@ struct AdvancedMIDI2Parser_Tests {
         #expect(await receiver.events == inputEvents)
     }
 
-    /// This mimics the two UMP events that Core MIDI will produce when
+    /// This mimics the two UMP events that Core MIDI on Apple platforms will produce when
     /// translating MIDI 1.0 RPN to UMP when a Data Entry LSB is present.
     @Test
     func holdOff_RPN_DataEntryMSBAndLSB() async throws {
@@ -116,7 +116,7 @@ struct AdvancedMIDI2Parser_Tests {
         #expect(await receiver.events == inputEvents)
     }
 
-    /// This mimics the two UMP events that Core MIDI will produce when
+    /// This mimics the two UMP events that Core MIDI on Apple platforms will produce when
     /// translating MIDI 1.0 RPN to UMP when a Data Entry LSB is present.
     @Test
     func holdOn_RPN_DataEntryMSBAndLSB_Together() async throws {
@@ -139,8 +139,11 @@ struct AdvancedMIDI2Parser_Tests {
         ])
     }
 
-    /// This mimics the two UMP events that Core MIDI will produce when
+    /// This mimics the two UMP events that Core MIDI on Apple platforms will produce when
     /// translating MIDI 1.0 RPN to UMP when a Data Entry LSB is present.
+    ///
+    /// This test is not applicable to non-Apple platforms, as it is testing implementation details
+    /// of Core MIDI behavior.
     @Test
     func holdOn_RPN_DataEntryMSBAndLSB_Apart() async throws {
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = true
@@ -231,7 +234,7 @@ struct AdvancedMIDI2Parser_Tests {
         #expect(await receiver.events == inputEvents)
     }
 
-    /// This mimics the two UMP events that Core MIDI will produce when
+    /// This mimics the two UMP events that Core MIDI on Apple platforms will produce when
     /// translating MIDI 1.0 RPN to UMP when a Data Entry LSB is present.
     @Test
     func holdOff_NRPN_DataEntryMSBAndLSB() async throws {
@@ -271,8 +274,10 @@ struct AdvancedMIDI2Parser_Tests {
         #expect(await receiver.events == inputEvents)
     }
 
-    /// This mimics the two UMP events that Core MIDI will produce when
+    /// This mimics the two UMP events that Core MIDI on Apple platforms will produce when
     /// translating MIDI 1.0 RPN to UMP when a Data Entry LSB is present.
+    ///
+    /// This test should also pass on non-Apple platforms.
     @Test
     func holdOn_NRPN_DataEntryMSBAndLSB_Together() async throws {
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = true
@@ -294,8 +299,11 @@ struct AdvancedMIDI2Parser_Tests {
         ])
     }
 
-    /// This mimics the two UMP events that Core MIDI will produce when
+    /// This mimics the two UMP events that Core MIDI on Apple platforms will produce when
     /// translating MIDI 1.0 RPN to UMP when a Data Entry LSB is present.
+    ///
+    /// This test is not applicable to non-Apple platforms, as it is testing implementation details
+    /// of Core MIDI behavior.
     @Test
     func holdOn_NRPN_DataEntryMSBAndLSB_Apart() async throws {
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = true
@@ -318,7 +326,7 @@ struct AdvancedMIDI2Parser_Tests {
             .nrpn(parameter: .init(msb: 0x40, lsb: 0x41), data: (msb: 0x10, lsb: 0x20), channel: 2)
         ])
     }
-
+    
     /// Two PN events with 0 data entry LSB.
     @Test
     func holdOn_NRPN_DataEntryMSB_Duplicate_Together() async throws {

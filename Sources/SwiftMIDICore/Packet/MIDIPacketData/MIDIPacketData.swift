@@ -10,7 +10,7 @@ import SwiftMIDIInternals
 public struct MIDIPacketData<TimeStamp: Sendable, OutputEndpoint: Sendable> {
     public let bytes: [UInt8]
 
-    /// Core MIDI packet timestamp
+    /// Packet timestamp.
     public let timeStamp: TimeStamp
 
     /// The MIDI endpoint from which the packet originated.
