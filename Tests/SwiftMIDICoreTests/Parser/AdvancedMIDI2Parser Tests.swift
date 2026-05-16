@@ -14,8 +14,7 @@ struct AdvancedMIDI2Parser_Tests {
     /// so we aren't testing them here.
     private typealias Parser = AdvancedMIDI2Parser<Int, String>
 
-    @TestActor
-    private final class Receiver {
+    private actor Receiver {
         // dummy timestamp/endpoint types, as we aren't testing them here
         var parser: Parser
         func process(parsedEvents: inout [MIDIEvent]) {
@@ -31,20 +30,20 @@ struct AdvancedMIDI2Parser_Tests {
             events.removeAll()
         }
 
-        nonisolated init() {
+        init() {
             parser = Parser()
             parser.handleEvents = { [weak self] events, _, _ in
-                Task { @TestActor in
-                    self?.add(events: events)
+                Task {
+                    await self?.add(events: events)
                 }
             }
         }
     }
 
-    private let receiver = Receiver()
-
     @Test
     func basic() async {
+        let receiver = Receiver()
+
         let inputEvents: [MIDIEvent] = [
             .cc(1, value: .midi1(64), channel: 2)
         ]
@@ -61,6 +60,8 @@ struct AdvancedMIDI2Parser_Tests {
 
     @Test
     func holdOff_RPN_DataEntryMSB() async throws {
+        let receiver = Receiver()
+
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = false
 
         let inputEvents: [MIDIEvent] = [
@@ -80,6 +81,8 @@ struct AdvancedMIDI2Parser_Tests {
     /// translating MIDI 1.0 RPN to UMP when a Data Entry LSB is present.
     @Test
     func holdOff_RPN_DataEntryMSBAndLSB() async throws {
+        let receiver = Receiver()
+
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = false
 
         let inputEvents: [MIDIEvent] = [
@@ -99,6 +102,8 @@ struct AdvancedMIDI2Parser_Tests {
 
     @Test
     func holdOn_RPN_DataEntryMSB() async throws {
+        let receiver = Receiver()
+
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = true
 
         let inputEvents: [MIDIEvent] = [
@@ -120,6 +125,8 @@ struct AdvancedMIDI2Parser_Tests {
     /// translating MIDI 1.0 RPN to UMP when a Data Entry LSB is present.
     @Test
     func holdOn_RPN_DataEntryMSBAndLSB_Together() async throws {
+        let receiver = Receiver()
+
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = true
 
         let inputEvents: [MIDIEvent] = [
@@ -146,6 +153,8 @@ struct AdvancedMIDI2Parser_Tests {
     /// of Core MIDI behavior.
     @Test
     func holdOn_RPN_DataEntryMSBAndLSB_Apart() async throws {
+        let receiver = Receiver()
+
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = true
 
         var events1: [MIDIEvent] = [
@@ -170,6 +179,8 @@ struct AdvancedMIDI2Parser_Tests {
     /// Two PN events with 0 data entry LSB.
     @Test
     func holdOn_RPN_DataEntryMSB_Duplicate_Together() async throws {
+        let receiver = Receiver()
+
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = true
 
         let inputEvents: [MIDIEvent] = [
@@ -193,6 +204,8 @@ struct AdvancedMIDI2Parser_Tests {
     /// Two PN events with 0 data entry LSB.
     @Test
     func holdOn_RPN_DataEntryMSB_Duplicate_Apart() async throws {
+        let receiver = Receiver()
+
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = true
 
         var events1: [MIDIEvent] = [
@@ -219,6 +232,8 @@ struct AdvancedMIDI2Parser_Tests {
 
     @Test
     func holdOff_NRPN_DataEntryMSB() async throws {
+        let receiver = Receiver()
+
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = false
 
         let inputEvents: [MIDIEvent] = [
@@ -238,6 +253,8 @@ struct AdvancedMIDI2Parser_Tests {
     /// translating MIDI 1.0 RPN to UMP when a Data Entry LSB is present.
     @Test
     func holdOff_NRPN_DataEntryMSBAndLSB() async throws {
+        let receiver = Receiver()
+
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = false
 
         let inputEvents: [MIDIEvent] = [
@@ -257,6 +274,8 @@ struct AdvancedMIDI2Parser_Tests {
 
     @Test
     func holdOn_NRPN_DataEntryMSB() async throws {
+        let receiver = Receiver()
+
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = true
 
         let inputEvents: [MIDIEvent] = [
@@ -280,6 +299,8 @@ struct AdvancedMIDI2Parser_Tests {
     /// This test should also pass on non-Apple platforms.
     @Test
     func holdOn_NRPN_DataEntryMSBAndLSB_Together() async throws {
+        let receiver = Receiver()
+
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = true
 
         let inputEvents: [MIDIEvent] = [
@@ -306,6 +327,8 @@ struct AdvancedMIDI2Parser_Tests {
     /// of Core MIDI behavior.
     @Test
     func holdOn_NRPN_DataEntryMSBAndLSB_Apart() async throws {
+        let receiver = Receiver()
+
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = true
 
         var events1: [MIDIEvent] = [
@@ -330,6 +353,8 @@ struct AdvancedMIDI2Parser_Tests {
     /// Two PN events with 0 data entry LSB.
     @Test
     func holdOn_NRPN_DataEntryMSB_Duplicate_Together() async throws {
+        let receiver = Receiver()
+
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = true
 
         let inputEvents: [MIDIEvent] = [
@@ -353,6 +378,8 @@ struct AdvancedMIDI2Parser_Tests {
     /// Two PN events with 0 data entry LSB.
     @Test
     func holdOn_NRPN_DataEntryMSB_Duplicate_Apart() async throws {
+        let receiver = Receiver()
+
         await receiver.parser.bundleRPNAndNRPNDataEntryLSB = true
 
         var events1: [MIDIEvent] = [
