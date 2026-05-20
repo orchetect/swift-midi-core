@@ -26,7 +26,13 @@ extension StringProtocol {
     /// Where a suitable character substitution can't reasonably be performed, a question-mark "?"
     /// will be substituted.
     var asciiStringLossy: String {
-        let transformed = applyingTransform(
+        #if canImport(Darwin)
+        let this = self
+        #else
+        let this = String(self) as NSString
+        #endif
+        
+        let transformed = this.applyingTransform(
             StringTransform("Latin-ASCII"),
             reverse: false
         )
