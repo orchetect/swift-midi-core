@@ -26,7 +26,10 @@ extension StringProtocol {
     /// Where a suitable character substitution can't reasonably be performed, a question-mark "?"
     /// will be substituted.
     var asciiStringLossy: String {
-        let transformed = String(self).apply(transform: .latinASCII)
+        let transformed = applyingTransform(
+            StringTransform("Latin-ASCII"),
+            reverse: false
+        )
 
         let components = (transformed ?? String(self))
             .components(separatedBy: CharacterSet.asciiPrintable.inverted)
