@@ -31,7 +31,7 @@ extension AnyMIDIPacketData {
         }
     }
 
-    /// Core MIDI packet timestamp.
+    /// Packet timestamp.
     public var timeStamp: TimeStamp {
         switch self {
         case let .packet(packetData):

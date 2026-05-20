@@ -4,7 +4,6 @@
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-import CoreMIDI
 import SwiftMIDIInternals
 
 /// Platform-agnostic raw MIDI 2.0 UMP (Universal MIDI Packet) packet data.
@@ -15,7 +14,7 @@ public struct UniversalMIDIPacketData<TimeStamp: Sendable, OutputEndpoint: Senda
     /// Flat array of raw bytes
     public let bytes: [UInt8]
 
-    /// Core MIDI packet timestamp
+    /// Packet timestamp.
     public let timeStamp: TimeStamp
 
     /// The MIDI endpoint from which the packet originated.

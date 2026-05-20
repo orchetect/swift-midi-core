@@ -6,6 +6,8 @@
 
 import Foundation
 
+// MARK: - Property Wrapper
+
 /// A property wrapper that ensures serialized thread-safe access to a value by synchronizing reads and writes on the main thread.
 @_documentation(visibility: internal)
 public struct MainThreadSynchronizedPThreadMutexValue<T> {
@@ -14,7 +16,7 @@ public struct MainThreadSynchronizedPThreadMutexValue<T> {
     nonisolated(unsafe) private let storage: ValueWrapper
 
     public init(_ value: T) {
-        if Thread.isMainThread {
+        if isOnMainQueue() {
             storage = ValueWrapper(value)
         } else {
             storage = queue.sync { ValueWrapper(value) }
@@ -25,7 +27,7 @@ public struct MainThreadSynchronizedPThreadMutexValue<T> {
         get {
             lock.readLock()
             defer { lock.unlock() }
-            if Thread.isMainThread {
+            if isOnMainQueue() {
                 return storage.value
             } else {
                 return queue.sync { storage.value }
@@ -34,7 +36,7 @@ public struct MainThreadSynchronizedPThreadMutexValue<T> {
         mutating _modify {
             lock.writeLock()
             defer { lock.unlock() }
-            if Thread.isMainThread {
+            if isOnMainQueue() {
                 yield &storage.value
             } else {
                 var value = queue.sync { storage.value }
@@ -45,7 +47,7 @@ public struct MainThreadSynchronizedPThreadMutexValue<T> {
         mutating set {
             lock.writeLock()
             defer { lock.unlock() }
-            if Thread.isMainThread {
+            if isOnMainQueue() {
                 storage.value = newValue
             } else {
                 queue.sync { storage.value = newValue }
@@ -76,7 +78,7 @@ extension MainThreadSynchronizedPThreadMutexValue {
         lock.readLock()
         defer { lock.unlock() }
 
-        if Thread.isMainThread {
+        if isOnMainQueue() {
             return try block(storage.value)
         } else {
             return try queue.sync { try block(storage.value) }
@@ -88,7 +90,7 @@ extension MainThreadSynchronizedPThreadMutexValue {
         lock.writeLock()
         defer { lock.unlock() }
 
-        if Thread.isMainThread {
+        if isOnMainQueue() {
             return try block(&storage.value)
         } else {
             return try queue.sync { try block(&storage.value) }

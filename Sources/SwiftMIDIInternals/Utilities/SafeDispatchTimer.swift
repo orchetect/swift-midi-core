@@ -45,7 +45,7 @@ public final class SafeDispatchTimer /* : Sendable */ {
         rate: Rate,
         leeway: DispatchTimeInterval = .nanoseconds(0),
         queue: DispatchQueue? = nil,
-        eventHandler: @escaping DispatchSource.DispatchSourceHandler = { }
+        eventHandler: @escaping DispatchSourceHandler = { }
     ) {
         self.rate = rate
         self.leeway = leeway
@@ -120,7 +120,7 @@ public final class SafeDispatchTimer /* : Sendable */ {
     }
 
     /// Set the event handler closure that the timer executes
-    public func setEventHandler(handler: @escaping DispatchSource.DispatchSourceHandler) {
+    public func setEventHandler(handler: @escaping DispatchSourceHandler) {
         timer.setEventHandler(handler: handler)
     }
 
@@ -136,6 +136,8 @@ public final class SafeDispatchTimer /* : Sendable */ {
         timer.cancel()
     }
 }
+
+// MARK: - Rate
 
 extension SafeDispatchTimer {
     public enum Rate: Hashable {
@@ -154,4 +156,17 @@ extension SafeDispatchTimer {
             return value.clamped(to: 0.000_000_001...) // 1 nanosecond min
         }
     }
+}
+
+// MARK: - DispatchSourceHandler
+
+extension SafeDispatchTimer {
+    #if canImport(Darwin)
+    // Darwin libdispatch exposes the nested typealias
+    // DispatchSourceProtocol.DispatchSourceHandler = () -> Void
+    public typealias DispatchSourceHandler = DispatchSourceProtocol.DispatchSourceHandler
+    #else
+    // On Linux, just use the underlying closure type
+    public typealias DispatchSourceHandler = () -> Void
+    #endif
 }

@@ -1,6 +1,6 @@
 /// -------------------------------------------------
 /// -------------------------------------------------
-/// Borrowed from swift-ascii 1.3.0 under MIT license.
+/// Borrowed from SwiftASCII 1.3.2 under MIT license.
 /// https://github.com/orchetect/swift-ascii
 /// Methods herein are unit tested at their source
 /// so no unit tests are necessary.
@@ -25,12 +25,8 @@ extension StringProtocol {
     ///
     /// Where a suitable character substitution can't reasonably be performed, a question-mark "?"
     /// will be substituted.
-    @available(OSX 10.11, iOS 9.0, *)
     var asciiStringLossy: String {
-        let transformed = applyingTransform(
-            StringTransform("Latin-ASCII"),
-            reverse: false
-        )
+        let transformed = String(self).apply(transform: .latinASCII)
 
         let components = (transformed ?? String(self))
             .components(separatedBy: CharacterSet.asciiPrintable.inverted)

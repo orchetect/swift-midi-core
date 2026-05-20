@@ -6,6 +6,8 @@
 
 import Foundation
 
+// MARK: - Class
+
 /// A property wrapper that ensures serialized thread-safe access to a value by synchronizing reads and writes on the main thread.
 @_documentation(visibility: internal)
 @propertyWrapper
@@ -15,7 +17,7 @@ public final class MainThreadSynchronizedPThreadMutex<T> {
     nonisolated(unsafe) private let storage: ValueWrapper
 
     public init(wrappedValue value: T) {
-        if Thread.isMainThread {
+        if isOnMainQueue() {
             storage = ValueWrapper(value)
         } else {
             storage = queue.sync { ValueWrapper(value) }
@@ -26,7 +28,7 @@ public final class MainThreadSynchronizedPThreadMutex<T> {
         get {
             lock.readLock()
             defer { lock.unlock() }
-            if Thread.isMainThread {
+            if isOnMainQueue() {
                 return storage.value
             } else {
                 return queue.sync { storage.value }
@@ -35,7 +37,7 @@ public final class MainThreadSynchronizedPThreadMutex<T> {
         _modify {
             lock.writeLock()
             defer { lock.unlock() }
-            if Thread.isMainThread {
+            if isOnMainQueue() {
                 yield &storage.value
             } else {
                 var value = queue.sync { storage.value }
@@ -46,7 +48,7 @@ public final class MainThreadSynchronizedPThreadMutex<T> {
         set {
             lock.writeLock()
             defer { lock.unlock() }
-            if Thread.isMainThread {
+            if isOnMainQueue() {
                 storage.value = newValue
             } else {
                 queue.sync { storage.value = newValue }
@@ -77,7 +79,7 @@ extension MainThreadSynchronizedPThreadMutex {
         lock.readLock()
         defer { lock.unlock() }
 
-        if Thread.isMainThread {
+        if isOnMainQueue() {
             return try block(storage.value)
         } else {
             return try queue.sync { try block(storage.value) }
@@ -89,7 +91,7 @@ extension MainThreadSynchronizedPThreadMutex {
         lock.writeLock()
         defer { lock.unlock() }
 
-        if Thread.isMainThread {
+        if isOnMainQueue() {
             return try block(&storage.value)
         } else {
             return try queue.sync { try block(&storage.value) }

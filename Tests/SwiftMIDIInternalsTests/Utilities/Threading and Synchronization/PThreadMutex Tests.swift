@@ -5,7 +5,7 @@
 //
 
 import Foundation
-import SwiftMIDIInternals
+@testable import SwiftMIDIInternals
 import Testing
 
 @Suite
@@ -70,6 +70,8 @@ struct PThreadMutex_Tests {
         DispatchQueue.global().sync {
             DispatchQueue.concurrentPerform(iterations: 100) { iteration in
                 #expect(!Thread.isMainThread)
+                #expect(!isOnMainQueue()) // More accurate on Linux/Android
+                
                 wrapper.number += 1
             }
         }

@@ -4,15 +4,13 @@
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-import Darwin
-
 extension MIDIEvent.NoteAttribute {
     /// Pitch 7.9 Note Attribute
     /// (MIDI 2.0)
     ///
     /// A Q7.9 fixed-point unsigned integer that specifies a pitch in semitones.
     ///
-    /// Range: `0+(0/512) ... 127+(511/512)`
+    /// Range: `0 ... 127 + (511/512)`
     public struct Pitch7_9 {
         /// 7-Bit coarse pitch in semitones, based on default Note Number equal temperament scale.
         public var coarse: UInt7
@@ -25,7 +23,7 @@ extension MIDIEvent.NoteAttribute {
         ///
         /// A Q7.9 fixed-point unsigned integer that specifies a pitch in semitones.
         ///
-        /// Range: `0+(0/512) ... 127+(511/512)`
+        /// Range: `0 ... 127 + (511/512)`
         ///
         /// - Parameters:
         ///   - coarse: 7-Bit coarse pitch in semitones, based on default Note Number equal
@@ -61,7 +59,7 @@ extension MIDIEvent.NoteAttribute.Pitch7_9 {
     ///
     /// A Q7.9 fixed-point unsigned integer that specifies a pitch in semitones.
     ///
-    /// Range: `0+(0/512) ... 127+(511/512)`
+    /// Range: `0 ... 127 + (511/512)`
     public init(_ bytePair: BytePair) {
         coarse = UInt7((bytePair.msb & 0b11111110) >> 1)
 
@@ -90,13 +88,13 @@ extension MIDIEvent.NoteAttribute.Pitch7_9 {
     ///
     /// A Q7.9 fixed-point unsigned integer that specifies a pitch in semitones.
     ///
-    /// Range: `0+(0/512) ... 127+(511/512)`
+    /// Range: `0 ... 127 + (511/512)`
     public init(_ uInt16Value: UInt16) {
         coarse = ((uInt16Value & 0b11111110_00000000) >> 9).toUInt7
         fine = (uInt16Value & 0b00000001_11111111).toUInt9
     }
 
-    /// UInt16 representation.
+    /// `UInt16` representation.
     @inlinable
     public var uInt16Value: UInt16 {
         (UInt16(coarse.uInt8Value) << 9) + fine.uInt16Value
@@ -107,23 +105,37 @@ extension MIDIEvent.NoteAttribute.Pitch7_9 {
 
 extension MIDIEvent.NoteAttribute.Pitch7_9 {
     /// Pitch 7.9 (MIDI 2.0):
-    /// Initialize by converting from a Double value (`0.0 ... 127.998046875`)
+    /// Initialize by converting from a Double value
+    /// (`0.0 ..< 128.0` which is in effect `0.0 ... 127.998046875`)
     ///
     /// A Q7.9 fixed-point unsigned integer that specifies a pitch in semitones.
     ///
-    /// Range: `0+(0/512) ... 127+(511/512)`
+    /// Range: `0 ... 127 + (511/512)`
     public init(_ double: Double) {
-        let double = double.clamped(to: 0.0 ... 127.998046875)
+        // Clamp to representable range
+        let clamped = double.clamped(to: 0.0 ... 127.998046875)
 
-        let truncated = trunc(double)
+        // Integer part: 0 ... 127, truncate toward zero
+        let coarseDouble = clamped.rounded(.towardZero)
 
-        coarse = UInt7(truncated)
-        fine = UInt9(round((double - truncated) * 0b10_00000000))
+        // Fractional part in 0 ... 1
+        let fractional = clamped - coarseDouble
+
+        // Scale fractional part to 9-bit range (0 ... 511) and round to nearest
+        let fineDouble = Int((fractional * 0b10_00000000).rounded()) // 0b10_00000000 == 512
+
+        // Clamp to avoid +1 rounding overflow if rounded hits 512
+        let fineClamped = UInt9(clamping: fineDouble)
+
+        coarse = UInt7(coarseDouble)
+        fine = fineClamped
     }
 
-    /// Converted to a Double value (`0.0 ... 127.998046875`)
+    /// Converted to a `Double` value.
+    /// (`0.0 ..< 128.0` which is in effect `0.0 ... 127.998046875`)
     @inlinable
     public var doubleValue: Double {
-        Double(coarse.uInt8Value) + (Double(fine.uInt16Value) / 0b10_00000000)
+        Double(coarse.uInt8Value)
+            + (Double(fine.uInt16Value) / 0b10_00000000) // 0b10_00000000 == 512
     }
 }
