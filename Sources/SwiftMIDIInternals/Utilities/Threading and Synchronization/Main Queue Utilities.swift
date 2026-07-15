@@ -6,6 +6,7 @@
 
 import class Foundation.DispatchQueue
 import class Foundation.DispatchSpecificKey
+import class Foundation.Thread
 
 // MARK: - Global Dispatch Queue Identity
 
@@ -32,7 +33,9 @@ private let _setupMainQueueIdentity: Void = {
 /// which checks queue identity rather than thread identity and is safer for
 /// re-entrant access across both GCD and Swift Concurrency code paths.
 @inline(__always)
-public func isOnMainQueue() -> Bool {
+public func isOnMainThread() -> Bool {
     _ = _setupMainQueueIdentity
-    return DispatchQueue.getSpecific(key: mainQueueKey) == mainQueueValue
+    
+    return Thread.isMainThread
+        || DispatchQueue.getSpecific(key: mainQueueKey) == mainQueueValue
 }
