@@ -70,8 +70,8 @@ struct PThreadMutex_Tests {
         DispatchQueue.global().sync {
             DispatchQueue.concurrentPerform(iterations: 100) { iteration in
                 #expect(!Thread.isMainThread)
-                #expect(!isOnMainQueue()) // More accurate on Linux/Android
-                
+                #expect(!isOnMainThread())
+
                 wrapper.number += 1
             }
         }
