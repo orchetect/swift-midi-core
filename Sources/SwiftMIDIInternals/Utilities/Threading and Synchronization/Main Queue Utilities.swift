@@ -17,7 +17,7 @@ private let _setupMainQueueIdentity: Void = {
     DispatchQueue.main.setSpecific(key: mainQueueKey, value: mainQueueValue)
 }()
 
-/// Egalitarian implementation indicating the current execution context is on the main queue.
+/// Indicates whether the current execution context is on the main queue.
 /// Uses main-queue identity instead of `Thread.isMainThread`.
 ///
 /// `Thread.isMainThread` only tells us whether execution is on the process's main
@@ -32,7 +32,7 @@ private let _setupMainQueueIdentity: Void = {
 /// which checks queue identity rather than thread identity and is safer for
 /// re-entrant access across both GCD and Swift Concurrency code paths.
 @inline(__always)
-func isOnMainQueue() -> Bool {
+public func isOnMainQueue() -> Bool {
     _ = _setupMainQueueIdentity
     return DispatchQueue.getSpecific(key: mainQueueKey) == mainQueueValue
 }
