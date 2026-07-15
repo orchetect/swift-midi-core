@@ -17,7 +17,7 @@ public final class MainThreadSynchronizedPThreadMutex<T> {
     nonisolated(unsafe) private let storage: ValueWrapper
 
     public init(wrappedValue value: T) {
-        if isOnMainQueue() {
+        if isOnMainThread() {
             storage = ValueWrapper(value)
         } else {
             storage = queue.sync { ValueWrapper(value) }
@@ -28,7 +28,7 @@ public final class MainThreadSynchronizedPThreadMutex<T> {
         get {
             lock.readLock()
             defer { lock.unlock() }
-            if isOnMainQueue() {
+            if isOnMainThread() {
                 return storage.value
             } else {
                 return queue.sync { storage.value }
@@ -37,7 +37,7 @@ public final class MainThreadSynchronizedPThreadMutex<T> {
         _modify {
             lock.writeLock()
             defer { lock.unlock() }
-            if isOnMainQueue() {
+            if isOnMainThread() {
                 yield &storage.value
             } else {
                 var value = queue.sync { storage.value }
@@ -48,7 +48,7 @@ public final class MainThreadSynchronizedPThreadMutex<T> {
         set {
             lock.writeLock()
             defer { lock.unlock() }
-            if isOnMainQueue() {
+            if isOnMainThread() {
                 storage.value = newValue
             } else {
                 queue.sync { storage.value = newValue }
@@ -79,7 +79,7 @@ extension MainThreadSynchronizedPThreadMutex {
         lock.readLock()
         defer { lock.unlock() }
 
-        if isOnMainQueue() {
+        if isOnMainThread() {
             return try block(storage.value)
         } else {
             return try queue.sync { try block(storage.value) }
@@ -91,7 +91,7 @@ extension MainThreadSynchronizedPThreadMutex {
         lock.writeLock()
         defer { lock.unlock() }
 
-        if isOnMainQueue() {
+        if isOnMainThread() {
             return try block(&storage.value)
         } else {
             return try queue.sync { try block(&storage.value) }
