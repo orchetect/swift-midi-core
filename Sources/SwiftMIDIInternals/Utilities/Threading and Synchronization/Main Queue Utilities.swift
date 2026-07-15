@@ -18,8 +18,8 @@ private let _setupMainQueueIdentity: Void = {
     DispatchQueue.main.setSpecific(key: mainQueueKey, value: mainQueueValue)
 }()
 
-/// Indicates whether the current execution context is on the main queue.
-/// Uses main-queue identity instead of `Thread.isMainThread`.
+/// Cross-platform implementation that indicates whether the current execution context is on the
+/// main thread. On Linux, this uses main-queue identity instead of `Thread.isMainThread`.
 ///
 /// `Thread.isMainThread` only tells us whether execution is on the process's main
 /// OS thread; it does not reliably tell us whether we are already executing on
@@ -35,13 +35,17 @@ private let _setupMainQueueIdentity: Void = {
 @inline(__always)
 public func isOnMainThread() -> Bool {
     _ = _setupMainQueueIdentity
-    
-    return Thread.isMainThread
-        || DispatchQueue.getSpecific(key: mainQueueKey) == mainQueueValue
+    let isMainQueue = DispatchQueue.getSpecific(key: mainQueueKey) == mainQueueValue
+
+    #if os(Linux)
+    return isMainQueue
+    #else
+    return Thread.isMainThread || isMainQueue
+    #endif
 }
 
-/// Executes a block on the main queue, placing it on the main queue if the current
-/// execution context is not already on the main queue.
+/// Cross-platform implementation to execute a block on the main queue, placing it on the main queue
+/// if the current execution context is not already on the main thread or queue.
 public func withMainThread<T, E>(_ body: () throws(E) -> T) throws(E) -> T {
     if isOnMainThread() {
         #if DEBUG
