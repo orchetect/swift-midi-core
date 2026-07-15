@@ -39,3 +39,19 @@ public func isOnMainThread() -> Bool {
     return Thread.isMainThread
         || DispatchQueue.getSpecific(key: mainQueueKey) == mainQueueValue
 }
+
+/// Executes a block on the main queue, placing it on the main queue if the current
+/// execution context is not already on the main queue.
+public func withMainThread<T, E>(_ body: () throws(E) -> T) throws(E) -> T {
+    if isOnMainThread() {
+        #if DEBUG
+        if #available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *) {
+            MainActor.assertIsolated()
+        }
+        #endif
+
+        return try body()
+    } else {
+        return try DispatchQueue.main.syncTypedThrowable(execute: body)
+    }
+}
