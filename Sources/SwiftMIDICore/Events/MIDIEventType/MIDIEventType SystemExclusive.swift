@@ -36,3 +36,5 @@ extension MIDIEventType.SystemExclusive: Identifiable {
 }
 
 extension MIDIEventType.SystemExclusive: Sendable { }
+
+extension MIDIEventType.SystemExclusive: CaseIterable { }

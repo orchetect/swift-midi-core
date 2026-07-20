@@ -24,3 +24,5 @@ extension MIDIEventType.Utility: Identifiable {
 }
 
 extension MIDIEventType.Utility: Sendable { }
+
+extension MIDIEventType.Utility: CaseIterable { }

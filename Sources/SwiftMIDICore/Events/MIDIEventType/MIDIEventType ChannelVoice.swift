@@ -83,3 +83,5 @@ extension MIDIEventType.ChannelVoice: Identifiable {
 }
 
 extension MIDIEventType.ChannelVoice: Sendable { }
+
+extension MIDIEventType.ChannelVoice: CaseIterable { }

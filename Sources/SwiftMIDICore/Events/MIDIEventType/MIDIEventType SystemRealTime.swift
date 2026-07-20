@@ -44,3 +44,5 @@ extension MIDIEventType.SystemRealTime: Identifiable {
 }
 
 extension MIDIEventType.SystemRealTime: Sendable { }
+
+extension MIDIEventType.SystemRealTime: CaseIterable { }

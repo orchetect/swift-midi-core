@@ -36,3 +36,5 @@ extension MIDIEventType.SystemCommon: Identifiable {
 }
 
 extension MIDIEventType.SystemCommon: Sendable { }
+
+extension MIDIEventType.SystemCommon: CaseIterable { }

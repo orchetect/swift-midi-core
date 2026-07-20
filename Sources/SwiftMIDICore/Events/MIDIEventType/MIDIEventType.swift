@@ -33,3 +33,15 @@ extension MIDIEventType: Identifiable {
 }
 
 extension MIDIEventType: Sendable { }
+
+extension MIDIEventType: CaseIterable {
+    public static let allCases: [MIDIEventType] = {
+        var types: [MIDIEventType] = []
+        types += ChannelVoice.allCases.map { .channelVoice($0) }
+        types += SystemCommon.allCases.map { .systemCommon($0) }
+        types += SystemExclusive.allCases.map { .systemExclusive($0) }
+        types += SystemRealTime.allCases.map { .systemRealTime($0) }
+        types += Utility.allCases.map { .utility($0) }
+        return types
+    }()
+}
