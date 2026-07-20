@@ -6,7 +6,7 @@
 
 /// MIDI event type.
 public enum MIDIEventType {
-    case channelVoice(MIDIEvent.ChanVoiceType)
+    case channelVoice(ChannelVoice)
     case systemCommon(MIDIEvent.SysCommonType)
     case systemExclusive(MIDIEvent.SysExType)
     case systemRealTime(MIDIEvent.SysRealTimeType)

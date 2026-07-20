@@ -1,12 +1,12 @@
 //
-//  ChanVoiceType.swift
+//  MIDIEventType ChannelVoice.swift
 //  SwiftMIDI Core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-extension MIDIEvent {
+extension MIDIEventType {
     /// Channel Voice MIDI event types.
-    public enum ChanVoiceType {
+    public enum ChannelVoice {
         /// Channel Voice Message: Note On
         /// (MIDI 1.0 / 2.0)
         case noteOn
@@ -72,14 +72,14 @@ extension MIDIEvent {
     }
 }
 
-extension MIDIEvent.ChanVoiceType: Equatable { }
+extension MIDIEventType.ChannelVoice: Equatable { }
 
-extension MIDIEvent.ChanVoiceType: Hashable { }
+extension MIDIEventType.ChannelVoice: Hashable { }
 
-extension MIDIEvent.ChanVoiceType: Identifiable {
+extension MIDIEventType.ChannelVoice: Identifiable {
     public var id: Self {
         self
     }
 }
 
-extension MIDIEvent.ChanVoiceType: Sendable { }
+extension MIDIEventType.ChannelVoice: Sendable { }

@@ -30,7 +30,7 @@ extension MIDIEvent {
     }
 
     /// Returns `true` if the event is a Channel Voice message of a specific type.
-    public func isChannelVoice(ofType chanVoiceType: ChanVoiceType) -> Bool {
+    public func isChannelVoice(ofType chanVoiceType: MIDIEventType.ChannelVoice) -> Bool {
         // swiftformat:disable consecutiveSpaces
         switch self {
         case .noteOn:         chanVoiceType == .noteOn
@@ -51,7 +51,7 @@ extension MIDIEvent {
     }
 
     /// Returns `true` if the event is a Channel Voice message of a specific type.
-    public func isChannelVoice(ofTypes chanVoiceTypes: Set<ChanVoiceType>) -> Bool {
+    public func isChannelVoice(ofTypes chanVoiceTypes: Set<MIDIEventType.ChannelVoice>) -> Bool {
         for eventType in chanVoiceTypes {
             if isChannelVoice(ofType: eventType) { return true }
         }

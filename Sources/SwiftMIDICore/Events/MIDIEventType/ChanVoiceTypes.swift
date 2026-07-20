@@ -10,9 +10,9 @@ extension MIDIEvent {
         /// Return only Channel Voice events.
         case only
         /// Return only Channel Voice events matching a certain event type.
-        case onlyType(ChanVoiceType)
+        case onlyType(MIDIEventType.ChannelVoice)
         /// Return only Channel Voice events matching certain event type(s).
-        case onlyTypes(Set<ChanVoiceType>)
+        case onlyTypes(Set<MIDIEventType.ChannelVoice>)
         /// Return only Channel Voice events matching a certain channel.
         case onlyChannel(UInt4)
         /// Return only Channel Voice events matching certain channel(s).
@@ -28,10 +28,10 @@ extension MIDIEvent {
 
         /// Retain Channel Voice events only with a certain type,
         /// while retaining all non-Channel Voice events.
-        case keepType(ChanVoiceType)
+        case keepType(MIDIEventType.ChannelVoice)
         /// Retain Channel Voice events only with certain type(s),
         /// while retaining all non-Channel Voice events.
-        case keepTypes(Set<ChanVoiceType>)
+        case keepTypes(Set<MIDIEventType.ChannelVoice>)
         /// Retain Channel Voice events only with a certain channel,
         /// while retaining all non-Channel Voice events.
         case keepChannel(UInt4)
@@ -56,10 +56,10 @@ extension MIDIEvent {
         case drop
         /// Drop any Channel Voice events matching a certain event type,
         /// while retaining all non-Channel Voice events.
-        case dropType(ChanVoiceType)
+        case dropType(MIDIEventType.ChannelVoice)
         /// Drop any Channel Voice events matching certain event type(s),
         /// while retaining all non-Channel Voice events.
-        case dropTypes(Set<ChanVoiceType>)
+        case dropTypes(Set<MIDIEventType.ChannelVoice>)
         /// Drop any Channel Voice events matching a certain channel,
         /// while retaining all non-Channel Voice events.
         case dropChannel(UInt4)
