@@ -5,13 +5,48 @@
 //
 
 extension MIDIEvent {
+    /// Returns the event type.
+    @inlinable
+    public var eventType: MIDIEventType {
+        switch self {
+        case .noteOn: .channelVoice(.noteOn)
+        case .noteOff: .channelVoice(.noteOff)
+        case .noteCC: .channelVoice(.noteCC)
+        case .notePitchBend: .channelVoice(.notePitchBend)
+        case .notePressure: .channelVoice(.notePressure)
+        case .noteManagement: .channelVoice(.noteManagement)
+        case .cc: .channelVoice(.cc)
+        case .programChange: .channelVoice(.programChange)
+        case .pitchBend: .channelVoice(.pitchBend)
+        case .pressure: .channelVoice(.pressure)
+        case .rpn: .channelVoice(.rpn)
+        case .nrpn: .channelVoice(.nrpn)
+        case .sysEx7: .systemExclusive(.sysEx7)
+        case .universalSysEx7: .systemExclusive(.universalSysEx7)
+        case .sysEx8: .systemExclusive(.sysEx8)
+        case .universalSysEx8: .systemExclusive(.universalSysEx8)
+        case .timecodeQuarterFrame: .systemCommon(.timecodeQuarterFrame)
+        case .songPositionPointer: .systemCommon(.songPositionPointer)
+        case .songSelect: .systemCommon(.songSelect)
+        case .tuneRequest: .systemCommon(.tuneRequest)
+        case .timingClock: .systemRealTime(.timingClock)
+        case .start: .systemRealTime(.start)
+        case .continue: .systemRealTime(.continue)
+        case .stop: .systemRealTime(.stop)
+        case .activeSensing: .systemRealTime(.activeSensing)
+        case .systemReset: .systemRealTime(.systemReset)
+        case .noOp: .utility(.noOp)
+        case .jrClock: .utility(.jrClock)
+        case .jrTimestamp: .utility(.jrTimestamp)
+        }
+    }
+
     /// Returns the event's channel, if one is associated with it.
     @inlinable
     public var channel: UInt4? {
         switch self {
         // -------------------
         // MARK: Channel Voice
-
         // -------------------
 
         case let .noteOn(event):
@@ -46,7 +81,6 @@ extension MIDIEvent {
 
         // -----------------------------------------------
         // MARK: Channel Voice - Parameter Number Messages
-
         // -----------------------------------------------
 
         case let .rpn(event):
@@ -66,7 +100,6 @@ extension MIDIEvent {
         switch self {
         // -------------------
         // MARK: Channel Voice
-
         // -------------------
 
         case let .noteOn(event):
@@ -101,7 +134,6 @@ extension MIDIEvent {
 
         // -----------------------------------------------
         // MARK: Channel Voice - Parameter Number Messages
-
         // -----------------------------------------------
 
         case let .rpn(event):
@@ -112,7 +144,6 @@ extension MIDIEvent {
 
         // ----------------------
         // MARK: System Exclusive
-
         // ----------------------
 
         case let .sysEx7(event):
@@ -129,7 +160,6 @@ extension MIDIEvent {
 
         // -------------------
         // MARK: System Common
-
         // -------------------
 
         case let .timecodeQuarterFrame(event):
@@ -146,7 +176,6 @@ extension MIDIEvent {
 
         // ----------------------
         // MARK: System Real-Time
-
         // ----------------------
 
         case let .timingClock(event):
@@ -169,7 +198,6 @@ extension MIDIEvent {
 
         // -------------------------------
         // MARK: MIDI 2.0 Utility Messages
-
         // -------------------------------
 
         case let .noOp(event):
