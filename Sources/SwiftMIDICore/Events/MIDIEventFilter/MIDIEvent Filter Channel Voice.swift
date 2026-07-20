@@ -9,45 +9,12 @@
 extension MIDIEvent {
     /// Returns `true` if the event is a Channel Voice message.
     public var isChannelVoice: Bool {
-        switch self {
-        case .noteOn,
-             .noteOff,
-             .noteCC,
-             .notePitchBend,
-             .notePressure,
-             .noteManagement,
-             .cc,
-             .programChange,
-             .pitchBend,
-             .pressure,
-             .rpn,
-             .nrpn:
-            true
-
-        default:
-            false
-        }
+        eventType.isChannelVoice
     }
 
     /// Returns `true` if the event is a Channel Voice message of a specific type.
     public func isChannelVoice(ofType chanVoiceType: MIDIEventType.ChannelVoice) -> Bool {
-        // swiftformat:disable consecutiveSpaces
-        switch self {
-        case .noteOn:         chanVoiceType == .noteOn
-        case .noteOff:        chanVoiceType == .noteOff
-        case .noteCC:         chanVoiceType == .noteCC
-        case .notePitchBend:  chanVoiceType == .notePitchBend
-        case .notePressure:   chanVoiceType == .notePressure
-        case .noteManagement: chanVoiceType == .noteManagement
-        case .cc:             chanVoiceType == .cc
-        case .programChange:  chanVoiceType == .programChange
-        case .pitchBend:      chanVoiceType == .pitchBend
-        case .pressure:       chanVoiceType == .pressure
-        case .rpn:            chanVoiceType == .rpn
-        case .nrpn:           chanVoiceType == .nrpn
-        default:              false
-        }
-        // swiftformat:enable consecutiveSpaces
+        eventType == .channelVoice(chanVoiceType)
     }
 
     /// Returns `true` if the event is a Channel Voice message of a specific type.

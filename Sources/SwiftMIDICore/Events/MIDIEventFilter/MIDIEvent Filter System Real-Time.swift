@@ -9,33 +9,12 @@
 extension MIDIEvent {
     /// Returns `true` if the event is a System Real-Time message.
     public var isSystemRealTime: Bool {
-        switch self {
-        case .timingClock,
-             .start,
-             .continue,
-             .stop,
-             .activeSensing,
-             .systemReset:
-            true
-
-        default:
-            false
-        }
+        eventType.isSystemRealTime
     }
 
     /// Returns `true` if the event is a System Real-Time message of a specific type.
     public func isSystemRealTime(ofType sysRealTimeType: MIDIEventType.SystemRealTime) -> Bool {
-        // swiftformat:disable consecutiveSpaces
-        switch self {
-        case .timingClock:   sysRealTimeType == .timingClock
-        case .start:         sysRealTimeType == .start
-        case .continue:      sysRealTimeType == .continue
-        case .stop:          sysRealTimeType == .stop
-        case .activeSensing: sysRealTimeType == .activeSensing
-        case .systemReset:   sysRealTimeType == .systemReset
-        default:             false
-        }
-        // swiftformat:enable consecutiveSpaces
+        eventType == .systemRealTime(sysRealTimeType)
     }
 
     /// Returns `true` if the event is a System Real-Time message of a specific type.

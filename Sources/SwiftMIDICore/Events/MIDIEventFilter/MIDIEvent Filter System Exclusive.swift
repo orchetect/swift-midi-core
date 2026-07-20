@@ -9,29 +9,12 @@
 extension MIDIEvent {
     /// Returns `true` if the event is a System Exclusive message.
     public var isSystemExclusive: Bool {
-        switch self {
-        case .sysEx7,
-             .universalSysEx7,
-             .sysEx8,
-             .universalSysEx8:
-            true
-
-        default:
-            false
-        }
+        eventType.isSystemExclusive
     }
 
     /// Returns `true` if the event is a System Exclusive message of a specific type.
     public func isSystemExclusive(ofType sysExType: MIDIEventType.SystemExclusive) -> Bool {
-        // swiftformat:disable consecutiveSpaces
-        switch self {
-        case .sysEx7:          sysExType == .sysEx7
-        case .universalSysEx7: sysExType == .universalSysEx7
-        case .sysEx8:          sysExType == .sysEx8
-        case .universalSysEx8: sysExType == .universalSysEx8
-        default:               false
-        }
-        // swiftformat:enable consecutiveSpaces
+        eventType == .systemExclusive(sysExType)
     }
 
     /// Returns `true` if the event is a System Exclusive message of a specific type.

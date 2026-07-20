@@ -9,29 +9,12 @@
 extension MIDIEvent {
     /// Returns `true` if the event is a System Common message.
     public var isSystemCommon: Bool {
-        switch self {
-        case .timecodeQuarterFrame,
-             .songPositionPointer,
-             .songSelect,
-             .tuneRequest:
-            true
-
-        default:
-            false
-        }
+        eventType.isSystemCommon
     }
 
     /// Returns `true` if the event is a System Common message of a specific type.
     public func isSystemCommon(ofType sysCommonType: MIDIEventType.SystemCommon) -> Bool {
-        // swiftformat:disable consecutiveSpaces
-        switch self {
-        case .timecodeQuarterFrame: sysCommonType == .timecodeQuarterFrame
-        case .songPositionPointer:  sysCommonType == .songPositionPointer
-        case .songSelect:           sysCommonType == .songSelect
-        case .tuneRequest:          sysCommonType == .tuneRequest
-        default:                    false
-        }
-        // swiftformat:enable consecutiveSpaces
+        eventType == .systemCommon(sysCommonType)
     }
 
     /// Returns `true` if the event is a System Common message of a specific type.

@@ -9,27 +9,12 @@
 extension MIDIEvent {
     /// Returns `true` if the event is a Utility message.
     public var isUtility: Bool {
-        switch self {
-        case .noOp,
-             .jrClock,
-             .jrTimestamp:
-            true
-
-        default:
-            false
-        }
+        eventType.isUtility
     }
 
     /// Returns `true` if the event is a Utility message of a specific type.
     public func isUtility(ofType utilityType: MIDIEventType.Utility) -> Bool {
-        // swiftformat:disable consecutiveSpaces
-        switch self {
-        case .noOp:        utilityType == .noOp
-        case .jrClock:     utilityType == .jrClock
-        case .jrTimestamp: utilityType == .jrTimestamp
-        default:           false
-        }
-        // swiftformat:enable consecutiveSpaces
+        eventType == .utility(utilityType)
     }
 
     /// Returns `true` if the event is a Utility message of a specific type.
