@@ -1,12 +1,12 @@
 //
-//  SysRealTimeTypes.swift
+//  MIDIEventFilter SystemRealTime.swift
 //  SwiftMIDI Core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-extension MIDIEvent {
+extension MIDIEventFilter {
     /// Declarative System Real-Time MIDI event types used in event filters.
-    public enum SysRealTimeTypes {
+    public enum SystemRealTime {
         /// Return only System Real-Time events.
         case only
         /// Return only System Real-Time events matching a certain event type.
@@ -33,8 +33,8 @@ extension MIDIEvent {
     }
 }
 
-extension MIDIEvent.SysRealTimeTypes: Equatable { }
+extension MIDIEventFilter.SystemRealTime: Equatable { }
 
-extension MIDIEvent.SysRealTimeTypes: Hashable { }
+extension MIDIEventFilter.SystemRealTime: Hashable { }
 
-extension MIDIEvent.SysRealTimeTypes: Sendable { }
+extension MIDIEventFilter.SystemRealTime: Sendable { }

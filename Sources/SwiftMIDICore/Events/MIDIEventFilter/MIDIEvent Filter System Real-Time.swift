@@ -31,7 +31,7 @@ extension MIDIEvent {
 
 extension Collection<MIDIEvent> {
     /// Filter System Real-Time events.
-    public func filter(sysRealTime types: MIDIEvent.SysRealTimeTypes) -> [Element] {
+    public func filter(sysRealTime types: MIDIEventFilter.SystemRealTime) -> [Element] {
         switch types {
         case .only:
             filter(\.isSystemRealTime)
