@@ -6,10 +6,19 @@
 
 /// MIDI event type.
 public enum MIDIEventType {
+    /// Channel Voice MIDI event type.
     case channelVoice(ChannelVoice)
+
+    /// System Common MIDI event type.
     case systemCommon(SystemCommon)
+
+    /// System Exclusive MIDI event type.
     case systemExclusive(SystemExclusive)
+
+    /// System Real-Time MIDI event type.
     case systemRealTime(SystemRealTime)
+
+    /// Utility MIDI event type.
     case utility(Utility)
 }
 
