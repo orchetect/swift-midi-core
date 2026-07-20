@@ -1,33 +1,8 @@
 //
-//  MIDIEvent Filter Channel Voice.swift
+//  MIDIEvent+Filter.swift
 //  SwiftMIDI Core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
-
-// MARK: - Metadata properties
-
-extension MIDIEvent {
-    /// Returns `true` if the event is a Channel Voice message.
-    public var isChannelVoice: Bool {
-        eventType.isChannelVoice
-    }
-
-    /// Returns `true` if the event is a Channel Voice message of a specific type.
-    public func isChannelVoice(ofType chanVoiceType: MIDIEventType.ChannelVoice) -> Bool {
-        eventType == .channelVoice(chanVoiceType)
-    }
-
-    /// Returns `true` if the event is a Channel Voice message of a specific type.
-    public func isChannelVoice(ofTypes chanVoiceTypes: Set<MIDIEventType.ChannelVoice>) -> Bool {
-        for eventType in chanVoiceTypes {
-            if isChannelVoice(ofType: eventType) { return true }
-        }
-
-        return false
-    }
-}
-
-// MARK: - Filter
 
 extension Collection<MIDIEvent> {
     /// Filter Channel Voice events.
@@ -253,5 +228,193 @@ extension Collection<MIDIEvent> {
                 }
             }
         }
+    }
+
+    /// Filter System Common events.
+    public func filter(sysCommon types: MIDIEventFilter.SystemCommon) -> [Element] {
+        switch types {
+        case .only:
+            filter(\.isSystemCommon)
+
+        case let .onlyType(specificType):
+            filter { $0.isSystemCommon(ofType: specificType) }
+
+        case let .onlyTypes(specificTypes):
+            filter { $0.isSystemCommon(ofTypes: specificTypes) }
+
+        case let .keepType(specificType):
+            filter {
+                guard $0.isSystemCommon else { return true }
+                return $0.isSystemCommon(ofType: specificType)
+            }
+
+        case let .keepTypes(specificTypes):
+            filter {
+                guard $0.isSystemCommon else { return true }
+                return $0.isSystemCommon(ofTypes: specificTypes)
+            }
+
+        case .drop:
+            filter { !$0.isSystemCommon }
+
+        case let .dropType(specificType):
+            filter {
+                guard $0.isSystemCommon else { return true }
+                return !$0.isSystemCommon(ofType: specificType)
+            }
+
+        case let .dropTypes(specificTypes):
+            filter {
+                guard $0.isSystemCommon else { return true }
+                return !$0.isSystemCommon(ofTypes: specificTypes)
+            }
+        }
+    }
+
+    /// Filter System Exclusive events.
+    public func filter(sysEx types: MIDIEventFilter.SystemExclusive) -> [Element] {
+        switch types {
+        case .only:
+            filter(\.isSystemExclusive)
+
+        case let .onlyType(specificType):
+            filter { $0.isSystemExclusive(ofType: specificType) }
+
+        case let .onlyTypes(specificTypes):
+            filter { $0.isSystemExclusive(ofTypes: specificTypes) }
+
+        case let .keepType(specificType):
+            filter {
+                guard $0.isSystemExclusive else { return true }
+                return $0.isSystemExclusive(ofType: specificType)
+            }
+
+        case let .keepTypes(specificTypes):
+            filter {
+                guard $0.isSystemExclusive else { return true }
+                return $0.isSystemExclusive(ofTypes: specificTypes)
+            }
+
+        case .drop:
+            filter { !$0.isSystemExclusive }
+
+        case let .dropType(specificType):
+            filter {
+                guard $0.isSystemExclusive else { return true }
+                return !$0.isSystemExclusive(ofType: specificType)
+            }
+
+        case let .dropTypes(specificTypes):
+            filter {
+                guard $0.isSystemExclusive else { return true }
+                return !$0.isSystemExclusive(ofTypes: specificTypes)
+            }
+        }
+    }
+
+    /// Filter System Real-Time events.
+    public func filter(sysRealTime types: MIDIEventFilter.SystemRealTime) -> [Element] {
+        switch types {
+        case .only:
+            filter(\.isSystemRealTime)
+
+        case let .onlyType(specificType):
+            filter { $0.isSystemRealTime(ofType: specificType) }
+
+        case let .onlyTypes(specificTypes):
+            filter { $0.isSystemRealTime(ofTypes: specificTypes) }
+
+        case let .keepType(specificType):
+            filter {
+                guard $0.isSystemRealTime else { return true }
+                return $0.isSystemRealTime(ofType: specificType)
+            }
+
+        case let .keepTypes(specificTypes):
+            filter {
+                guard $0.isSystemRealTime else { return true }
+                return $0.isSystemRealTime(ofTypes: specificTypes)
+            }
+
+        case .drop:
+            filter { !$0.isSystemRealTime }
+
+        case let .dropType(specificType):
+            filter {
+                guard $0.isSystemRealTime else { return true }
+                return !$0.isSystemRealTime(ofType: specificType)
+            }
+
+        case let .dropTypes(specificTypes):
+            filter {
+                guard $0.isSystemRealTime else { return true }
+                return !$0.isSystemRealTime(ofTypes: specificTypes)
+            }
+        }
+    }
+
+    /// Filter Utility events.
+    public func filter(utility types: MIDIEventFilter.Utility) -> [Element] {
+        switch types {
+        case .only:
+            filter(\.isUtility)
+
+        case let .onlyType(specificType):
+            filter { $0.isUtility(ofType: specificType) }
+
+        case let .onlyTypes(specificTypes):
+            filter { $0.isUtility(ofTypes: specificTypes) }
+
+        case let .keepType(specificType):
+            filter {
+                guard $0.isUtility else { return true }
+                return $0.isUtility(ofType: specificType)
+            }
+
+        case let .keepTypes(specificTypes):
+            filter {
+                guard $0.isUtility else { return true }
+                return $0.isUtility(ofTypes: specificTypes)
+            }
+
+        case .drop:
+            filter { !$0.isUtility }
+
+        case let .dropType(specificType):
+            filter {
+                guard $0.isUtility else { return true }
+                return !$0.isUtility(ofType: specificType)
+            }
+
+        case let .dropTypes(specificTypes):
+            filter {
+                guard $0.isUtility else { return true }
+                return !$0.isUtility(ofTypes: specificTypes)
+            }
+        }
+    }
+}
+
+// MARK: - UMP Group
+
+extension Collection<MIDIEvent> {
+    /// Filter events by UMP group.
+    public func filter(group: UInt4) -> [Element] {
+        filter { $0.group == group }
+    }
+
+    /// Filter events by UMP groups.
+    public func filter(groups: [UInt4]) -> [Element] {
+        filter { groups.contains($0.group) }
+    }
+
+    /// Drop all events with the specified UMP group.
+    public func drop(group: UInt4) -> [Element] {
+        filter { $0.group != group }
+    }
+
+    /// Drop all events with any of the specified UMP groups.
+    public func drop(groups: [UInt4]) -> [Element] {
+        filter { !groups.contains($0.group) }
     }
 }
