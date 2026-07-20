@@ -5,7 +5,7 @@
 //
 
 /// MIDI event filter definition.
-public enum MIDIEventFilter: Equatable, Hashable {
+public enum MIDIEventFilter{
     case chanVoice(ChannelVoice)
     case sysCommon(SystemCommon)
     case sysEx(MIDIEvent.SysExTypes)
@@ -16,6 +16,10 @@ public enum MIDIEventFilter: Equatable, Hashable {
     case groups([UInt4])
 }
 
+extension MIDIEventFilter: Equatable { }
+
+extension MIDIEventFilter: Hashable { }
+
 extension MIDIEventFilter: Sendable { }
 
 extension MIDIEventFilter {
@@ -25,11 +29,11 @@ extension MIDIEventFilter {
         case let .chanVoice(types):
             events.filter(chanVoice: types)
 
-        case let .sysEx(types):
-            events.filter(sysEx: types)
-
         case let .sysCommon(types):
             events.filter(sysCommon: types)
+
+        case let .sysEx(types):
+            events.filter(sysEx: types)
 
         case let .sysRealTime(types):
             events.filter(sysRealTime: types)
