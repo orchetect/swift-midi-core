@@ -22,7 +22,7 @@ extension MIDIEvent {
     }
 
     /// Returns `true` if the event is a System Exclusive message of a specific type.
-    public func isSystemExclusive(ofType sysExType: SysExType) -> Bool {
+    public func isSystemExclusive(ofType sysExType: MIDIEventType.SystemExclusive) -> Bool {
         // swiftformat:disable consecutiveSpaces
         switch self {
         case .sysEx7:          sysExType == .sysEx7
@@ -35,7 +35,7 @@ extension MIDIEvent {
     }
 
     /// Returns `true` if the event is a System Exclusive message of a specific type.
-    public func isSystemExclusive(ofTypes sysExTypes: Set<SysExType>) -> Bool {
+    public func isSystemExclusive(ofTypes sysExTypes: Set<MIDIEventType.SystemExclusive>) -> Bool {
         for eventType in sysExTypes {
             if isSystemExclusive(ofType: eventType) { return true }
         }

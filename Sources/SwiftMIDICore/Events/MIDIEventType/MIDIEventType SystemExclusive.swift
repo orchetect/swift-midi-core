@@ -1,12 +1,12 @@
 //
-//  SysExType.swift
+//  MIDIEventType SystemExclusive.swift
 //  SwiftMIDI Core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-extension MIDIEvent {
+extension MIDIEventType {
     /// System Exclusive MIDI event types.
-    public enum SysExType {
+    public enum SystemExclusive {
         /// System Exclusive: Manufacturer-specific (7-bit)
         /// (MIDI 1.0 / 2.0)
         case sysEx7
@@ -25,14 +25,14 @@ extension MIDIEvent {
     }
 }
 
-extension MIDIEvent.SysExType: Equatable { }
+extension MIDIEventType.SystemExclusive: Equatable { }
 
-extension MIDIEvent.SysExType: Hashable { }
+extension MIDIEventType.SystemExclusive: Hashable { }
 
-extension MIDIEvent.SysExType: Identifiable {
+extension MIDIEventType.SystemExclusive: Identifiable {
     public var id: Self {
         self
     }
 }
 
-extension MIDIEvent.SysExType: Sendable { }
+extension MIDIEventType.SystemExclusive: Sendable { }

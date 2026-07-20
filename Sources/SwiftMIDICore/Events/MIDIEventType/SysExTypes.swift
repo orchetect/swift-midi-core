@@ -10,26 +10,26 @@ extension MIDIEvent {
         /// Return only System Exclusive events.
         case only
         /// Return only System Exclusive events matching a certain event type.
-        case onlyType(SysExType)
+        case onlyType(MIDIEventType.SystemExclusive)
         /// Return only System Exclusive events matching certain event type(s).
-        case onlyTypes(Set<SysExType>)
+        case onlyTypes(Set<MIDIEventType.SystemExclusive>)
 
         /// Retain System Exclusive events only with a certain type,
         /// while retaining all non-System Exclusive events.
-        case keepType(SysExType)
+        case keepType(MIDIEventType.SystemExclusive)
         /// Retain System Exclusive events only with certain type(s),
         /// while retaining all non-System Exclusive events.
-        case keepTypes(Set<SysExType>)
+        case keepTypes(Set<MIDIEventType.SystemExclusive>)
 
         /// Drop all System Exclusive events,
         /// while retaining all non-System Exclusive events.
         case drop
         /// Drop all System Exclusive events,
         /// while retaining all non-System Exclusive events matching a certain event type.
-        case dropType(SysExType)
+        case dropType(MIDIEventType.SystemExclusive)
         /// Drop all System Exclusive events,
         /// while retaining all non-System Exclusive events matching certain event type(s).
-        case dropTypes(Set<SysExType>)
+        case dropTypes(Set<MIDIEventType.SystemExclusive>)
     }
 }
 
