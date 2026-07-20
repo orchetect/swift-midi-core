@@ -24,7 +24,7 @@ extension MIDIEvent {
     }
 
     /// Returns `true` if the event is a System Real-Time message of a specific type.
-    public func isSystemRealTime(ofType sysRealTimeType: SysRealTimeType) -> Bool {
+    public func isSystemRealTime(ofType sysRealTimeType: MIDIEventType.SystemRealTime) -> Bool {
         // swiftformat:disable consecutiveSpaces
         switch self {
         case .timingClock:   sysRealTimeType == .timingClock
@@ -39,7 +39,7 @@ extension MIDIEvent {
     }
 
     /// Returns `true` if the event is a System Real-Time message of a specific type.
-    public func isSystemRealTime(ofTypes sysRealTimeTypes: Set<SysRealTimeType>) -> Bool {
+    public func isSystemRealTime(ofTypes sysRealTimeTypes: Set<MIDIEventType.SystemRealTime>) -> Bool {
         for eventType in sysRealTimeTypes {
             if isSystemRealTime(ofType: eventType) { return true }
         }

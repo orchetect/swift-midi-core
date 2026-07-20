@@ -10,26 +10,26 @@ extension MIDIEvent {
         /// Return only System Real-Time events.
         case only
         /// Return only System Real-Time events matching a certain event type.
-        case onlyType(SysRealTimeType)
+        case onlyType(MIDIEventType.SystemRealTime)
         /// Return only System Real-Time events matching certain event type(s).
-        case onlyTypes(Set<SysRealTimeType>)
+        case onlyTypes(Set<MIDIEventType.SystemRealTime>)
 
         /// Retain System Real-Time events only with a certain type,
         /// while retaining all non-System Real-Time events.
-        case keepType(SysRealTimeType)
+        case keepType(MIDIEventType.SystemRealTime)
         /// Retain System Real-Time events only with certain type(s),
         /// while retaining all non-System Real-Time events.
-        case keepTypes(Set<SysRealTimeType>)
+        case keepTypes(Set<MIDIEventType.SystemRealTime>)
 
         /// Drop all System Real-Time events,
         /// while retaining all non-System Real-Time events.
         case drop
         /// Drop all System Real-Time events,
         /// while retaining all non-System Real-Time events matching a certain event type.
-        case dropType(SysRealTimeType)
+        case dropType(MIDIEventType.SystemRealTime)
         /// Drop all System Real-Time events,
         /// while retaining all non-System Real-Time events matching certain event type(s).
-        case dropTypes(Set<SysRealTimeType>)
+        case dropTypes(Set<MIDIEventType.SystemRealTime>)
     }
 }
 

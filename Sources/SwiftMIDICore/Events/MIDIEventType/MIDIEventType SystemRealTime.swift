@@ -1,12 +1,12 @@
 //
-//  SysRealTimeType.swift
+//  MIDIEventType SystemRealTime.swift
 //  SwiftMIDI Core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-extension MIDIEvent {
+extension MIDIEventType {
     /// System Real-Time MIDI event types.
-    public enum SysRealTimeType {
+    public enum SystemRealTime {
         /// System Real-Time: Timing Clock
         /// (MIDI 1.0 / 2.0)
         case timingClock
@@ -33,14 +33,14 @@ extension MIDIEvent {
     }
 }
 
-extension MIDIEvent.SysRealTimeType: Equatable { }
+extension MIDIEventType.SystemRealTime: Equatable { }
 
-extension MIDIEvent.SysRealTimeType: Hashable { }
+extension MIDIEventType.SystemRealTime: Hashable { }
 
-extension MIDIEvent.SysRealTimeType: Identifiable {
+extension MIDIEventType.SystemRealTime: Identifiable {
     public var id: Self {
         self
     }
 }
 
-extension MIDIEvent.SysRealTimeType: Sendable { }
+extension MIDIEventType.SystemRealTime: Sendable { }
