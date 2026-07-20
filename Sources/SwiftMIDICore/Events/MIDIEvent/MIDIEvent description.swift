@@ -1,5 +1,5 @@
 //
-//  MIDIEvent description.swift
+//  MIDIEvent Description.swift
 //  SwiftMIDI Core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
