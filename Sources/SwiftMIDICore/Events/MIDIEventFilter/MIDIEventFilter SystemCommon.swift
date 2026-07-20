@@ -1,12 +1,12 @@
 //
-//  SysCommonTypes.swift
+//  MIDIEventFilter SystemCommon.swift
 //  SwiftMIDI Core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-extension MIDIEvent {
+extension MIDIEventFilter {
     /// Declarative System Common MIDI event types used in event filters.
-    public enum SysCommonTypes {
+    public enum SystemCommon {
         /// Return only System Common events.
         case only
         /// Return only System Common events matching a certain event type.
@@ -33,8 +33,8 @@ extension MIDIEvent {
     }
 }
 
-extension MIDIEvent.SysCommonTypes: Equatable { }
+extension MIDIEventFilter.SystemCommon: Equatable { }
 
-extension MIDIEvent.SysCommonTypes: Hashable { }
+extension MIDIEventFilter.SystemCommon: Hashable { }
 
-extension MIDIEvent.SysCommonTypes: Sendable { }
+extension MIDIEventFilter.SystemCommon: Sendable { }

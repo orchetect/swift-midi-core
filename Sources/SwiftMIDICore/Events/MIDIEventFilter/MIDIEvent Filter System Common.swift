@@ -31,7 +31,7 @@ extension MIDIEvent {
 
 extension Collection<MIDIEvent> {
     /// Filter System Common events.
-    public func filter(sysCommon types: MIDIEvent.SysCommonTypes) -> [Element] {
+    public func filter(sysCommon types: MIDIEventFilter.SystemCommon) -> [Element] {
         switch types {
         case .only:
             filter(\.isSystemCommon)

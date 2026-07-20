@@ -7,8 +7,8 @@
 /// MIDI event filter definition.
 public enum MIDIEventFilter: Equatable, Hashable {
     case chanVoice(ChannelVoice)
+    case sysCommon(SystemCommon)
     case sysEx(MIDIEvent.SysExTypes)
-    case sysCommon(MIDIEvent.SysCommonTypes)
     case sysRealTime(MIDIEvent.SysRealTimeTypes)
     case utility(MIDIEvent.UtilityTypes)
 
