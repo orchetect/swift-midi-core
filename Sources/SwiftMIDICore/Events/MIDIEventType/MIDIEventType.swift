@@ -10,7 +10,7 @@ public enum MIDIEventType {
     case systemCommon(SystemCommon)
     case systemExclusive(SystemExclusive)
     case systemRealTime(SystemRealTime)
-    case utility(MIDIEvent.UtilityType)
+    case utility(Utility)
 }
 
 extension MIDIEventType: Equatable { }

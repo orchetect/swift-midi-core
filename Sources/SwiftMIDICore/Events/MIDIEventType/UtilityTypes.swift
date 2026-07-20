@@ -10,26 +10,26 @@ extension MIDIEvent {
         /// Return only Utility events.
         case only
         /// Return only Utility events matching a certain event type.
-        case onlyType(UtilityType)
+        case onlyType(MIDIEventType.Utility)
         /// Return only Utility events matching certain event type(s).
-        case onlyTypes(Set<UtilityType>)
+        case onlyTypes(Set<MIDIEventType.Utility>)
 
         /// Retain Utility events only with a certain type,
         /// while retaining all non-Utility events.
-        case keepType(UtilityType)
+        case keepType(MIDIEventType.Utility)
         /// Retain Utility events only with certain type(s),
         /// while retaining all non-Utility events.
-        case keepTypes(Set<UtilityType>)
+        case keepTypes(Set<MIDIEventType.Utility>)
 
         /// Drop all Utility events,
         /// while retaining all non-Utility events.
         case drop
         /// Drop all Utility events,
         /// while retaining all non-Utility events matching a certain event type.
-        case dropType(UtilityType)
+        case dropType(MIDIEventType.Utility)
         /// Drop all Utility events,
         /// while retaining all non-Utility events matching certain event type(s).
-        case dropTypes(Set<UtilityType>)
+        case dropTypes(Set<MIDIEventType.Utility>)
     }
 }
 

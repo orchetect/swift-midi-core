@@ -21,7 +21,7 @@ extension MIDIEvent {
     }
 
     /// Returns `true` if the event is a Utility message of a specific type.
-    public func isUtility(ofType utilityType: UtilityType) -> Bool {
+    public func isUtility(ofType utilityType: MIDIEventType.Utility) -> Bool {
         // swiftformat:disable consecutiveSpaces
         switch self {
         case .noOp:        utilityType == .noOp
@@ -33,7 +33,7 @@ extension MIDIEvent {
     }
 
     /// Returns `true` if the event is a Utility message of a specific type.
-    public func isUtility(ofTypes utilityTypes: Set<UtilityType>) -> Bool {
+    public func isUtility(ofTypes utilityTypes: Set<MIDIEventType.Utility>) -> Bool {
         for eventType in utilityTypes {
             if isUtility(ofType: eventType) { return true }
         }

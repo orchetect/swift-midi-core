@@ -1,26 +1,26 @@
 //
-//  UtilityType.swift
+//  MIDIEventType Utility.swift
 //  SwiftMIDI Core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-extension MIDIEvent {
+extension MIDIEventType {
     /// Utility MIDI event types.
-    public enum UtilityType {
+    public enum Utility {
         case noOp
         case jrClock
         case jrTimestamp
     }
 }
 
-extension MIDIEvent.UtilityType: Equatable { }
+extension MIDIEventType.Utility: Equatable { }
 
-extension MIDIEvent.UtilityType: Hashable { }
+extension MIDIEventType.Utility: Hashable { }
 
-extension MIDIEvent.UtilityType: Identifiable {
+extension MIDIEventType.Utility: Identifiable {
     public var id: Self {
         self
     }
 }
 
-extension MIDIEvent.UtilityType: Sendable { }
+extension MIDIEventType.Utility: Sendable { }
