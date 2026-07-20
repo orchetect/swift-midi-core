@@ -34,4 +34,8 @@ extension MIDIEvent {
     @_documentation(visibility: internal)
     @available(*, deprecated, renamed: "MIDIEventFilter.SystemCommon")
     public typealias SysCommonTypes = MIDIEventFilter.SystemCommon
+
+    @_documentation(visibility: internal)
+    @available(*, deprecated, renamed: "MIDIEventFilter.SystemExclusive")
+    public typealias SysExTypes = MIDIEventFilter.SystemExclusive
 }
