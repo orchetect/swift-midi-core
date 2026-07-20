@@ -38,4 +38,8 @@ extension MIDIEvent {
     @_documentation(visibility: internal)
     @available(*, deprecated, renamed: "MIDIEventFilter.SystemExclusive")
     public typealias SysExTypes = MIDIEventFilter.SystemExclusive
+
+    @_documentation(visibility: internal)
+    @available(*, deprecated, renamed: "MIDIEventFilter.SystemRealTime")
+    public typealias SysRealTimeTypes = MIDIEventFilter.SystemRealTime
 }
