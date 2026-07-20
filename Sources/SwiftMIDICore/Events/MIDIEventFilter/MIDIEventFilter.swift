@@ -8,7 +8,7 @@
 public enum MIDIEventFilter{
     case chanVoice(ChannelVoice)
     case sysCommon(SystemCommon)
-    case sysEx(MIDIEvent.SysExTypes)
+    case sysEx(SystemExclusive)
     case sysRealTime(MIDIEvent.SysRealTimeTypes)
     case utility(MIDIEvent.UtilityTypes)
 

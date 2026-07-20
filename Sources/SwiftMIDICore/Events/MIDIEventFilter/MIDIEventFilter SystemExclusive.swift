@@ -1,12 +1,12 @@
 //
-//  SysExTypes.swift
+//  MIDIEventFilter SystemExclusive.swift
 //  SwiftMIDI Core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-extension MIDIEvent {
+extension MIDIEventFilter {
     /// Declarative System Exclusive MIDI event types used in event filters.
-    public enum SysExTypes {
+    public enum SystemExclusive {
         /// Return only System Exclusive events.
         case only
         /// Return only System Exclusive events matching a certain event type.
@@ -33,8 +33,8 @@ extension MIDIEvent {
     }
 }
 
-extension MIDIEvent.SysExTypes: Equatable { }
+extension MIDIEventFilter.SystemExclusive: Equatable { }
 
-extension MIDIEvent.SysExTypes: Hashable { }
+extension MIDIEventFilter.SystemExclusive: Hashable { }
 
-extension MIDIEvent.SysExTypes: Sendable { }
+extension MIDIEventFilter.SystemExclusive: Sendable { }

@@ -30,4 +30,8 @@ extension MIDIEvent {
     @_documentation(visibility: internal)
     @available(*, deprecated, renamed: "MIDIEventFilter.ChannelVoice")
     public typealias ChanVoiceTypes = MIDIEventFilter.ChannelVoice
+
+    @_documentation(visibility: internal)
+    @available(*, deprecated, renamed: "MIDIEventFilter.SystemCommon")
+    public typealias SysCommonTypes = MIDIEventFilter.SystemCommon
 }

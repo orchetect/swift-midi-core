@@ -31,7 +31,7 @@ extension MIDIEvent {
 
 extension Collection<MIDIEvent> {
     /// Filter System Exclusive events.
-    public func filter(sysEx types: MIDIEvent.SysExTypes) -> [Element] {
+    public func filter(sysEx types: MIDIEventFilter.SystemExclusive) -> [Element] {
         switch types {
         case .only:
             filter(\.isSystemExclusive)
