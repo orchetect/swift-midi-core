@@ -6,13 +6,25 @@
 
 /// MIDI event filter definition.
 public enum MIDIEventFilter{
+    /// Channel Voice MIDI event types.
     case chanVoice(ChannelVoice)
+
+    /// System Common MIDI event types.
     case sysCommon(SystemCommon)
+
+    /// System Exclusive MIDI event types.
     case sysEx(SystemExclusive)
+
+    /// System Real-Time MIDI event types.
     case sysRealTime(SystemRealTime)
+
+    /// Utility MIDI event types.
     case utility(Utility)
 
+    /// UMP group.
     case group(UInt4)
+
+    /// UMP groups.
     case groups([UInt4])
 }
 
