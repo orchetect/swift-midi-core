@@ -1,12 +1,12 @@
 //
-//  UtilityTypes.swift
+//  MIDIEventFilter Utility.swift
 //  SwiftMIDI Core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-extension MIDIEvent {
+extension MIDIEventFilter {
     /// Declarative Utility MIDI event types used in event filters.
-    public enum UtilityTypes {
+    public enum Utility {
         /// Return only Utility events.
         case only
         /// Return only Utility events matching a certain event type.
@@ -33,8 +33,8 @@ extension MIDIEvent {
     }
 }
 
-extension MIDIEvent.UtilityTypes: Equatable { }
+extension MIDIEventFilter.Utility: Equatable { }
 
-extension MIDIEvent.UtilityTypes: Hashable { }
+extension MIDIEventFilter.Utility: Hashable { }
 
-extension MIDIEvent.UtilityTypes: Sendable { }
+extension MIDIEventFilter.Utility: Sendable { }

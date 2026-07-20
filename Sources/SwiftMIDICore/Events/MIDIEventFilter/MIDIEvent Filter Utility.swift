@@ -31,7 +31,7 @@ extension MIDIEvent {
 
 extension Collection<MIDIEvent> {
     /// Filter Utility events.
-    public func filter(utility types: MIDIEvent.UtilityTypes) -> [Element] {
+    public func filter(utility types: MIDIEventFilter.Utility) -> [Element] {
         switch types {
         case .only:
             filter(\.isUtility)
