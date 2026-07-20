@@ -20,4 +20,8 @@ extension MIDIEvent {
     @_documentation(visibility: internal)
     @available(*, deprecated, renamed: "MIDIEventType.SystemRealTime")
     public typealias SysRealTimeType = MIDIEventType.SystemRealTime
+
+    @_documentation(visibility: internal)
+    @available(*, deprecated, renamed: "MIDIEventType.Utility")
+    public typealias UtilityType = MIDIEventType.Utility
 }
