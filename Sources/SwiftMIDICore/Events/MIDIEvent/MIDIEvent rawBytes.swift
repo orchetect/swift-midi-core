@@ -9,8 +9,14 @@
 extension MIDIEvent {
     /// Returns the complete raw MIDI 1.0 message bytes that comprise the event.
     ///
-    /// - Note: This is mainly for internal use and is not necessary to access during typical usage
-    ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
+    /// > Note:
+    /// >
+    /// > It is not necessary to access raw event bytes during typical usage of **SwiftMIDI**, as the
+    /// > MIDI Manager in the **SwiftMIDI I/O** package allows sending and receiving `MIDIEvent` instances
+    /// > directly.
+    /// >
+    /// > To read the contents of the event, use a switch block on the instance to unwrap the event
+    /// > payload from the appropriate enum case corresponding to each event type.
     public func midi1RawBytes() -> [UInt8] {
         switch self {
         // -------------------
@@ -133,6 +139,18 @@ extension MIDIEvent {
     }
 
     /// Returns the raw MIDI 1.0 status byte for the event if the event is compatible with MIDI 1.0.
+    ///
+    /// > Note:
+    /// >
+    /// > This is mainly for internal use and is not necessary to access during typical usage
+    /// > of **SwiftMIDI**, but is provided publicly for introspection and debugging purposes.
+    /// >
+    /// > If you are attempting to identify the type of MIDI event, the `MIDIEvent` instance itself
+    /// > abstracts away the need to reference the status byte. Simply use a switch block on the instance
+    /// > to unwrap the event payload from the appropriate enum case corresponding to each event type.
+    /// >
+    /// > The ``eventType`` property is also available as a convenience for filtering or event type
+    /// > inquiry without the need to use a switch block.
     public func midi1RawStatusByte() -> UInt8? {
         switch self {
         // -------------------
@@ -256,6 +274,15 @@ extension MIDIEvent {
 
     /// Returns the raw MIDI 1.0 data bytes for the event (excluding status byte) if the event is
     /// compatible with MIDI 1.0.
+    ///
+    /// > Note:
+    /// >
+    /// > It is not necessary to access raw event bytes during typical usage of **SwiftMIDI**, as the
+    /// > MIDI Manager in the **SwiftMIDI I/O** package allows sending and receiving `MIDIEvent` instances
+    /// > directly.
+    /// >
+    /// > To read the contents of the event, use a switch block on the instance to unwrap the event
+    /// > payload from the appropriate enum case corresponding to each event type.
     public func midi1RawDataBytes() -> (data1: UInt8?, data2: UInt8?)? {
         switch self {
         // -------------------
@@ -383,8 +410,14 @@ extension MIDIEvent {
 extension MIDIEvent {
     /// Returns the raw MIDI 2.0 UMP (Universal MIDI Packet) message bytes that comprise the event.
     ///
-    /// - Note: This is mainly for internal use and is not necessary to access during typical usage
-    ///   of SwiftMIDI, but is provided publicly for introspection and debugging purposes.
+    /// > Note:
+    /// >
+    /// > It is not necessary to access raw event bytes during typical usage of **SwiftMIDI**, as the
+    /// > MIDI Manager in the **SwiftMIDI I/O** package allows sending and receiving `MIDIEvent` instances
+    /// > directly.
+    /// >
+    /// > To read the contents of the event, use a switch block on the instance to unwrap the event
+    /// > payload from the appropriate enum case corresponding to each event type.
     public func midi2RawUMPWords(protocol midiProtocol: MIDIProtocolVersion) -> [[UMPWord]] {
         switch self {
         // -------------------

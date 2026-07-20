@@ -6,6 +6,7 @@
 - [System Common](#System-Common)
 - [System Exclusive](#System-Exclusive)
 - [System Real-Time](#System-Real-Time)
+- [Utility](#Utility) (MIDI 2.0 Only)
 - [UMP Group](#UMP-Group) (MIDI 2.0 Only)
 
 ## Summary
@@ -40,20 +41,20 @@ There are three main categories of Channel Voice event filter masks:
 - **keep**: keeps Channel Voice events matching the criteria, while all non-Channel Voice events are retained
 - **drop**: drops Channel Voice events matching the criteria, while all non-Channel Voice events are retained
 
-Channel Voice filter type(s) (``MIDIEvent/ChanVoiceType``) available:
+Channel Voice filter type(s) (``MIDIEventType/ChannelVoice``) available:
 
-- ``MIDIEvent/ChanVoiceType/noteOn``
-- ``MIDIEvent/ChanVoiceType/noteOff``
-- ``MIDIEvent/ChanVoiceType/noteCC`` (MIDI 2.0 Only)
-- ``MIDIEvent/ChanVoiceType/notePitchBend`` (MIDI 2.0 Only)
-- ``MIDIEvent/ChanVoiceType/notePressure``
-- ``MIDIEvent/ChanVoiceType/noteManagement`` (MIDI 2.0 Only)
-- ``MIDIEvent/ChanVoiceType/cc``
-- ``MIDIEvent/ChanVoiceType/programChange``
-- ``MIDIEvent/ChanVoiceType/pressure``
-- ``MIDIEvent/ChanVoiceType/pitchBend``
-- ``MIDIEvent/ChanVoiceType/rpn``
-- ``MIDIEvent/ChanVoiceType/nrpn``
+- ``MIDIEventType/ChannelVoice/noteOn``
+- ``MIDIEventType/ChannelVoice/noteOff``
+- ``MIDIEventType/ChannelVoice/noteCC`` (MIDI 2.0 Only)
+- ``MIDIEventType/ChannelVoice/notePitchBend`` (MIDI 2.0 Only)
+- ``MIDIEventType/ChannelVoice/notePressure``
+- ``MIDIEventType/ChannelVoice/noteManagement`` (MIDI 2.0 Only)
+- ``MIDIEventType/ChannelVoice/cc``
+- ``MIDIEventType/ChannelVoice/programChange``
+- ``MIDIEventType/ChannelVoice/pressure``
+- ``MIDIEventType/ChannelVoice/pitchBend``
+- ``MIDIEventType/ChannelVoice/rpn``
+- ``MIDIEventType/ChannelVoice/nrpn``
 
 ### Only
 
@@ -168,12 +169,12 @@ Channel Voice filter type(s) (``MIDIEvent/ChanVoiceType``) available:
 
 ## System Common
 
-System Common filter type(s) (``MIDIEvent/SysCommonType``) available:
+System Common filter type(s) (``MIDIEventType/SystemCommon``) available:
 
-- ``MIDIEvent/SysCommonType/songPositionPointer``
-- ``MIDIEvent/SysCommonType/songSelect``
-- ``MIDIEvent/SysCommonType/timecodeQuarterFrame``
-- ``MIDIEvent/SysCommonType/tuneRequest``
+- ``MIDIEventType/SystemCommon/songPositionPointer``
+- ``MIDIEventType/SystemCommon/songSelect``
+- ``MIDIEventType/SystemCommon/timecodeQuarterFrame``
+- ``MIDIEventType/SystemCommon/tuneRequest``
 
 ### Only
 
@@ -200,12 +201,12 @@ System Common filter type(s) (``MIDIEvent/SysCommonType``) available:
 
 ## System Exclusive
 
-System Exclusive filter type(s) (``MIDIEvent/SysExType``) available:
+System Exclusive filter type(s) (``MIDIEventType/SystemExclusive``) available:
 
-- ``MIDIEvent/SysExType/sysEx7``
-- ``MIDIEvent/SysExType/universalSysEx7``
-- ``MIDIEvent/SysExType/sysEx8`` (MIDI 2.0 Only)
-- ``MIDIEvent/SysExType/universalSysEx8`` (MIDI 2.0 Only)
+- ``MIDIEventType/SystemExclusive/sysEx7``
+- ``MIDIEventType/SystemExclusive/universalSysEx7``
+- ``MIDIEventType/SystemExclusive/sysEx8`` (MIDI 2.0 Only)
+- ``MIDIEventType/SystemExclusive/universalSysEx8`` (MIDI 2.0 Only)
 
 ### Only
 
@@ -232,14 +233,14 @@ System Exclusive filter type(s) (``MIDIEvent/SysExType``) available:
 
 ## System Real-Time
 
-System Real-Time filter type(s) (``MIDIEvent/SysRealTimeType``) available:
+System Real-Time filter type(s) (``MIDIEventType/SystemRealTime``) available:
 
-- ``MIDIEvent/SysRealTimeType/activeSensing`` (deprecated in MIDI 2.0)
-- ``MIDIEvent/SysRealTimeType/continue``
-- ``MIDIEvent/SysRealTimeType/start``
-- ``MIDIEvent/SysRealTimeType/stop``
-- ``MIDIEvent/SysRealTimeType/systemReset``
-- ``MIDIEvent/SysRealTimeType/timingClock``
+- ``MIDIEventType/SystemRealTime/activeSensing`` (deprecated in MIDI 2.0)
+- ``MIDIEventType/SystemRealTime/continue``
+- ``MIDIEventType/SystemRealTime/start``
+- ``MIDIEventType/SystemRealTime/stop``
+- ``MIDIEventType/SystemRealTime/systemReset``
+- ``MIDIEventType/SystemRealTime/timingClock``
 
 ### Only
 
@@ -264,6 +265,37 @@ System Real-Time filter type(s) (``MIDIEvent/SysRealTimeType``) available:
 .filter(sysRealTime: .dropTypes([.activeSensing, .timingClock]))
 ```
 
+## Utility
+
+Utility filter type(s) (``MIDIEventType/Utility``) available:
+
+- ``MIDIEventType/Utility/noOp`` (MIDI 2.0 Only)
+- ``MIDIEventType/Utility/jrClock`` (MIDI 2.0 Only)
+- ``MIDIEventType/Utility/jrTimestamp`` (MIDI 2.0 Only)
+
+### Only
+
+```swift
+.filter(sysRealTime: .only)
+.filter(sysRealTime: .onlyType(.noOp))
+.filter(sysRealTime: .onlyTypes([.jrClock, .jrTimestamp]))
+```
+
+### Keep
+
+```swift
+.filter(sysRealTime: .keepType(.noOp))
+.filter(sysRealTime: .keepTypes([.jrClock, .jrTimestamp]))
+```
+
+### Drop
+
+```swift
+.filter(sysRealTime: .drop)
+.filter(sysRealTime: .dropType(.noOp))
+.filter(sysRealTime: .dropTypes([.jrClock, .jrTimestamp]))
+```
+
 ## UMP Group
 
 ### Filter
@@ -286,6 +318,7 @@ System Real-Time filter type(s) (``MIDIEvent/SysRealTimeType``) available:
 
 ### Types
 
+- ``MIDIEventType``
 - ``MIDIEventFilter``
 - ``MIDIEventFilterGroup``
 

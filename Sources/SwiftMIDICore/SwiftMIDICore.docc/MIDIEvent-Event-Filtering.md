@@ -30,19 +30,20 @@ See <doc:Event-Filters> for information on how to use event collection filters.
 - ``MIDIEvent/isUtility(ofType:)``
 - ``MIDIEvent/isUtility(ofTypes:)``
 
-### Supporting Types
+### Event Type
 
-- ``MIDIEvent/ChanVoiceType``
-- ``MIDIEvent/ChanVoiceTypes``
+- ``MIDIEventType``
+- ``MIDIEventType/ChannelVoice``
+- ``MIDIEventType/SystemCommon``
+- ``MIDIEventType/SystemExclusive``
+- ``MIDIEventType/SystemRealTime``
+- ``MIDIEventType/Utility``
 
-- ``MIDIEvent/SysCommonType``
-- ``MIDIEvent/SysCommonTypes``
+### Event Collection Filtering
 
-- ``MIDIEvent/SysExType``
-- ``MIDIEvent/SysExTypes``
-
-- ``MIDIEvent/SysRealTimeType``
-- ``MIDIEvent/SysRealTimeTypes``
-
-- ``MIDIEvent/UtilityType``
-- ``MIDIEvent/UtilityTypes``
+- ``MIDIEventFilter``
+- ``MIDIEventFilter/ChannelVoice``
+- ``MIDIEventFilter/SystemCommon``
+- ``MIDIEventFilter/SystemExclusive``
+- ``MIDIEventFilter/SystemRealTime``
+- ``MIDIEventFilter/Utility``

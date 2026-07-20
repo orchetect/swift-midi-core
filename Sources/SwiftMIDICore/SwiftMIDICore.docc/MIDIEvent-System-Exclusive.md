@@ -121,6 +121,11 @@ For an overview of how event value types work (such as note velocity, CC value, 
 - ``MIDIEvent/sysEx8(rawBytes:group:)``
 - ``MIDIEvent/universalSysEx8(universalType:deviceID:subID1:subID2:data:group:)``
 
+### Template Constructors
+
+- ``MIDIEvent/deviceInquiryRequest(deviceID:)``
+- ``MIDIEvent/deviceInquiryResponse(deviceID:manufacturer:deviceFamilyCode:deviceFamilyMemberCode:softwareRevision:)``
+
 ### Switch Case Unwrapping
 
 - ``MIDIEvent/sysEx7(_:)``

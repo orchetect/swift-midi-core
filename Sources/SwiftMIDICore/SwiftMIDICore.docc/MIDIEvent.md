@@ -54,11 +54,14 @@ For an overview of how event value types work (such as note velocity, CC value, 
 
 ### Event Filtering
 
+- ``MIDIEvent/eventType``
 - <doc:MIDIEvent-Event-Filtering>
 
 ### Raw Data Encoding
 
 - ``midi1RawBytes()``
+- ``midi1RawDataBytes()``
+- ``midi1RawStatusByte()``
 - ``midi2RawUMPWords(protocol:)``
 
 ### Errors
