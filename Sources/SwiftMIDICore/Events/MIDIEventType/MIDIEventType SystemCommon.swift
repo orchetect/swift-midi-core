@@ -1,12 +1,12 @@
 //
-//  SysCommonType.swift
+//  MIDIEventType SystemCommon.swift
 //  SwiftMIDI Core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-extension MIDIEvent {
+extension MIDIEventType {
     /// System Common MIDI event types.
-    public enum SysCommonType {
+    public enum SystemCommon {
         /// System Common: Timecode Quarter-Frame
         /// (MIDI 1.0 / 2.0)
         case timecodeQuarterFrame
@@ -25,14 +25,14 @@ extension MIDIEvent {
     }
 }
 
-extension MIDIEvent.SysCommonType: Equatable { }
+extension MIDIEventType.SystemCommon: Equatable { }
 
-extension MIDIEvent.SysCommonType: Hashable { }
+extension MIDIEventType.SystemCommon: Hashable { }
 
-extension MIDIEvent.SysCommonType: Identifiable {
+extension MIDIEventType.SystemCommon: Identifiable {
     public var id: Self {
         self
     }
 }
 
-extension MIDIEvent.SysCommonType: Sendable { }
+extension MIDIEventType.SystemCommon: Sendable { }
