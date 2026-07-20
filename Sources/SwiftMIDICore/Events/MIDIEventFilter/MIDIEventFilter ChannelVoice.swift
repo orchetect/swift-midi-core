@@ -1,12 +1,12 @@
 //
-//  ChanVoiceTypes.swift
+//  MIDIEventFilter ChannelVoice.swift
 //  SwiftMIDI Core • https://github.com/orchetect/swift-midi-core
 //  © 2026 Steffan Andrews • Licensed under MIT License
 //
 
-extension MIDIEvent {
+extension MIDIEventFilter {
     /// Declarative Channel Voice MIDI event types used in event filters.
-    public enum ChanVoiceTypes {
+    public enum ChannelVoice {
         /// Return only Channel Voice events.
         case only
         /// Return only Channel Voice events matching a certain event type.
@@ -81,15 +81,15 @@ extension MIDIEvent {
     }
 }
 
-extension MIDIEvent.ChanVoiceTypes: Equatable { }
+extension MIDIEventFilter.ChannelVoice: Equatable { }
 
-extension MIDIEvent.ChanVoiceTypes: Hashable { }
+extension MIDIEventFilter.ChannelVoice: Hashable { }
 
-extension MIDIEvent.ChanVoiceTypes: Sendable { }
+extension MIDIEventFilter.ChannelVoice: Sendable { }
 
 // MARK: - Convenience Static Constructors
 
-extension MIDIEvent.ChanVoiceTypes {
+extension MIDIEventFilter.ChannelVoice {
     // MARK: Only
 
     /// Return only Control Change (CC) events matching a certain controller number.

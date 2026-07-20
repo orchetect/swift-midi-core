@@ -31,7 +31,7 @@ extension MIDIEvent {
 
 extension Collection<MIDIEvent> {
     /// Filter Channel Voice events.
-    public func filter(chanVoice types: MIDIEvent.ChanVoiceTypes) -> [Element] {
+    public func filter(chanVoice types: MIDIEventFilter.ChannelVoice) -> [Element] {
         switch types {
         case .only:
             filter(\.isChannelVoice)
