@@ -25,3 +25,9 @@ extension MIDIEvent {
     @available(*, deprecated, renamed: "MIDIEventType.Utility")
     public typealias UtilityType = MIDIEventType.Utility
 }
+
+extension MIDIEvent {
+    @_documentation(visibility: internal)
+    @available(*, deprecated, renamed: "MIDIEventFilter.ChannelVoice")
+    public typealias ChanVoiceTypes = MIDIEventFilter.ChannelVoice
+}
