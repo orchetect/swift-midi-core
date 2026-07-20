@@ -16,4 +16,8 @@ extension MIDIEvent {
     @_documentation(visibility: internal)
     @available(*, deprecated, renamed: "MIDIEventType.SystemExclusive")
     public typealias SysExType = MIDIEventType.SystemExclusive
+
+    @_documentation(visibility: internal)
+    @available(*, deprecated, renamed: "MIDIEventType.SystemRealTime")
+    public typealias SysRealTimeType = MIDIEventType.SystemRealTime
 }
